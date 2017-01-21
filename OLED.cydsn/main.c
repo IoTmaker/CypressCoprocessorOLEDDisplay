@@ -14,7 +14,7 @@
 
 #include "ssd1306.h"
 
-#define DISPLAY_ADDRESS 0x3C // 011110+SA0+RW - 0x3C or 0x3D
+#define DISPLAY_ADDRESS 0x3c // 011110+SA0+RW - 0x3C or 0x3D
 
 int main(){
 

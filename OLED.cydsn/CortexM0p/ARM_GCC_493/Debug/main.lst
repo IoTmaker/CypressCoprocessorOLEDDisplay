@@ -1,0 +1,3655 @@
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 1
+
+
+   1              		.cpu cortex-m0plus
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.main,"ax",%progbits
+  18              		.align	2
+  19              		.global	main
+  20              		.code	16
+  21              		.thumb_func
+  22              		.type	main, %function
+  23              	main:
+  24              	.LFB35:
+  25              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include <project.h>
+  13:main.c        **** #include <stdlib.h>
+  14:main.c        **** 
+  15:main.c        **** #include "ssd1306.h"
+  16:main.c        **** 
+  17:main.c        **** #define DISPLAY_ADDRESS 0x3c // 011110+SA0+RW - 0x3C or 0x3D
+  18:main.c        **** 
+  19:main.c        **** int main(){
+  26              		.loc 1 19 0
+  27              		.cfi_startproc
+  28 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  29              		.cfi_def_cfa_offset 20
+  30              		.cfi_offset 4, -20
+  31              		.cfi_offset 5, -16
+  32              		.cfi_offset 6, -12
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+  35 0002 5746     		mov	r7, r10
+  36 0004 4E46     		mov	r6, r9
+  37 0006 4546     		mov	r5, r8
+  38 0008 E0B4     		push	{r5, r6, r7}
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 2
+
+
+  39              		.cfi_def_cfa_offset 32
+  40              		.cfi_offset 8, -32
+  41              		.cfi_offset 9, -28
+  42              		.cfi_offset 10, -24
+  43 000a 86B0     		sub	sp, sp, #24
+  44              		.cfi_def_cfa_offset 56
+  20:main.c        **** 
+  21:main.c        ****     I2COLED_Start();
+  45              		.loc 1 21 0
+  46 000c FFF7FEFF 		bl	I2COLED_Start
+  47              	.LVL0:
+  22:main.c        **** 
+  23:main.c        ****     CyGlobalIntEnable;
+  48              		.loc 1 23 0
+  49              	@ 23 "main.c" 1
+  50 0010 62B6     		CPSIE   i
+  51              	@ 0 "" 2
+  24:main.c        **** 
+  25:main.c        ****     display_init(DISPLAY_ADDRESS);
+  52              		.loc 1 25 0
+  53              		.code	16
+  54 0012 3C20     		mov	r0, #60
+  55 0014 FFF7FEFF 		bl	display_init
+  56              	.LVL1:
+  57              	.L31:
+  58              	.LBB2:
+  26:main.c        **** 
+  27:main.c        ****     
+  28:main.c        ****     for(;;){
+  29:main.c        **** 
+  30:main.c        ****         // clearing display
+  31:main.c        ****         display_clear();    
+  59              		.loc 1 31 0
+  60 0018 FFF7FEFF 		bl	display_clear
+  61              	.LVL2:
+  32:main.c        ****         display_update();    
+  62              		.loc 1 32 0
+  63 001c FFF7FEFF 		bl	display_update
+  64              	.LVL3:
+  33:main.c        **** 
+  34:main.c        **** 
+  35:main.c        ****         // drawing a pixel
+  36:main.c        ****         gfx_drawPixel(40, 40, WHITE);    
+  65              		.loc 1 36 0
+  66 0020 2820     		mov	r0, #40
+  67 0022 2821     		mov	r1, #40
+  68 0024 0122     		mov	r2, #1
+  69 0026 FFF7FEFF 		bl	gfx_drawPixel
+  70              	.LVL4:
+  37:main.c        ****         display_update(); 
+  71              		.loc 1 37 0
+  72 002a FFF7FEFF 		bl	display_update
+  73              	.LVL5:
+  38:main.c        **** 
+  39:main.c        ****         CyDelay(1000);
+  74              		.loc 1 39 0
+  75 002e FA20     		mov	r0, #250
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 3
+
+
+  76 0030 8000     		lsl	r0, r0, #2
+  77 0032 FFF7FEFF 		bl	CyDelay
+  78              	.LVL6:
+  40:main.c        ****         display_clear();    
+  79              		.loc 1 40 0
+  80 0036 FFF7FEFF 		bl	display_clear
+  81              	.LVL7:
+  41:main.c        ****         display_update();    
+  82              		.loc 1 41 0
+  83 003a FFF7FEFF 		bl	display_update
+  84              	.LVL8:
+  42:main.c        **** 
+  43:main.c        ****         
+  44:main.c        ****         // line drawing
+  45:main.c        ****         int16_t i = 0;
+  46:main.c        ****         for( i = 0 ; i < gfx_width(); i+=4) {
+  85              		.loc 1 46 0
+  86 003e 0024     		mov	r4, #0
+  87 0040 0EE0     		b	.L2
+  88              	.LVL9:
+  89              	.L3:
+  47:main.c        ****             gfx_drawLine(0, 0, i, gfx_height()-1, WHITE);
+  90              		.loc 1 47 0 discriminator 3
+  91 0042 FFF7FEFF 		bl	gfx_height
+  92              	.LVL10:
+  93 0046 22B2     		sxth	r2, r4
+  94 0048 431E     		sub	r3, r0, #1
+  95 004a 1BB2     		sxth	r3, r3
+  96 004c 0121     		mov	r1, #1
+  97 004e 0091     		str	r1, [sp]
+  98 0050 0020     		mov	r0, #0
+  99 0052 0021     		mov	r1, #0
+ 100 0054 FFF7FEFF 		bl	gfx_drawLine
+ 101              	.LVL11:
+  48:main.c        ****             display_update();
+ 102              		.loc 1 48 0 discriminator 3
+ 103 0058 FFF7FEFF 		bl	display_update
+ 104              	.LVL12:
+  46:main.c        ****             gfx_drawLine(0, 0, i, gfx_height()-1, WHITE);
+ 105              		.loc 1 46 0 discriminator 3
+ 106 005c 0434     		add	r4, r4, #4
+ 107              	.LVL13:
+ 108 005e A4B2     		uxth	r4, r4
+ 109              	.LVL14:
+ 110              	.L2:
+  46:main.c        ****             gfx_drawLine(0, 0, i, gfx_height()-1, WHITE);
+ 111              		.loc 1 46 0 is_stmt 0 discriminator 1
+ 112 0060 FFF7FEFF 		bl	gfx_width
+ 113              	.LVL15:
+ 114 0064 23B2     		sxth	r3, r4
+ 115 0066 9842     		cmp	r0, r3
+ 116 0068 EBDC     		bgt	.L3
+ 117 006a 0024     		mov	r4, #0
+ 118              	.LVL16:
+ 119 006c 0EE0     		b	.L4
+ 120              	.LVL17:
+ 121              	.L5:
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 4
+
+
+  49:main.c        ****         }
+  50:main.c        ****         for( i = 0 ; i < gfx_height() ; i += 4 ){
+  51:main.c        ****             gfx_drawLine(0, 0, gfx_width()-1, i, WHITE);
+ 122              		.loc 1 51 0 is_stmt 1 discriminator 3
+ 123 006e FFF7FEFF 		bl	gfx_width
+ 124              	.LVL18:
+ 125 0072 421E     		sub	r2, r0, #1
+ 126 0074 12B2     		sxth	r2, r2
+ 127 0076 23B2     		sxth	r3, r4
+ 128 0078 0121     		mov	r1, #1
+ 129 007a 0091     		str	r1, [sp]
+ 130 007c 0020     		mov	r0, #0
+ 131 007e 0021     		mov	r1, #0
+ 132 0080 FFF7FEFF 		bl	gfx_drawLine
+ 133              	.LVL19:
+  52:main.c        ****             display_update();
+ 134              		.loc 1 52 0 discriminator 3
+ 135 0084 FFF7FEFF 		bl	display_update
+ 136              	.LVL20:
+  50:main.c        ****             gfx_drawLine(0, 0, gfx_width()-1, i, WHITE);
+ 137              		.loc 1 50 0 discriminator 3
+ 138 0088 0434     		add	r4, r4, #4
+ 139              	.LVL21:
+ 140 008a A4B2     		uxth	r4, r4
+ 141              	.LVL22:
+ 142              	.L4:
+  50:main.c        ****             gfx_drawLine(0, 0, gfx_width()-1, i, WHITE);
+ 143              		.loc 1 50 0 is_stmt 0 discriminator 1
+ 144 008c FFF7FEFF 		bl	gfx_height
+ 145              	.LVL23:
+ 146 0090 23B2     		sxth	r3, r4
+ 147 0092 9842     		cmp	r0, r3
+ 148 0094 EBDC     		bgt	.L5
+  53:main.c        ****         }    
+  54:main.c        ****      
+  55:main.c        ****         CyDelay(3000);
+ 149              		.loc 1 55 0 is_stmt 1
+ 150 0096 E248     		ldr	r0, .L32
+ 151 0098 FFF7FEFF 		bl	CyDelay
+ 152              	.LVL24:
+  56:main.c        ****         display_clear();    
+ 153              		.loc 1 56 0
+ 154 009c FFF7FEFF 		bl	display_clear
+ 155              	.LVL25:
+  57:main.c        ****         display_update();    
+ 156              		.loc 1 57 0
+ 157 00a0 FFF7FEFF 		bl	display_update
+ 158              	.LVL26:
+  58:main.c        **** 
+  59:main.c        ****         // text settings
+  60:main.c        ****         gfx_setTextSize(1);
+ 159              		.loc 1 60 0
+ 160 00a4 0120     		mov	r0, #1
+ 161 00a6 FFF7FEFF 		bl	gfx_setTextSize
+ 162              	.LVL27:
+  61:main.c        ****         gfx_setTextColor(WHITE);
+ 163              		.loc 1 61 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 5
+
+
+ 164 00aa 0120     		mov	r0, #1
+ 165 00ac FFF7FEFF 		bl	gfx_setTextColor
+ 166              	.LVL28:
+  62:main.c        ****         gfx_setCursor(0,0);
+ 167              		.loc 1 62 0
+ 168 00b0 0020     		mov	r0, #0
+ 169 00b2 0021     		mov	r1, #0
+ 170 00b4 FFF7FEFF 		bl	gfx_setCursor
+ 171              	.LVL29:
+  63:main.c        **** 
+  64:main.c        ****         // text display
+  65:main.c        ****         for( i = 0 ; i < 168 ; i++){
+ 172              		.loc 1 65 0
+ 173 00b8 0024     		mov	r4, #0
+ 174 00ba 07E0     		b	.L6
+ 175              	.LVL30:
+ 176              	.L8:
+  66:main.c        ****             if( i == '\n' ) 
+ 177              		.loc 1 66 0
+ 178 00bc 23B2     		sxth	r3, r4
+ 179 00be 0A2B     		cmp	r3, #10
+ 180 00c0 02D0     		beq	.L7
+  67:main.c        ****                 continue;
+  68:main.c        ****             gfx_write(i);
+ 181              		.loc 1 68 0
+ 182 00c2 E0B2     		uxtb	r0, r4
+ 183 00c4 FFF7FEFF 		bl	gfx_write
+ 184              	.LVL31:
+ 185              	.L7:
+  65:main.c        ****             if( i == '\n' ) 
+ 186              		.loc 1 65 0 discriminator 2
+ 187 00c8 0134     		add	r4, r4, #1
+ 188              	.LVL32:
+ 189 00ca A4B2     		uxth	r4, r4
+ 190              	.LVL33:
+ 191              	.L6:
+  65:main.c        ****             if( i == '\n' ) 
+ 192              		.loc 1 65 0 is_stmt 0 discriminator 1
+ 193 00cc 23B2     		sxth	r3, r4
+ 194 00ce A72B     		cmp	r3, #167
+ 195 00d0 F4DD     		ble	.L8
+  69:main.c        ****           }    
+  70:main.c        ****         display_update(); 
+ 196              		.loc 1 70 0 is_stmt 1
+ 197 00d2 FFF7FEFF 		bl	display_update
+ 198              	.LVL34:
+  71:main.c        ****         
+  72:main.c        ****         CyDelay(3000);
+ 199              		.loc 1 72 0
+ 200 00d6 D24C     		ldr	r4, .L32
+ 201              	.LVL35:
+ 202 00d8 201C     		mov	r0, r4
+ 203 00da FFF7FEFF 		bl	CyDelay
+ 204              	.LVL36:
+  73:main.c        ****         display_clear();    
+ 205              		.loc 1 73 0
+ 206 00de FFF7FEFF 		bl	display_clear
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 6
+
+
+ 207              	.LVL37:
+  74:main.c        ****         display_update();    
+ 208              		.loc 1 74 0
+ 209 00e2 FFF7FEFF 		bl	display_update
+ 210              	.LVL38:
+  75:main.c        ****         
+  76:main.c        ****         // cursor
+  77:main.c        ****         gfx_setCursor( 0, 0 );
+ 211              		.loc 1 77 0
+ 212 00e6 0020     		mov	r0, #0
+ 213 00e8 0021     		mov	r1, #0
+ 214 00ea FFF7FEFF 		bl	gfx_setCursor
+ 215              	.LVL39:
+  78:main.c        ****         
+  79:main.c        ****         // text sizes
+  80:main.c        ****         gfx_setTextSize(2);
+ 216              		.loc 1 80 0
+ 217 00ee 0220     		mov	r0, #2
+ 218 00f0 FFF7FEFF 		bl	gfx_setTextSize
+ 219              	.LVL40:
+  81:main.c        ****         gfx_write( '8' );
+ 220              		.loc 1 81 0
+ 221 00f4 3820     		mov	r0, #56
+ 222 00f6 FFF7FEFF 		bl	gfx_write
+ 223              	.LVL41:
+  82:main.c        ****         gfx_setTextSize(3);
+ 224              		.loc 1 82 0
+ 225 00fa 0320     		mov	r0, #3
+ 226 00fc FFF7FEFF 		bl	gfx_setTextSize
+ 227              	.LVL42:
+  83:main.c        ****         gfx_write( '8' );
+ 228              		.loc 1 83 0
+ 229 0100 3820     		mov	r0, #56
+ 230 0102 FFF7FEFF 		bl	gfx_write
+ 231              	.LVL43:
+  84:main.c        ****         gfx_setTextSize(4);
+ 232              		.loc 1 84 0
+ 233 0106 0420     		mov	r0, #4
+ 234 0108 FFF7FEFF 		bl	gfx_setTextSize
+ 235              	.LVL44:
+  85:main.c        ****         gfx_write( '8' );
+ 236              		.loc 1 85 0
+ 237 010c 3820     		mov	r0, #56
+ 238 010e FFF7FEFF 		bl	gfx_write
+ 239              	.LVL45:
+  86:main.c        ****         display_update(); 
+ 240              		.loc 1 86 0
+ 241 0112 FFF7FEFF 		bl	display_update
+ 242              	.LVL46:
+  87:main.c        ****         
+  88:main.c        ****         CyDelay(3000);
+ 243              		.loc 1 88 0
+ 244 0116 201C     		mov	r0, r4
+ 245 0118 FFF7FEFF 		bl	CyDelay
+ 246              	.LVL47:
+  89:main.c        ****         display_clear();    
+ 247              		.loc 1 89 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 7
+
+
+ 248 011c FFF7FEFF 		bl	display_clear
+ 249              	.LVL48:
+  90:main.c        ****         display_update();    
+ 250              		.loc 1 90 0
+ 251 0120 FFF7FEFF 		bl	display_update
+ 252              	.LVL49:
+  91:main.c        **** 
+  92:main.c        ****         // line printing
+  93:main.c        ****         gfx_setTextSize(1);
+ 253              		.loc 1 93 0
+ 254 0124 0120     		mov	r0, #1
+ 255 0126 FFF7FEFF 		bl	gfx_setTextSize
+ 256              	.LVL50:
+  94:main.c        ****         gfx_setTextColor(WHITE);
+ 257              		.loc 1 94 0
+ 258 012a 0120     		mov	r0, #1
+ 259 012c FFF7FEFF 		bl	gfx_setTextColor
+ 260              	.LVL51:
+  95:main.c        ****         gfx_setCursor(0,0);
+ 261              		.loc 1 95 0
+ 262 0130 0020     		mov	r0, #0
+ 263 0132 0021     		mov	r1, #0
+ 264 0134 FFF7FEFF 		bl	gfx_setCursor
+ 265              	.LVL52:
+  96:main.c        ****         gfx_println("test line 1 ...");
+ 266              		.loc 1 96 0
+ 267 0138 BA48     		ldr	r0, .L32+4
+ 268 013a FFF7FEFF 		bl	gfx_println
+ 269              	.LVL53:
+  97:main.c        ****         gfx_println("2nd line ...");
+ 270              		.loc 1 97 0
+ 271 013e BA48     		ldr	r0, .L32+8
+ 272 0140 FFF7FEFF 		bl	gfx_println
+ 273              	.LVL54:
+  98:main.c        ****         display_update();    
+ 274              		.loc 1 98 0
+ 275 0144 FFF7FEFF 		bl	display_update
+ 276              	.LVL55:
+  99:main.c        **** 
+ 100:main.c        ****         CyDelay(3000);
+ 277              		.loc 1 100 0
+ 278 0148 201C     		mov	r0, r4
+ 279 014a FFF7FEFF 		bl	CyDelay
+ 280              	.LVL56:
+ 101:main.c        ****         display_clear();    
+ 281              		.loc 1 101 0
+ 282 014e FFF7FEFF 		bl	display_clear
+ 283              	.LVL57:
+ 102:main.c        ****         display_update();    
+ 284              		.loc 1 102 0
+ 285 0152 FFF7FEFF 		bl	display_update
+ 286              	.LVL58:
+ 103:main.c        **** 
+ 104:main.c        ****         
+ 105:main.c        ****         // scrolling
+ 106:main.c        ****         gfx_setTextSize(1);
+ 287              		.loc 1 106 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 8
+
+
+ 288 0156 0120     		mov	r0, #1
+ 289 0158 FFF7FEFF 		bl	gfx_setTextSize
+ 290              	.LVL59:
+ 107:main.c        ****         gfx_setTextColor(WHITE);
+ 291              		.loc 1 107 0
+ 292 015c 0120     		mov	r0, #1
+ 293 015e FFF7FEFF 		bl	gfx_setTextColor
+ 294              	.LVL60:
+ 108:main.c        ****         gfx_setCursor(0,0);
+ 295              		.loc 1 108 0
+ 296 0162 0020     		mov	r0, #0
+ 297 0164 0021     		mov	r1, #0
+ 298 0166 FFF7FEFF 		bl	gfx_setCursor
+ 299              	.LVL61:
+ 109:main.c        **** 
+ 110:main.c        ****         for( i = 1 ; i < 16 ; i++ ){
+ 300              		.loc 1 110 0
+ 301 016a 0124     		mov	r4, #1
+ 302 016c 04E0     		b	.L9
+ 303              	.LVL62:
+ 304              	.L10:
+ 111:main.c        ****             gfx_println("scroll");
+ 305              		.loc 1 111 0 discriminator 3
+ 306 016e AF48     		ldr	r0, .L32+12
+ 307 0170 FFF7FEFF 		bl	gfx_println
+ 308              	.LVL63:
+ 110:main.c        ****             gfx_println("scroll");
+ 309              		.loc 1 110 0 discriminator 3
+ 310 0174 0134     		add	r4, r4, #1
+ 311              	.LVL64:
+ 312 0176 A4B2     		uxth	r4, r4
+ 313              	.LVL65:
+ 314              	.L9:
+ 110:main.c        ****             gfx_println("scroll");
+ 315              		.loc 1 110 0 is_stmt 0 discriminator 1
+ 316 0178 23B2     		sxth	r3, r4
+ 317 017a 0F2B     		cmp	r3, #15
+ 318 017c F7DD     		ble	.L10
+ 112:main.c        ****         
+ 113:main.c        ****         }
+ 114:main.c        ****         display_update();    
+ 319              		.loc 1 114 0 is_stmt 1
+ 320 017e FFF7FEFF 		bl	display_update
+ 321              	.LVL66:
+ 115:main.c        ****         
+ 116:main.c        ****         
+ 117:main.c        ****         
+ 118:main.c        ****         display_scroll(SCROLL_PAGE_0,SCROLL_PAGE_7,SCROLL_RIGHT,SCROLL_SPEED_7);
+ 322              		.loc 1 118 0
+ 323 0182 0020     		mov	r0, #0
+ 324 0184 0721     		mov	r1, #7
+ 325 0186 2622     		mov	r2, #38
+ 326 0188 0723     		mov	r3, #7
+ 327 018a FFF7FEFF 		bl	display_scroll
+ 328              	.LVL67:
+ 119:main.c        ****         CyDelay(2000);
+ 329              		.loc 1 119 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 9
+
+
+ 330 018e FA24     		mov	r4, #250
+ 331              	.LVL68:
+ 332 0190 E400     		lsl	r4, r4, #3
+ 333 0192 201C     		mov	r0, r4
+ 334 0194 FFF7FEFF 		bl	CyDelay
+ 335              	.LVL69:
+ 120:main.c        ****         display_stopscroll();
+ 336              		.loc 1 120 0
+ 337 0198 FFF7FEFF 		bl	display_stopscroll
+ 338              	.LVL70:
+ 121:main.c        ****         display_scroll(SCROLL_PAGE_2,SCROLL_PAGE_4,SCROLL_LEFT,SCROLL_SPEED_3);
+ 339              		.loc 1 121 0
+ 340 019c 0220     		mov	r0, #2
+ 341 019e 0421     		mov	r1, #4
+ 342 01a0 2A22     		mov	r2, #42
+ 343 01a2 0623     		mov	r3, #6
+ 344 01a4 FFF7FEFF 		bl	display_scroll
+ 345              	.LVL71:
+ 122:main.c        ****         CyDelay(2000);
+ 346              		.loc 1 122 0
+ 347 01a8 201C     		mov	r0, r4
+ 348 01aa FFF7FEFF 		bl	CyDelay
+ 349              	.LVL72:
+ 123:main.c        ****         display_stopscroll();
+ 350              		.loc 1 123 0
+ 351 01ae FFF7FEFF 		bl	display_stopscroll
+ 352              	.LVL73:
+ 124:main.c        ****         
+ 125:main.c        ****         
+ 126:main.c        **** 
+ 127:main.c        ****         CyDelay(3000);
+ 353              		.loc 1 127 0
+ 354 01b2 9B48     		ldr	r0, .L32
+ 355 01b4 FFF7FEFF 		bl	CyDelay
+ 356              	.LVL74:
+ 128:main.c        ****         display_clear();    
+ 357              		.loc 1 128 0
+ 358 01b8 FFF7FEFF 		bl	display_clear
+ 359              	.LVL75:
+ 129:main.c        ****         display_update();    
+ 360              		.loc 1 129 0
+ 361 01bc FFF7FEFF 		bl	display_update
+ 362              	.LVL76:
+ 130:main.c        ****         
+ 131:main.c        ****         
+ 132:main.c        ****         // rectangles
+ 133:main.c        ****         for( i = 0 ; i < gfx_height()/2 ; i += 2 ){
+ 363              		.loc 1 133 0
+ 364 01c0 0024     		mov	r4, #0
+ 365 01c2 17E0     		b	.L11
+ 366              	.LVL77:
+ 367              	.L12:
+ 134:main.c        ****             gfx_drawRect(i, i, gfx_width()-2*i, gfx_height()-2*i, WHITE);
+ 368              		.loc 1 134 0 discriminator 3
+ 369 01c4 FFF7FEFF 		bl	gfx_width
+ 370              	.LVL78:
+ 371 01c8 061C     		mov	r6, r0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 10
+
+
+ 372 01ca A5B2     		uxth	r5, r4
+ 373 01cc EA03     		lsl	r2, r5, #15
+ 374 01ce 521B     		sub	r2, r2, r5
+ 375 01d0 5300     		lsl	r3, r2, #1
+ 376 01d2 9FB2     		uxth	r7, r3
+ 377 01d4 FFF7FEFF 		bl	gfx_height
+ 378              	.LVL79:
+ 379 01d8 21B2     		sxth	r1, r4
+ 380 01da BA19     		add	r2, r7, r6
+ 381 01dc 12B2     		sxth	r2, r2
+ 382 01de 3B18     		add	r3, r7, r0
+ 383 01e0 1BB2     		sxth	r3, r3
+ 384 01e2 0120     		mov	r0, #1
+ 385 01e4 0090     		str	r0, [sp]
+ 386 01e6 081C     		mov	r0, r1
+ 387 01e8 FFF7FEFF 		bl	gfx_drawRect
+ 388              	.LVL80:
+ 135:main.c        ****             display_update();   
+ 389              		.loc 1 135 0 discriminator 3
+ 390 01ec FFF7FEFF 		bl	display_update
+ 391              	.LVL81:
+ 133:main.c        ****             gfx_drawRect(i, i, gfx_width()-2*i, gfx_height()-2*i, WHITE);
+ 392              		.loc 1 133 0 discriminator 3
+ 393 01f0 0235     		add	r5, r5, #2
+ 394 01f2 ACB2     		uxth	r4, r5
+ 395              	.LVL82:
+ 396              	.L11:
+ 133:main.c        ****             gfx_drawRect(i, i, gfx_width()-2*i, gfx_height()-2*i, WHITE);
+ 397              		.loc 1 133 0 is_stmt 0 discriminator 1
+ 398 01f4 FFF7FEFF 		bl	gfx_height
+ 399              	.LVL83:
+ 400 01f8 C30F     		lsr	r3, r0, #31
+ 401 01fa 1818     		add	r0, r3, r0
+ 402 01fc 4010     		asr	r0, r0, #1
+ 403 01fe 00B2     		sxth	r0, r0
+ 404 0200 23B2     		sxth	r3, r4
+ 405 0202 9842     		cmp	r0, r3
+ 406 0204 DEDC     		bgt	.L12
+ 136:main.c        ****         }
+ 137:main.c        ****         
+ 138:main.c        ****         CyDelay(3000);
+ 407              		.loc 1 138 0 is_stmt 1
+ 408 0206 8648     		ldr	r0, .L32
+ 409 0208 FFF7FEFF 		bl	CyDelay
+ 410              	.LVL84:
+ 139:main.c        ****         display_clear();    
+ 411              		.loc 1 139 0
+ 412 020c FFF7FEFF 		bl	display_clear
+ 413              	.LVL85:
+ 140:main.c        ****         display_update();    
+ 414              		.loc 1 140 0
+ 415 0210 FFF7FEFF 		bl	display_update
+ 416              	.LVL86:
+ 141:main.c        **** 
+ 142:main.c        ****         // filled rectangles
+ 143:main.c        ****         uint8_t color = 1;
+ 417              		.loc 1 143 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 11
+
+
+ 418 0214 0126     		mov	r6, #1
+ 144:main.c        ****         for( i = 0 ; i < gfx_height()/2 ; i += 3 ){
+ 419              		.loc 1 144 0
+ 420 0216 0024     		mov	r4, #0
+ 421 0218 1BE0     		b	.L13
+ 422              	.LVL87:
+ 423              	.L14:
+ 145:main.c        ****             // alternate colors
+ 146:main.c        ****             gfx_fillRect(i, i, gfx_width()-i*2, gfx_height()-i*2, color%2);
+ 424              		.loc 1 146 0 discriminator 3
+ 425 021a FFF7FEFF 		bl	gfx_width
+ 426              	.LVL88:
+ 427 021e 8046     		mov	r8, r0
+ 428 0220 A5B2     		uxth	r5, r4
+ 429 0222 EA03     		lsl	r2, r5, #15
+ 430 0224 521B     		sub	r2, r2, r5
+ 431 0226 5300     		lsl	r3, r2, #1
+ 432 0228 9FB2     		uxth	r7, r3
+ 433 022a FFF7FEFF 		bl	gfx_height
+ 434              	.LVL89:
+ 435 022e 21B2     		sxth	r1, r4
+ 436 0230 4346     		mov	r3, r8
+ 437 0232 FA18     		add	r2, r7, r3
+ 438 0234 12B2     		sxth	r2, r2
+ 439 0236 3B18     		add	r3, r7, r0
+ 440 0238 1BB2     		sxth	r3, r3
+ 441 023a 0120     		mov	r0, #1
+ 442 023c 3040     		and	r0, r6
+ 443 023e 0090     		str	r0, [sp]
+ 444 0240 081C     		mov	r0, r1
+ 445 0242 FFF7FEFF 		bl	gfx_fillRect
+ 446              	.LVL90:
+ 147:main.c        ****             display_update();    
+ 447              		.loc 1 147 0 discriminator 3
+ 448 0246 FFF7FEFF 		bl	display_update
+ 449              	.LVL91:
+ 148:main.c        ****             color++;
+ 450              		.loc 1 148 0 discriminator 3
+ 451 024a 0136     		add	r6, r6, #1
+ 452              	.LVL92:
+ 453 024c F6B2     		uxtb	r6, r6
+ 454              	.LVL93:
+ 144:main.c        ****             // alternate colors
+ 455              		.loc 1 144 0 discriminator 3
+ 456 024e 0335     		add	r5, r5, #3
+ 457 0250 ACB2     		uxth	r4, r5
+ 458              	.LVL94:
+ 459              	.L13:
+ 144:main.c        ****             // alternate colors
+ 460              		.loc 1 144 0 is_stmt 0 discriminator 1
+ 461 0252 FFF7FEFF 		bl	gfx_height
+ 462              	.LVL95:
+ 463 0256 C30F     		lsr	r3, r0, #31
+ 464 0258 1818     		add	r0, r3, r0
+ 465 025a 4010     		asr	r0, r0, #1
+ 466 025c 00B2     		sxth	r0, r0
+ 467 025e 23B2     		sxth	r3, r4
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 12
+
+
+ 468 0260 9842     		cmp	r0, r3
+ 469 0262 DADC     		bgt	.L14
+ 149:main.c        ****         }    
+ 150:main.c        **** 
+ 151:main.c        ****         CyDelay(3000);
+ 470              		.loc 1 151 0 is_stmt 1
+ 471 0264 6E48     		ldr	r0, .L32
+ 472 0266 FFF7FEFF 		bl	CyDelay
+ 473              	.LVL96:
+ 152:main.c        ****         display_clear();    
+ 474              		.loc 1 152 0
+ 475 026a FFF7FEFF 		bl	display_clear
+ 476              	.LVL97:
+ 153:main.c        ****         display_update();    
+ 477              		.loc 1 153 0
+ 478 026e FFF7FEFF 		bl	display_update
+ 479              	.LVL98:
+ 154:main.c        ****         
+ 155:main.c        ****         // circles
+ 156:main.c        ****         for( i = 0 ; i < gfx_height() ; i += 2 ){
+ 480              		.loc 1 156 0
+ 481 0272 0025     		mov	r5, #0
+ 482 0274 15E0     		b	.L15
+ 483              	.LVL99:
+ 484              	.L16:
+ 157:main.c        ****             gfx_drawCircle( gfx_width()/2, gfx_height()/2, i, WHITE );
+ 485              		.loc 1 157 0 discriminator 3
+ 486 0276 FFF7FEFF 		bl	gfx_width
+ 487              	.LVL100:
+ 488 027a 041C     		mov	r4, r0
+ 489 027c FFF7FEFF 		bl	gfx_height
+ 490              	.LVL101:
+ 491 0280 031C     		mov	r3, r0
+ 492 0282 E00F     		lsr	r0, r4, #31
+ 493 0284 0019     		add	r0, r0, r4
+ 494 0286 4410     		asr	r4, r0, #1
+ 495 0288 20B2     		sxth	r0, r4
+ 496 028a D90F     		lsr	r1, r3, #31
+ 497 028c C918     		add	r1, r1, r3
+ 498 028e 4B10     		asr	r3, r1, #1
+ 499 0290 19B2     		sxth	r1, r3
+ 500 0292 2AB2     		sxth	r2, r5
+ 501 0294 0123     		mov	r3, #1
+ 502 0296 FFF7FEFF 		bl	gfx_drawCircle
+ 503              	.LVL102:
+ 158:main.c        ****             display_update();    
+ 504              		.loc 1 158 0 discriminator 3
+ 505 029a FFF7FEFF 		bl	display_update
+ 506              	.LVL103:
+ 156:main.c        ****             gfx_drawCircle( gfx_width()/2, gfx_height()/2, i, WHITE );
+ 507              		.loc 1 156 0 discriminator 3
+ 508 029e 0235     		add	r5, r5, #2
+ 509              	.LVL104:
+ 510 02a0 ADB2     		uxth	r5, r5
+ 511              	.LVL105:
+ 512              	.L15:
+ 156:main.c        ****             gfx_drawCircle( gfx_width()/2, gfx_height()/2, i, WHITE );
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 13
+
+
+ 513              		.loc 1 156 0 is_stmt 0 discriminator 1
+ 514 02a2 FFF7FEFF 		bl	gfx_height
+ 515              	.LVL106:
+ 516 02a6 2BB2     		sxth	r3, r5
+ 517 02a8 9842     		cmp	r0, r3
+ 518 02aa E4DC     		bgt	.L16
+ 159:main.c        ****         }    
+ 160:main.c        **** 
+ 161:main.c        ****         CyDelay(3000);
+ 519              		.loc 1 161 0 is_stmt 1
+ 520 02ac 5C48     		ldr	r0, .L32
+ 521 02ae FFF7FEFF 		bl	CyDelay
+ 522              	.LVL107:
+ 162:main.c        ****         display_clear();    
+ 523              		.loc 1 162 0
+ 524 02b2 FFF7FEFF 		bl	display_clear
+ 525              	.LVL108:
+ 163:main.c        ****         display_update();    
+ 526              		.loc 1 163 0
+ 527 02b6 FFF7FEFF 		bl	display_update
+ 528              	.LVL109:
+ 164:main.c        ****         
+ 165:main.c        ****         
+ 166:main.c        ****     #define MIN(x, y) (((x) < (y)) ? (x) : (y))
+ 167:main.c        ****         
+ 168:main.c        ****         // triangles
+ 169:main.c        ****         for( i = 0 ; i < MIN(gfx_width(),gfx_height())/2; i+=5) {
+ 529              		.loc 1 169 0
+ 530 02ba 0024     		mov	r4, #0
+ 531 02bc 3BE0     		b	.L17
+ 532              	.LVL110:
+ 533              	.L20:
+ 170:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 534              		.loc 1 170 0 discriminator 7
+ 535 02be FFF7FEFF 		bl	gfx_width
+ 536              	.LVL111:
+ 537 02c2 071C     		mov	r7, r0
+ 538 02c4 FFF7FEFF 		bl	gfx_height
+ 539              	.LVL112:
+ 540 02c8 8146     		mov	r9, r0
+ 541 02ca A4B2     		uxth	r4, r4
+ 171:main.c        ****                              gfx_width()/2-i, gfx_height()/2+i,
+ 542              		.loc 1 171 0 discriminator 7
+ 543 02cc FFF7FEFF 		bl	gfx_width
+ 544              	.LVL113:
+ 545 02d0 8046     		mov	r8, r0
+ 546 02d2 FFF7FEFF 		bl	gfx_height
+ 547              	.LVL114:
+ 548 02d6 061C     		mov	r6, r0
+ 172:main.c        ****                              gfx_width()/2+i, gfx_height()/2+i, WHITE);
+ 549              		.loc 1 172 0 discriminator 7
+ 550 02d8 FFF7FEFF 		bl	gfx_width
+ 551              	.LVL115:
+ 552 02dc 051C     		mov	r5, r0
+ 553 02de FFF7FEFF 		bl	gfx_height
+ 554              	.LVL116:
+ 170:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 14
+
+
+ 555              		.loc 1 170 0 discriminator 7
+ 556 02e2 FB0F     		lsr	r3, r7, #31
+ 557 02e4 DF19     		add	r7, r3, r7
+ 558 02e6 7F10     		asr	r7, r7, #1
+ 559 02e8 3FB2     		sxth	r7, r7
+ 560 02ea 4B46     		mov	r3, r9
+ 561 02ec D90F     		lsr	r1, r3, #31
+ 562 02ee 4944     		add	r1, r1, r9
+ 563 02f0 4910     		asr	r1, r1, #1
+ 564 02f2 091B     		sub	r1, r1, r4
+ 565 02f4 09B2     		sxth	r1, r1
+ 566 02f6 4346     		mov	r3, r8
+ 567 02f8 DA0F     		lsr	r2, r3, #31
+ 568 02fa 4244     		add	r2, r2, r8
+ 569 02fc 5210     		asr	r2, r2, #1
+ 570 02fe 121B     		sub	r2, r2, r4
+ 571 0300 12B2     		sxth	r2, r2
+ 572 0302 F30F     		lsr	r3, r6, #31
+ 573 0304 9B19     		add	r3, r3, r6
+ 574 0306 5B10     		asr	r3, r3, #1
+ 575 0308 E318     		add	r3, r4, r3
+ 576 030a 1BB2     		sxth	r3, r3
+ 577 030c EE0F     		lsr	r6, r5, #31
+ 578 030e 7619     		add	r6, r6, r5
+ 579 0310 7610     		asr	r6, r6, #1
+ 580 0312 A619     		add	r6, r4, r6
+ 581 0314 36B2     		sxth	r6, r6
+ 582 0316 0096     		str	r6, [sp]
+ 583 0318 C50F     		lsr	r5, r0, #31
+ 584 031a 2D18     		add	r5, r5, r0
+ 585 031c 6D10     		asr	r5, r5, #1
+ 586 031e 6519     		add	r5, r4, r5
+ 587 0320 2DB2     		sxth	r5, r5
+ 588 0322 0195     		str	r5, [sp, #4]
+ 589 0324 0120     		mov	r0, #1
+ 590 0326 0290     		str	r0, [sp, #8]
+ 591 0328 381C     		mov	r0, r7
+ 592 032a FFF7FEFF 		bl	gfx_drawTriangle
+ 593              	.LVL117:
+ 173:main.c        ****             display_update();    
+ 594              		.loc 1 173 0 discriminator 7
+ 595 032e FFF7FEFF 		bl	display_update
+ 596              	.LVL118:
+ 169:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 597              		.loc 1 169 0 discriminator 7
+ 598 0332 0534     		add	r4, r4, #5
+ 599              	.LVL119:
+ 600 0334 A4B2     		uxth	r4, r4
+ 601              	.LVL120:
+ 602              	.L17:
+ 169:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 603              		.loc 1 169 0 is_stmt 0 discriminator 1
+ 604 0336 25B2     		sxth	r5, r4
+ 605 0338 FFF7FEFF 		bl	gfx_width
+ 606              	.LVL121:
+ 607 033c 061C     		mov	r6, r0
+ 608 033e FFF7FEFF 		bl	gfx_height
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 15
+
+
+ 609              	.LVL122:
+ 610 0342 8642     		cmp	r6, r0
+ 611 0344 05DA     		bge	.L18
+ 169:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 612              		.loc 1 169 0 discriminator 3
+ 613 0346 FFF7FEFF 		bl	gfx_width
+ 614              	.LVL123:
+ 615 034a C30F     		lsr	r3, r0, #31
+ 616 034c 1818     		add	r0, r3, r0
+ 617 034e 4010     		asr	r0, r0, #1
+ 618 0350 04E0     		b	.L19
+ 619              	.L18:
+ 169:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 620              		.loc 1 169 0 discriminator 4
+ 621 0352 FFF7FEFF 		bl	gfx_height
+ 622              	.LVL124:
+ 623 0356 C30F     		lsr	r3, r0, #31
+ 624 0358 1818     		add	r0, r3, r0
+ 625 035a 4010     		asr	r0, r0, #1
+ 626              	.L19:
+ 169:main.c        ****             gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 627              		.loc 1 169 0 discriminator 6
+ 628 035c 8542     		cmp	r5, r0
+ 629 035e AEDB     		blt	.L20
+ 174:main.c        ****         }    
+ 175:main.c        **** 
+ 176:main.c        ****         
+ 177:main.c        ****         CyDelay(3000);
+ 630              		.loc 1 177 0 is_stmt 1
+ 631 0360 2F48     		ldr	r0, .L32
+ 632 0362 FFF7FEFF 		bl	CyDelay
+ 633              	.LVL125:
+ 178:main.c        ****         display_clear();    
+ 634              		.loc 1 178 0
+ 635 0366 FFF7FEFF 		bl	display_clear
+ 636              	.LVL126:
+ 179:main.c        ****         display_update();    
+ 637              		.loc 1 179 0
+ 638 036a FFF7FEFF 		bl	display_update
+ 639              	.LVL127:
+ 180:main.c        ****        
+ 181:main.c        ****         // rotation
+ 182:main.c        ****         int16_t j = 0;
+ 183:main.c        ****         for( j = 0 ; j < 4 ; j++ ){
+ 640              		.loc 1 183 0
+ 641 036e 0023     		mov	r3, #0
+ 642 0370 9846     		mov	r8, r3
+ 643 0372 68E0     		b	.L21
+ 644              	.LVL128:
+ 645              	.L26:
+ 184:main.c        ****             gfx_setRotation(j);
+ 646              		.loc 1 184 0
+ 647 0374 4346     		mov	r3, r8
+ 648 0376 6A46     		mov	r2, sp
+ 649 0378 D375     		strb	r3, [r2, #23]
+ 650 037a D07D     		ldrb	r0, [r2, #23]
+ 651 037c FFF7FEFF 		bl	gfx_setRotation
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 16
+
+
+ 652              	.LVL129:
+ 185:main.c        ****             for( i = 0 ; i < MIN(gfx_width(),gfx_height())/2; i+=5) {
+ 653              		.loc 1 185 0
+ 654 0380 0024     		mov	r4, #0
+ 655 0382 3FE0     		b	.L22
+ 656              	.LVL130:
+ 657              	.L25:
+ 186:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 658              		.loc 1 186 0 discriminator 7
+ 659 0384 FFF7FEFF 		bl	gfx_width
+ 660              	.LVL131:
+ 661 0388 8246     		mov	r10, r0
+ 662 038a FFF7FEFF 		bl	gfx_height
+ 663              	.LVL132:
+ 664 038e 071C     		mov	r7, r0
+ 665 0390 A4B2     		uxth	r4, r4
+ 187:main.c        ****                                  gfx_width()/2-i, gfx_height()/2+i,
+ 666              		.loc 1 187 0 discriminator 7
+ 667 0392 FFF7FEFF 		bl	gfx_width
+ 668              	.LVL133:
+ 669 0396 061C     		mov	r6, r0
+ 670 0398 FFF7FEFF 		bl	gfx_height
+ 671              	.LVL134:
+ 672 039c 051C     		mov	r5, r0
+ 188:main.c        ****                                  gfx_width()/2+i, gfx_height()/2+i, WHITE);
+ 673              		.loc 1 188 0 discriminator 7
+ 674 039e FFF7FEFF 		bl	gfx_width
+ 675              	.LVL135:
+ 676 03a2 8146     		mov	r9, r0
+ 677 03a4 FFF7FEFF 		bl	gfx_height
+ 678              	.LVL136:
+ 186:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 679              		.loc 1 186 0 discriminator 7
+ 680 03a8 5346     		mov	r3, r10
+ 681 03aa DB0F     		lsr	r3, r3, #31
+ 682 03ac 5344     		add	r3, r3, r10
+ 683 03ae 5B10     		asr	r3, r3, #1
+ 684 03b0 1BB2     		sxth	r3, r3
+ 685 03b2 9A46     		mov	r10, r3
+ 686 03b4 F90F     		lsr	r1, r7, #31
+ 687 03b6 C919     		add	r1, r1, r7
+ 688 03b8 4910     		asr	r1, r1, #1
+ 689 03ba 091B     		sub	r1, r1, r4
+ 690 03bc 09B2     		sxth	r1, r1
+ 691 03be F20F     		lsr	r2, r6, #31
+ 692 03c0 9219     		add	r2, r2, r6
+ 693 03c2 5210     		asr	r2, r2, #1
+ 694 03c4 121B     		sub	r2, r2, r4
+ 695 03c6 12B2     		sxth	r2, r2
+ 696 03c8 EB0F     		lsr	r3, r5, #31
+ 697 03ca 5B19     		add	r3, r3, r5
+ 698 03cc 5B10     		asr	r3, r3, #1
+ 699 03ce E318     		add	r3, r4, r3
+ 700 03d0 1BB2     		sxth	r3, r3
+ 701 03d2 4D46     		mov	r5, r9
+ 702 03d4 ED0F     		lsr	r5, r5, #31
+ 703 03d6 4D44     		add	r5, r5, r9
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 17
+
+
+ 704 03d8 6D10     		asr	r5, r5, #1
+ 705 03da 6519     		add	r5, r4, r5
+ 706 03dc 2DB2     		sxth	r5, r5
+ 707 03de 0095     		str	r5, [sp]
+ 708 03e0 C50F     		lsr	r5, r0, #31
+ 709 03e2 2D18     		add	r5, r5, r0
+ 710 03e4 6D10     		asr	r5, r5, #1
+ 711 03e6 6519     		add	r5, r4, r5
+ 712 03e8 2DB2     		sxth	r5, r5
+ 713 03ea 0195     		str	r5, [sp, #4]
+ 714 03ec 0120     		mov	r0, #1
+ 715 03ee 0290     		str	r0, [sp, #8]
+ 716 03f0 5046     		mov	r0, r10
+ 717 03f2 FFF7FEFF 		bl	gfx_drawTriangle
+ 718              	.LVL137:
+ 189:main.c        ****                 display_update(); 
+ 719              		.loc 1 189 0 discriminator 7
+ 720 03f6 FFF7FEFF 		bl	display_update
+ 721              	.LVL138:
+ 190:main.c        ****                 CyDelay(200);
+ 722              		.loc 1 190 0 discriminator 7
+ 723 03fa C820     		mov	r0, #200
+ 724 03fc FFF7FEFF 		bl	CyDelay
+ 725              	.LVL139:
+ 185:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 726              		.loc 1 185 0 discriminator 7
+ 727 0400 0534     		add	r4, r4, #5
+ 728              	.LVL140:
+ 729 0402 A4B2     		uxth	r4, r4
+ 730              	.LVL141:
+ 731              	.L22:
+ 185:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 732              		.loc 1 185 0 is_stmt 0 discriminator 1
+ 733 0404 25B2     		sxth	r5, r4
+ 734 0406 FFF7FEFF 		bl	gfx_width
+ 735              	.LVL142:
+ 736 040a 061C     		mov	r6, r0
+ 737 040c FFF7FEFF 		bl	gfx_height
+ 738              	.LVL143:
+ 739 0410 8642     		cmp	r6, r0
+ 740 0412 0DDA     		bge	.L23
+ 185:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 741              		.loc 1 185 0 discriminator 3
+ 742 0414 FFF7FEFF 		bl	gfx_width
+ 743              	.LVL144:
+ 744 0418 C30F     		lsr	r3, r0, #31
+ 745 041a 1818     		add	r0, r3, r0
+ 746 041c 4010     		asr	r0, r0, #1
+ 747 041e 0CE0     		b	.L24
+ 748              	.L33:
+ 749              		.align	2
+ 750              	.L32:
+ 751 0420 B80B0000 		.word	3000
+ 752 0424 00000000 		.word	.LC0
+ 753 0428 10000000 		.word	.LC2
+ 754 042c 20000000 		.word	.LC4
+ 755              	.L23:
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 18
+
+
+ 185:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 756              		.loc 1 185 0 discriminator 4
+ 757 0430 FFF7FEFF 		bl	gfx_height
+ 758              	.LVL145:
+ 759 0434 C30F     		lsr	r3, r0, #31
+ 760 0436 1818     		add	r0, r3, r0
+ 761 0438 4010     		asr	r0, r0, #1
+ 762              	.L24:
+ 185:main.c        ****                 gfx_drawTriangle(gfx_width()/2, gfx_height()/2-i,
+ 763              		.loc 1 185 0 discriminator 6
+ 764 043a 8542     		cmp	r5, r0
+ 765 043c A2DB     		blt	.L25
+ 183:main.c        ****             gfx_setRotation(j);
+ 766              		.loc 1 183 0 is_stmt 1 discriminator 2
+ 767 043e 4346     		mov	r3, r8
+ 768 0440 0133     		add	r3, r3, #1
+ 769 0442 9BB2     		uxth	r3, r3
+ 770 0444 9846     		mov	r8, r3
+ 771              	.LVL146:
+ 772              	.L21:
+ 183:main.c        ****             gfx_setRotation(j);
+ 773              		.loc 1 183 0 is_stmt 0 discriminator 1
+ 774 0446 4346     		mov	r3, r8
+ 775 0448 1BB2     		sxth	r3, r3
+ 776 044a 032B     		cmp	r3, #3
+ 777 044c 92DD     		ble	.L26
+ 191:main.c        ****             }    
+ 192:main.c        ****         }
+ 193:main.c        ****         
+ 194:main.c        ****         CyDelay(3000);
+ 778              		.loc 1 194 0 is_stmt 1
+ 779 044e 1848     		ldr	r0, .L34
+ 780 0450 FFF7FEFF 		bl	CyDelay
+ 781              	.LVL147:
+ 195:main.c        ****        
+ 196:main.c        ****         // invert and dim
+ 197:main.c        ****         display_invert(1);
+ 782              		.loc 1 197 0
+ 783 0454 0120     		mov	r0, #1
+ 784 0456 FFF7FEFF 		bl	display_invert
+ 785              	.LVL148:
+ 198:main.c        ****         CyDelay(1000);
+ 786              		.loc 1 198 0
+ 787 045a FA20     		mov	r0, #250
+ 788 045c 8000     		lsl	r0, r0, #2
+ 789 045e FFF7FEFF 		bl	CyDelay
+ 790              	.LVL149:
+ 199:main.c        ****         
+ 200:main.c        ****         for( i = 256 ; i >= 0 ; i-- ){
+ 791              		.loc 1 200 0
+ 792 0462 8024     		mov	r4, #128
+ 793 0464 6400     		lsl	r4, r4, #1
+ 794 0466 07E0     		b	.L27
+ 795              	.LVL150:
+ 796              	.L28:
+ 201:main.c        ****             display_contrast(i); 
+ 797              		.loc 1 201 0 discriminator 3
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 19
+
+
+ 798 0468 E0B2     		uxtb	r0, r4
+ 799 046a FFF7FEFF 		bl	display_contrast
+ 800              	.LVL151:
+ 202:main.c        ****             CyDelay(10);
+ 801              		.loc 1 202 0 discriminator 3
+ 802 046e 0A20     		mov	r0, #10
+ 803 0470 FFF7FEFF 		bl	CyDelay
+ 804              	.LVL152:
+ 200:main.c        ****             display_contrast(i); 
+ 805              		.loc 1 200 0 discriminator 3
+ 806 0474 013C     		sub	r4, r4, #1
+ 807              	.LVL153:
+ 808 0476 A4B2     		uxth	r4, r4
+ 809              	.LVL154:
+ 810              	.L27:
+ 200:main.c        ****             display_contrast(i); 
+ 811              		.loc 1 200 0 is_stmt 0 discriminator 1
+ 812 0478 23B2     		sxth	r3, r4
+ 813 047a 002B     		cmp	r3, #0
+ 814 047c F4DA     		bge	.L28
+ 203:main.c        ****         }
+ 204:main.c        ****         
+ 205:main.c        ****         
+ 206:main.c        ****         
+ 207:main.c        ****         display_invert(0);
+ 815              		.loc 1 207 0 is_stmt 1
+ 816 047e 0020     		mov	r0, #0
+ 817 0480 FFF7FEFF 		bl	display_invert
+ 818              	.LVL155:
+ 208:main.c        ****         CyDelay(1000);
+ 819              		.loc 1 208 0
+ 820 0484 FA20     		mov	r0, #250
+ 821 0486 8000     		lsl	r0, r0, #2
+ 822 0488 FFF7FEFF 		bl	CyDelay
+ 823              	.LVL156:
+ 209:main.c        ****         for( i = 0 ; i < 256 ; i++ ){
+ 824              		.loc 1 209 0
+ 825 048c 0024     		mov	r4, #0
+ 826 048e 07E0     		b	.L29
+ 827              	.LVL157:
+ 828              	.L30:
+ 210:main.c        ****             display_contrast(i); 
+ 829              		.loc 1 210 0 discriminator 3
+ 830 0490 E0B2     		uxtb	r0, r4
+ 831 0492 FFF7FEFF 		bl	display_contrast
+ 832              	.LVL158:
+ 211:main.c        ****             CyDelay(10);
+ 833              		.loc 1 211 0 discriminator 3
+ 834 0496 0A20     		mov	r0, #10
+ 835 0498 FFF7FEFF 		bl	CyDelay
+ 836              	.LVL159:
+ 209:main.c        ****         for( i = 0 ; i < 256 ; i++ ){
+ 837              		.loc 1 209 0 discriminator 3
+ 838 049c 0134     		add	r4, r4, #1
+ 839              	.LVL160:
+ 840 049e A4B2     		uxth	r4, r4
+ 841              	.LVL161:
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 20
+
+
+ 842              	.L29:
+ 209:main.c        ****         for( i = 0 ; i < 256 ; i++ ){
+ 843              		.loc 1 209 0 is_stmt 0 discriminator 1
+ 844 04a0 23B2     		sxth	r3, r4
+ 845 04a2 FF2B     		cmp	r3, #255
+ 846 04a4 F4DD     		ble	.L30
+ 212:main.c        ****         }
+ 213:main.c        ****         
+ 214:main.c        ****     
+ 215:main.c        ****         CyDelay(3000);
+ 847              		.loc 1 215 0 is_stmt 1
+ 848 04a6 0248     		ldr	r0, .L34
+ 849 04a8 FFF7FEFF 		bl	CyDelay
+ 850              	.LVL162:
+ 851              	.LBE2:
+ 216:main.c        **** 
+ 217:main.c        ****     
+ 218:main.c        ****     
+ 219:main.c        ****     
+ 220:main.c        ****     }
+ 852              		.loc 1 220 0
+ 853 04ac B4E5     		b	.L31
+ 854              	.L35:
+ 855 04ae C046     		.align	2
+ 856              	.L34:
+ 857 04b0 B80B0000 		.word	3000
+ 858              		.cfi_endproc
+ 859              	.LFE35:
+ 860              		.size	main, .-main
+ 861              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 862              		.align	2
+ 863              	.LC0:
+ 864 0000 74657374 		.ascii	"test line 1 ...\000"
+ 864      206C696E 
+ 864      65203120 
+ 864      2E2E2E00 
+ 865              	.LC2:
+ 866 0010 326E6420 		.ascii	"2nd line ...\000"
+ 866      6C696E65 
+ 866      202E2E2E 
+ 866      00
+ 867 001d 000000   		.space	3
+ 868              	.LC4:
+ 869 0020 7363726F 		.ascii	"scroll\000"
+ 869      6C6C00
+ 870 0027 00       		.text
+ 871              	.Letext0:
+ 872              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 873              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 874              		.file 4 "Generated_Source\\PSoC4/cytypes.h"
+ 875              		.file 5 "ssd1306.h"
+ 876              		.file 6 "Generated_Source\\PSoC4/CyLib.h"
+ 877              		.file 7 "Generated_Source\\PSoC4/I2COLED.h"
+ 878              		.section	.debug_info,"",%progbits
+ 879              	.Ldebug_info0:
+ 880 0000 700B0000 		.4byte	0xb70
+ 881 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 21
+
+
+ 882 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 883 000a 04       		.byte	0x4
+ 884 000b 01       		.uleb128 0x1
+ 885 000c 86030000 		.4byte	.LASF64
+ 886 0010 01       		.byte	0x1
+ 887 0011 5B010000 		.4byte	.LASF65
+ 888 0015 36020000 		.4byte	.LASF66
+ 889 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 890 001d 00000000 		.4byte	0
+ 891 0021 00000000 		.4byte	.Ldebug_line0
+ 892 0025 02       		.uleb128 0x2
+ 893 0026 01       		.byte	0x1
+ 894 0027 06       		.byte	0x6
+ 895 0028 76000000 		.4byte	.LASF0
+ 896 002c 03       		.uleb128 0x3
+ 897 002d 3F000000 		.4byte	.LASF2
+ 898 0031 02       		.byte	0x2
+ 899 0032 1D       		.byte	0x1d
+ 900 0033 37000000 		.4byte	0x37
+ 901 0037 02       		.uleb128 0x2
+ 902 0038 01       		.byte	0x1
+ 903 0039 08       		.byte	0x8
+ 904 003a 1E020000 		.4byte	.LASF1
+ 905 003e 03       		.uleb128 0x3
+ 906 003f F7000000 		.4byte	.LASF3
+ 907 0043 02       		.byte	0x2
+ 908 0044 29       		.byte	0x29
+ 909 0045 49000000 		.4byte	0x49
+ 910 0049 02       		.uleb128 0x2
+ 911 004a 02       		.byte	0x2
+ 912 004b 05       		.byte	0x5
+ 913 004c 2C020000 		.4byte	.LASF4
+ 914 0050 03       		.uleb128 0x3
+ 915 0051 8E020000 		.4byte	.LASF5
+ 916 0055 02       		.byte	0x2
+ 917 0056 2B       		.byte	0x2b
+ 918 0057 5B000000 		.4byte	0x5b
+ 919 005b 02       		.uleb128 0x2
+ 920 005c 02       		.byte	0x2
+ 921 005d 07       		.byte	0x7
+ 922 005e 3B010000 		.4byte	.LASF6
+ 923 0062 02       		.uleb128 0x2
+ 924 0063 04       		.byte	0x4
+ 925 0064 05       		.byte	0x5
+ 926 0065 9D000000 		.4byte	.LASF7
+ 927 0069 02       		.uleb128 0x2
+ 928 006a 04       		.byte	0x4
+ 929 006b 07       		.byte	0x7
+ 930 006c 1E010000 		.4byte	.LASF8
+ 931 0070 02       		.uleb128 0x2
+ 932 0071 08       		.byte	0x8
+ 933 0072 05       		.byte	0x5
+ 934 0073 68000000 		.4byte	.LASF9
+ 935 0077 02       		.uleb128 0x2
+ 936 0078 08       		.byte	0x8
+ 937 0079 07       		.byte	0x7
+ 938 007a 49000000 		.4byte	.LASF10
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 22
+
+
+ 939 007e 04       		.uleb128 0x4
+ 940 007f 04       		.byte	0x4
+ 941 0080 05       		.byte	0x5
+ 942 0081 696E7400 		.ascii	"int\000"
+ 943 0085 02       		.uleb128 0x2
+ 944 0086 04       		.byte	0x4
+ 945 0087 07       		.byte	0x7
+ 946 0088 11010000 		.4byte	.LASF11
+ 947 008c 03       		.uleb128 0x3
+ 948 008d E6020000 		.4byte	.LASF12
+ 949 0091 03       		.byte	0x3
+ 950 0092 15       		.byte	0x15
+ 951 0093 2C000000 		.4byte	0x2c
+ 952 0097 03       		.uleb128 0x3
+ 953 0098 60000000 		.4byte	.LASF13
+ 954 009c 03       		.byte	0x3
+ 955 009d 20       		.byte	0x20
+ 956 009e 3E000000 		.4byte	0x3e
+ 957 00a2 03       		.uleb128 0x3
+ 958 00a3 C3000000 		.4byte	.LASF14
+ 959 00a7 03       		.byte	0x3
+ 960 00a8 21       		.byte	0x21
+ 961 00a9 50000000 		.4byte	0x50
+ 962 00ad 05       		.uleb128 0x5
+ 963 00ae E0000000 		.4byte	.LASF15
+ 964 00b2 04       		.byte	0x4
+ 965 00b3 BB01     		.2byte	0x1bb
+ 966 00b5 69000000 		.4byte	0x69
+ 967 00b9 02       		.uleb128 0x2
+ 968 00ba 04       		.byte	0x4
+ 969 00bb 04       		.byte	0x4
+ 970 00bc 0E020000 		.4byte	.LASF16
+ 971 00c0 02       		.uleb128 0x2
+ 972 00c1 08       		.byte	0x8
+ 973 00c2 04       		.byte	0x4
+ 974 00c3 CC000000 		.4byte	.LASF17
+ 975 00c7 02       		.uleb128 0x2
+ 976 00c8 01       		.byte	0x1
+ 977 00c9 08       		.byte	0x8
+ 978 00ca 89020000 		.4byte	.LASF18
+ 979 00ce 02       		.uleb128 0x2
+ 980 00cf 04       		.byte	0x4
+ 981 00d0 07       		.byte	0x7
+ 982 00d1 E0010000 		.4byte	.LASF19
+ 983 00d5 06       		.uleb128 0x6
+ 984 00d6 04       		.byte	0x4
+ 985 00d7 DB000000 		.4byte	0xdb
+ 986 00db 07       		.uleb128 0x7
+ 987 00dc C7000000 		.4byte	0xc7
+ 988 00e0 08       		.uleb128 0x8
+ 989 00e1 01       		.byte	0x1
+ 990 00e2 05       		.byte	0x5
+ 991 00e3 1B       		.byte	0x1b
+ 992 00e4 F5000000 		.4byte	0xf5
+ 993 00e8 09       		.uleb128 0x9
+ 994 00e9 AA020000 		.4byte	.LASF20
+ 995 00ed 26       		.sleb128 38
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 23
+
+
+ 996 00ee 09       		.uleb128 0x9
+ 997 00ef B7000000 		.4byte	.LASF21
+ 998 00f3 2A       		.sleb128 42
+ 999 00f4 00       		.byte	0
+ 1000 00f5 03       		.uleb128 0x3
+ 1001 00f6 30010000 		.4byte	.LASF22
+ 1002 00fa 05       		.byte	0x5
+ 1003 00fb 1E       		.byte	0x1e
+ 1004 00fc E0000000 		.4byte	0xe0
+ 1005 0100 08       		.uleb128 0x8
+ 1006 0101 01       		.byte	0x1
+ 1007 0102 05       		.byte	0x5
+ 1008 0103 20       		.byte	0x20
+ 1009 0104 39010000 		.4byte	0x139
+ 1010 0108 09       		.uleb128 0x9
+ 1011 0109 09030000 		.4byte	.LASF23
+ 1012 010d 03       		.sleb128 3
+ 1013 010e 09       		.uleb128 0x9
+ 1014 010f 18030000 		.4byte	.LASF24
+ 1015 0113 02       		.sleb128 2
+ 1016 0114 09       		.uleb128 0x9
+ 1017 0115 27030000 		.4byte	.LASF25
+ 1018 0119 01       		.sleb128 1
+ 1019 011a 09       		.uleb128 0x9
+ 1020 011b 36030000 		.4byte	.LASF26
+ 1021 011f 06       		.sleb128 6
+ 1022 0120 09       		.uleb128 0x9
+ 1023 0121 45030000 		.4byte	.LASF27
+ 1024 0125 00       		.sleb128 0
+ 1025 0126 09       		.uleb128 0x9
+ 1026 0127 54030000 		.4byte	.LASF28
+ 1027 012b 05       		.sleb128 5
+ 1028 012c 09       		.uleb128 0x9
+ 1029 012d 63030000 		.4byte	.LASF29
+ 1030 0131 04       		.sleb128 4
+ 1031 0132 09       		.uleb128 0x9
+ 1032 0133 72030000 		.4byte	.LASF30
+ 1033 0137 07       		.sleb128 7
+ 1034 0138 00       		.byte	0
+ 1035 0139 03       		.uleb128 0x3
+ 1036 013a 01020000 		.4byte	.LASF31
+ 1037 013e 05       		.byte	0x5
+ 1038 013f 29       		.byte	0x29
+ 1039 0140 00010000 		.4byte	0x100
+ 1040 0144 08       		.uleb128 0x8
+ 1041 0145 01       		.byte	0x1
+ 1042 0146 05       		.byte	0x5
+ 1043 0147 2B       		.byte	0x2b
+ 1044 0148 7D010000 		.4byte	0x17d
+ 1045 014c 09       		.uleb128 0x9
+ 1046 014d 70010000 		.4byte	.LASF32
+ 1047 0151 00       		.sleb128 0
+ 1048 0152 09       		.uleb128 0x9
+ 1049 0153 7E010000 		.4byte	.LASF33
+ 1050 0157 01       		.sleb128 1
+ 1051 0158 09       		.uleb128 0x9
+ 1052 0159 8C010000 		.4byte	.LASF34
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 24
+
+
+ 1053 015d 02       		.sleb128 2
+ 1054 015e 09       		.uleb128 0x9
+ 1055 015f 9A010000 		.4byte	.LASF35
+ 1056 0163 03       		.sleb128 3
+ 1057 0164 09       		.uleb128 0x9
+ 1058 0165 A8010000 		.4byte	.LASF36
+ 1059 0169 04       		.sleb128 4
+ 1060 016a 09       		.uleb128 0x9
+ 1061 016b B6010000 		.4byte	.LASF37
+ 1062 016f 05       		.sleb128 5
+ 1063 0170 09       		.uleb128 0x9
+ 1064 0171 C4010000 		.4byte	.LASF38
+ 1065 0175 06       		.sleb128 6
+ 1066 0176 09       		.uleb128 0x9
+ 1067 0177 D2010000 		.4byte	.LASF39
+ 1068 017b 07       		.sleb128 7
+ 1069 017c 00       		.byte	0
+ 1070 017d 03       		.uleb128 0x3
+ 1071 017e FD020000 		.4byte	.LASF40
+ 1072 0182 05       		.byte	0x5
+ 1073 0183 34       		.byte	0x34
+ 1074 0184 44010000 		.4byte	0x144
+ 1075 0188 0A       		.uleb128 0xa
+ 1076 0189 81030000 		.4byte	.LASF67
+ 1077 018d 01       		.byte	0x1
+ 1078 018e 13       		.byte	0x13
+ 1079 018f 7E000000 		.4byte	0x7e
+ 1080 0193 00000000 		.4byte	.LFB35
+ 1081 0197 B4040000 		.4byte	.LFE35-.LFB35
+ 1082 019b 01       		.uleb128 0x1
+ 1083 019c 9C       		.byte	0x9c
+ 1084 019d 9D090000 		.4byte	0x99d
+ 1085 01a1 0B       		.uleb128 0xb
+ 1086 01a2 18000000 		.4byte	.LBB2
+ 1087 01a6 94040000 		.4byte	.LBE2-.LBB2
+ 1088 01aa 83090000 		.4byte	0x983
+ 1089 01ae 0C       		.uleb128 0xc
+ 1090 01af 6900     		.ascii	"i\000"
+ 1091 01b1 01       		.byte	0x1
+ 1092 01b2 2D       		.byte	0x2d
+ 1093 01b3 97000000 		.4byte	0x97
+ 1094 01b7 00000000 		.4byte	.LLST0
+ 1095 01bb 0D       		.uleb128 0xd
+ 1096 01bc 83020000 		.4byte	.LASF41
+ 1097 01c0 01       		.byte	0x1
+ 1098 01c1 8F       		.byte	0x8f
+ 1099 01c2 8C000000 		.4byte	0x8c
+ 1100 01c6 83010000 		.4byte	.LLST1
+ 1101 01ca 0C       		.uleb128 0xc
+ 1102 01cb 6A00     		.ascii	"j\000"
+ 1103 01cd 01       		.byte	0x1
+ 1104 01ce B6       		.byte	0xb6
+ 1105 01cf 97000000 		.4byte	0x97
+ 1106 01d3 AD010000 		.4byte	.LLST2
+ 1107 01d7 0E       		.uleb128 0xe
+ 1108 01d8 1C000000 		.4byte	.LVL2
+ 1109 01dc 9D090000 		.4byte	0x99d
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 25
+
+
+ 1110 01e0 0E       		.uleb128 0xe
+ 1111 01e1 20000000 		.4byte	.LVL3
+ 1112 01e5 A4090000 		.4byte	0x9a4
+ 1113 01e9 0F       		.uleb128 0xf
+ 1114 01ea 2A000000 		.4byte	.LVL4
+ 1115 01ee AB090000 		.4byte	0x9ab
+ 1116 01f2 08020000 		.4byte	0x208
+ 1117 01f6 10       		.uleb128 0x10
+ 1118 01f7 01       		.uleb128 0x1
+ 1119 01f8 52       		.byte	0x52
+ 1120 01f9 01       		.uleb128 0x1
+ 1121 01fa 31       		.byte	0x31
+ 1122 01fb 10       		.uleb128 0x10
+ 1123 01fc 01       		.uleb128 0x1
+ 1124 01fd 51       		.byte	0x51
+ 1125 01fe 02       		.uleb128 0x2
+ 1126 01ff 08       		.byte	0x8
+ 1127 0200 28       		.byte	0x28
+ 1128 0201 10       		.uleb128 0x10
+ 1129 0202 01       		.uleb128 0x1
+ 1130 0203 50       		.byte	0x50
+ 1131 0204 02       		.uleb128 0x2
+ 1132 0205 08       		.byte	0x8
+ 1133 0206 28       		.byte	0x28
+ 1134 0207 00       		.byte	0
+ 1135 0208 0E       		.uleb128 0xe
+ 1136 0209 2E000000 		.4byte	.LVL5
+ 1137 020d A4090000 		.4byte	0x9a4
+ 1138 0211 0F       		.uleb128 0xf
+ 1139 0212 36000000 		.4byte	.LVL6
+ 1140 0216 C6090000 		.4byte	0x9c6
+ 1141 021a 26020000 		.4byte	0x226
+ 1142 021e 10       		.uleb128 0x10
+ 1143 021f 01       		.uleb128 0x1
+ 1144 0220 50       		.byte	0x50
+ 1145 0221 03       		.uleb128 0x3
+ 1146 0222 0A       		.byte	0xa
+ 1147 0223 E803     		.2byte	0x3e8
+ 1148 0225 00       		.byte	0
+ 1149 0226 0E       		.uleb128 0xe
+ 1150 0227 3A000000 		.4byte	.LVL7
+ 1151 022b 9D090000 		.4byte	0x99d
+ 1152 022f 0E       		.uleb128 0xe
+ 1153 0230 3E000000 		.4byte	.LVL8
+ 1154 0234 A4090000 		.4byte	0x9a4
+ 1155 0238 0E       		.uleb128 0xe
+ 1156 0239 46000000 		.4byte	.LVL10
+ 1157 023d D7090000 		.4byte	0x9d7
+ 1158 0241 0F       		.uleb128 0xf
+ 1159 0242 58000000 		.4byte	.LVL11
+ 1160 0246 E2090000 		.4byte	0x9e2
+ 1161 024a 65020000 		.4byte	0x265
+ 1162 024e 10       		.uleb128 0x10
+ 1163 024f 01       		.uleb128 0x1
+ 1164 0250 52       		.byte	0x52
+ 1165 0251 02       		.uleb128 0x2
+ 1166 0252 74       		.byte	0x74
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 26
+
+
+ 1167 0253 00       		.sleb128 0
+ 1168 0254 10       		.uleb128 0x10
+ 1169 0255 01       		.uleb128 0x1
+ 1170 0256 51       		.byte	0x51
+ 1171 0257 01       		.uleb128 0x1
+ 1172 0258 30       		.byte	0x30
+ 1173 0259 10       		.uleb128 0x10
+ 1174 025a 01       		.uleb128 0x1
+ 1175 025b 50       		.byte	0x50
+ 1176 025c 01       		.uleb128 0x1
+ 1177 025d 30       		.byte	0x30
+ 1178 025e 10       		.uleb128 0x10
+ 1179 025f 02       		.uleb128 0x2
+ 1180 0260 7D       		.byte	0x7d
+ 1181 0261 00       		.sleb128 0
+ 1182 0262 01       		.uleb128 0x1
+ 1183 0263 31       		.byte	0x31
+ 1184 0264 00       		.byte	0
+ 1185 0265 0E       		.uleb128 0xe
+ 1186 0266 5C000000 		.4byte	.LVL12
+ 1187 026a A4090000 		.4byte	0x9a4
+ 1188 026e 0E       		.uleb128 0xe
+ 1189 026f 64000000 		.4byte	.LVL15
+ 1190 0273 070A0000 		.4byte	0xa07
+ 1191 0277 0E       		.uleb128 0xe
+ 1192 0278 72000000 		.4byte	.LVL18
+ 1193 027c 070A0000 		.4byte	0xa07
+ 1194 0280 0F       		.uleb128 0xf
+ 1195 0281 84000000 		.4byte	.LVL19
+ 1196 0285 E2090000 		.4byte	0x9e2
+ 1197 0289 A4020000 		.4byte	0x2a4
+ 1198 028d 10       		.uleb128 0x10
+ 1199 028e 01       		.uleb128 0x1
+ 1200 028f 53       		.byte	0x53
+ 1201 0290 02       		.uleb128 0x2
+ 1202 0291 74       		.byte	0x74
+ 1203 0292 00       		.sleb128 0
+ 1204 0293 10       		.uleb128 0x10
+ 1205 0294 01       		.uleb128 0x1
+ 1206 0295 51       		.byte	0x51
+ 1207 0296 01       		.uleb128 0x1
+ 1208 0297 30       		.byte	0x30
+ 1209 0298 10       		.uleb128 0x10
+ 1210 0299 01       		.uleb128 0x1
+ 1211 029a 50       		.byte	0x50
+ 1212 029b 01       		.uleb128 0x1
+ 1213 029c 30       		.byte	0x30
+ 1214 029d 10       		.uleb128 0x10
+ 1215 029e 02       		.uleb128 0x2
+ 1216 029f 7D       		.byte	0x7d
+ 1217 02a0 00       		.sleb128 0
+ 1218 02a1 01       		.uleb128 0x1
+ 1219 02a2 31       		.byte	0x31
+ 1220 02a3 00       		.byte	0
+ 1221 02a4 0E       		.uleb128 0xe
+ 1222 02a5 88000000 		.4byte	.LVL20
+ 1223 02a9 A4090000 		.4byte	0x9a4
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 27
+
+
+ 1224 02ad 0E       		.uleb128 0xe
+ 1225 02ae 90000000 		.4byte	.LVL23
+ 1226 02b2 D7090000 		.4byte	0x9d7
+ 1227 02b6 0F       		.uleb128 0xf
+ 1228 02b7 9C000000 		.4byte	.LVL24
+ 1229 02bb C6090000 		.4byte	0x9c6
+ 1230 02bf CB020000 		.4byte	0x2cb
+ 1231 02c3 10       		.uleb128 0x10
+ 1232 02c4 01       		.uleb128 0x1
+ 1233 02c5 50       		.byte	0x50
+ 1234 02c6 03       		.uleb128 0x3
+ 1235 02c7 0A       		.byte	0xa
+ 1236 02c8 B80B     		.2byte	0xbb8
+ 1237 02ca 00       		.byte	0
+ 1238 02cb 0E       		.uleb128 0xe
+ 1239 02cc A0000000 		.4byte	.LVL25
+ 1240 02d0 9D090000 		.4byte	0x99d
+ 1241 02d4 0E       		.uleb128 0xe
+ 1242 02d5 A4000000 		.4byte	.LVL26
+ 1243 02d9 A4090000 		.4byte	0x9a4
+ 1244 02dd 0F       		.uleb128 0xf
+ 1245 02de AA000000 		.4byte	.LVL27
+ 1246 02e2 120A0000 		.4byte	0xa12
+ 1247 02e6 F0020000 		.4byte	0x2f0
+ 1248 02ea 10       		.uleb128 0x10
+ 1249 02eb 01       		.uleb128 0x1
+ 1250 02ec 50       		.byte	0x50
+ 1251 02ed 01       		.uleb128 0x1
+ 1252 02ee 31       		.byte	0x31
+ 1253 02ef 00       		.byte	0
+ 1254 02f0 0F       		.uleb128 0xf
+ 1255 02f1 B0000000 		.4byte	.LVL28
+ 1256 02f5 230A0000 		.4byte	0xa23
+ 1257 02f9 03030000 		.4byte	0x303
+ 1258 02fd 10       		.uleb128 0x10
+ 1259 02fe 01       		.uleb128 0x1
+ 1260 02ff 50       		.byte	0x50
+ 1261 0300 01       		.uleb128 0x1
+ 1262 0301 31       		.byte	0x31
+ 1263 0302 00       		.byte	0
+ 1264 0303 0F       		.uleb128 0xf
+ 1265 0304 B8000000 		.4byte	.LVL29
+ 1266 0308 340A0000 		.4byte	0xa34
+ 1267 030c 1B030000 		.4byte	0x31b
+ 1268 0310 10       		.uleb128 0x10
+ 1269 0311 01       		.uleb128 0x1
+ 1270 0312 51       		.byte	0x51
+ 1271 0313 01       		.uleb128 0x1
+ 1272 0314 30       		.byte	0x30
+ 1273 0315 10       		.uleb128 0x10
+ 1274 0316 01       		.uleb128 0x1
+ 1275 0317 50       		.byte	0x50
+ 1276 0318 01       		.uleb128 0x1
+ 1277 0319 30       		.byte	0x30
+ 1278 031a 00       		.byte	0
+ 1279 031b 0F       		.uleb128 0xf
+ 1280 031c C8000000 		.4byte	.LVL31
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 28
+
+
+ 1281 0320 4A0A0000 		.4byte	0xa4a
+ 1282 0324 2F030000 		.4byte	0x32f
+ 1283 0328 10       		.uleb128 0x10
+ 1284 0329 01       		.uleb128 0x1
+ 1285 032a 50       		.byte	0x50
+ 1286 032b 02       		.uleb128 0x2
+ 1287 032c 74       		.byte	0x74
+ 1288 032d 00       		.sleb128 0
+ 1289 032e 00       		.byte	0
+ 1290 032f 0E       		.uleb128 0xe
+ 1291 0330 D6000000 		.4byte	.LVL34
+ 1292 0334 A4090000 		.4byte	0x9a4
+ 1293 0338 0F       		.uleb128 0xf
+ 1294 0339 DE000000 		.4byte	.LVL36
+ 1295 033d C6090000 		.4byte	0x9c6
+ 1296 0341 4C030000 		.4byte	0x34c
+ 1297 0345 10       		.uleb128 0x10
+ 1298 0346 01       		.uleb128 0x1
+ 1299 0347 50       		.byte	0x50
+ 1300 0348 02       		.uleb128 0x2
+ 1301 0349 74       		.byte	0x74
+ 1302 034a 00       		.sleb128 0
+ 1303 034b 00       		.byte	0
+ 1304 034c 0E       		.uleb128 0xe
+ 1305 034d E2000000 		.4byte	.LVL37
+ 1306 0351 9D090000 		.4byte	0x99d
+ 1307 0355 0E       		.uleb128 0xe
+ 1308 0356 E6000000 		.4byte	.LVL38
+ 1309 035a A4090000 		.4byte	0x9a4
+ 1310 035e 0F       		.uleb128 0xf
+ 1311 035f EE000000 		.4byte	.LVL39
+ 1312 0363 340A0000 		.4byte	0xa34
+ 1313 0367 76030000 		.4byte	0x376
+ 1314 036b 10       		.uleb128 0x10
+ 1315 036c 01       		.uleb128 0x1
+ 1316 036d 51       		.byte	0x51
+ 1317 036e 01       		.uleb128 0x1
+ 1318 036f 30       		.byte	0x30
+ 1319 0370 10       		.uleb128 0x10
+ 1320 0371 01       		.uleb128 0x1
+ 1321 0372 50       		.byte	0x50
+ 1322 0373 01       		.uleb128 0x1
+ 1323 0374 30       		.byte	0x30
+ 1324 0375 00       		.byte	0
+ 1325 0376 0F       		.uleb128 0xf
+ 1326 0377 F4000000 		.4byte	.LVL40
+ 1327 037b 120A0000 		.4byte	0xa12
+ 1328 037f 89030000 		.4byte	0x389
+ 1329 0383 10       		.uleb128 0x10
+ 1330 0384 01       		.uleb128 0x1
+ 1331 0385 50       		.byte	0x50
+ 1332 0386 01       		.uleb128 0x1
+ 1333 0387 32       		.byte	0x32
+ 1334 0388 00       		.byte	0
+ 1335 0389 0F       		.uleb128 0xf
+ 1336 038a FA000000 		.4byte	.LVL41
+ 1337 038e 4A0A0000 		.4byte	0xa4a
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 29
+
+
+ 1338 0392 9D030000 		.4byte	0x39d
+ 1339 0396 10       		.uleb128 0x10
+ 1340 0397 01       		.uleb128 0x1
+ 1341 0398 50       		.byte	0x50
+ 1342 0399 02       		.uleb128 0x2
+ 1343 039a 08       		.byte	0x8
+ 1344 039b 38       		.byte	0x38
+ 1345 039c 00       		.byte	0
+ 1346 039d 0F       		.uleb128 0xf
+ 1347 039e 00010000 		.4byte	.LVL42
+ 1348 03a2 120A0000 		.4byte	0xa12
+ 1349 03a6 B0030000 		.4byte	0x3b0
+ 1350 03aa 10       		.uleb128 0x10
+ 1351 03ab 01       		.uleb128 0x1
+ 1352 03ac 50       		.byte	0x50
+ 1353 03ad 01       		.uleb128 0x1
+ 1354 03ae 33       		.byte	0x33
+ 1355 03af 00       		.byte	0
+ 1356 03b0 0F       		.uleb128 0xf
+ 1357 03b1 06010000 		.4byte	.LVL43
+ 1358 03b5 4A0A0000 		.4byte	0xa4a
+ 1359 03b9 C4030000 		.4byte	0x3c4
+ 1360 03bd 10       		.uleb128 0x10
+ 1361 03be 01       		.uleb128 0x1
+ 1362 03bf 50       		.byte	0x50
+ 1363 03c0 02       		.uleb128 0x2
+ 1364 03c1 08       		.byte	0x8
+ 1365 03c2 38       		.byte	0x38
+ 1366 03c3 00       		.byte	0
+ 1367 03c4 0F       		.uleb128 0xf
+ 1368 03c5 0C010000 		.4byte	.LVL44
+ 1369 03c9 120A0000 		.4byte	0xa12
+ 1370 03cd D7030000 		.4byte	0x3d7
+ 1371 03d1 10       		.uleb128 0x10
+ 1372 03d2 01       		.uleb128 0x1
+ 1373 03d3 50       		.byte	0x50
+ 1374 03d4 01       		.uleb128 0x1
+ 1375 03d5 34       		.byte	0x34
+ 1376 03d6 00       		.byte	0
+ 1377 03d7 0F       		.uleb128 0xf
+ 1378 03d8 12010000 		.4byte	.LVL45
+ 1379 03dc 4A0A0000 		.4byte	0xa4a
+ 1380 03e0 EB030000 		.4byte	0x3eb
+ 1381 03e4 10       		.uleb128 0x10
+ 1382 03e5 01       		.uleb128 0x1
+ 1383 03e6 50       		.byte	0x50
+ 1384 03e7 02       		.uleb128 0x2
+ 1385 03e8 08       		.byte	0x8
+ 1386 03e9 38       		.byte	0x38
+ 1387 03ea 00       		.byte	0
+ 1388 03eb 0E       		.uleb128 0xe
+ 1389 03ec 16010000 		.4byte	.LVL46
+ 1390 03f0 A4090000 		.4byte	0x9a4
+ 1391 03f4 0F       		.uleb128 0xf
+ 1392 03f5 1C010000 		.4byte	.LVL47
+ 1393 03f9 C6090000 		.4byte	0x9c6
+ 1394 03fd 08040000 		.4byte	0x408
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 30
+
+
+ 1395 0401 10       		.uleb128 0x10
+ 1396 0402 01       		.uleb128 0x1
+ 1397 0403 50       		.byte	0x50
+ 1398 0404 02       		.uleb128 0x2
+ 1399 0405 74       		.byte	0x74
+ 1400 0406 00       		.sleb128 0
+ 1401 0407 00       		.byte	0
+ 1402 0408 0E       		.uleb128 0xe
+ 1403 0409 20010000 		.4byte	.LVL48
+ 1404 040d 9D090000 		.4byte	0x99d
+ 1405 0411 0E       		.uleb128 0xe
+ 1406 0412 24010000 		.4byte	.LVL49
+ 1407 0416 A4090000 		.4byte	0x9a4
+ 1408 041a 0F       		.uleb128 0xf
+ 1409 041b 2A010000 		.4byte	.LVL50
+ 1410 041f 120A0000 		.4byte	0xa12
+ 1411 0423 2D040000 		.4byte	0x42d
+ 1412 0427 10       		.uleb128 0x10
+ 1413 0428 01       		.uleb128 0x1
+ 1414 0429 50       		.byte	0x50
+ 1415 042a 01       		.uleb128 0x1
+ 1416 042b 31       		.byte	0x31
+ 1417 042c 00       		.byte	0
+ 1418 042d 0F       		.uleb128 0xf
+ 1419 042e 30010000 		.4byte	.LVL51
+ 1420 0432 230A0000 		.4byte	0xa23
+ 1421 0436 40040000 		.4byte	0x440
+ 1422 043a 10       		.uleb128 0x10
+ 1423 043b 01       		.uleb128 0x1
+ 1424 043c 50       		.byte	0x50
+ 1425 043d 01       		.uleb128 0x1
+ 1426 043e 31       		.byte	0x31
+ 1427 043f 00       		.byte	0
+ 1428 0440 0F       		.uleb128 0xf
+ 1429 0441 38010000 		.4byte	.LVL52
+ 1430 0445 340A0000 		.4byte	0xa34
+ 1431 0449 58040000 		.4byte	0x458
+ 1432 044d 10       		.uleb128 0x10
+ 1433 044e 01       		.uleb128 0x1
+ 1434 044f 51       		.byte	0x51
+ 1435 0450 01       		.uleb128 0x1
+ 1436 0451 30       		.byte	0x30
+ 1437 0452 10       		.uleb128 0x10
+ 1438 0453 01       		.uleb128 0x1
+ 1439 0454 50       		.byte	0x50
+ 1440 0455 01       		.uleb128 0x1
+ 1441 0456 30       		.byte	0x30
+ 1442 0457 00       		.byte	0
+ 1443 0458 0F       		.uleb128 0xf
+ 1444 0459 3E010000 		.4byte	.LVL53
+ 1445 045d 5B0A0000 		.4byte	0xa5b
+ 1446 0461 6F040000 		.4byte	0x46f
+ 1447 0465 10       		.uleb128 0x10
+ 1448 0466 01       		.uleb128 0x1
+ 1449 0467 50       		.byte	0x50
+ 1450 0468 05       		.uleb128 0x5
+ 1451 0469 03       		.byte	0x3
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 31
+
+
+ 1452 046a 00000000 		.4byte	.LC0
+ 1453 046e 00       		.byte	0
+ 1454 046f 0F       		.uleb128 0xf
+ 1455 0470 44010000 		.4byte	.LVL54
+ 1456 0474 5B0A0000 		.4byte	0xa5b
+ 1457 0478 86040000 		.4byte	0x486
+ 1458 047c 10       		.uleb128 0x10
+ 1459 047d 01       		.uleb128 0x1
+ 1460 047e 50       		.byte	0x50
+ 1461 047f 05       		.uleb128 0x5
+ 1462 0480 03       		.byte	0x3
+ 1463 0481 10000000 		.4byte	.LC2
+ 1464 0485 00       		.byte	0
+ 1465 0486 0E       		.uleb128 0xe
+ 1466 0487 48010000 		.4byte	.LVL55
+ 1467 048b A4090000 		.4byte	0x9a4
+ 1468 048f 0F       		.uleb128 0xf
+ 1469 0490 4E010000 		.4byte	.LVL56
+ 1470 0494 C6090000 		.4byte	0x9c6
+ 1471 0498 A3040000 		.4byte	0x4a3
+ 1472 049c 10       		.uleb128 0x10
+ 1473 049d 01       		.uleb128 0x1
+ 1474 049e 50       		.byte	0x50
+ 1475 049f 02       		.uleb128 0x2
+ 1476 04a0 74       		.byte	0x74
+ 1477 04a1 00       		.sleb128 0
+ 1478 04a2 00       		.byte	0
+ 1479 04a3 0E       		.uleb128 0xe
+ 1480 04a4 52010000 		.4byte	.LVL57
+ 1481 04a8 9D090000 		.4byte	0x99d
+ 1482 04ac 0E       		.uleb128 0xe
+ 1483 04ad 56010000 		.4byte	.LVL58
+ 1484 04b1 A4090000 		.4byte	0x9a4
+ 1485 04b5 0F       		.uleb128 0xf
+ 1486 04b6 5C010000 		.4byte	.LVL59
+ 1487 04ba 120A0000 		.4byte	0xa12
+ 1488 04be C8040000 		.4byte	0x4c8
+ 1489 04c2 10       		.uleb128 0x10
+ 1490 04c3 01       		.uleb128 0x1
+ 1491 04c4 50       		.byte	0x50
+ 1492 04c5 01       		.uleb128 0x1
+ 1493 04c6 31       		.byte	0x31
+ 1494 04c7 00       		.byte	0
+ 1495 04c8 0F       		.uleb128 0xf
+ 1496 04c9 62010000 		.4byte	.LVL60
+ 1497 04cd 230A0000 		.4byte	0xa23
+ 1498 04d1 DB040000 		.4byte	0x4db
+ 1499 04d5 10       		.uleb128 0x10
+ 1500 04d6 01       		.uleb128 0x1
+ 1501 04d7 50       		.byte	0x50
+ 1502 04d8 01       		.uleb128 0x1
+ 1503 04d9 31       		.byte	0x31
+ 1504 04da 00       		.byte	0
+ 1505 04db 0F       		.uleb128 0xf
+ 1506 04dc 6A010000 		.4byte	.LVL61
+ 1507 04e0 340A0000 		.4byte	0xa34
+ 1508 04e4 F3040000 		.4byte	0x4f3
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 32
+
+
+ 1509 04e8 10       		.uleb128 0x10
+ 1510 04e9 01       		.uleb128 0x1
+ 1511 04ea 51       		.byte	0x51
+ 1512 04eb 01       		.uleb128 0x1
+ 1513 04ec 30       		.byte	0x30
+ 1514 04ed 10       		.uleb128 0x10
+ 1515 04ee 01       		.uleb128 0x1
+ 1516 04ef 50       		.byte	0x50
+ 1517 04f0 01       		.uleb128 0x1
+ 1518 04f1 30       		.byte	0x30
+ 1519 04f2 00       		.byte	0
+ 1520 04f3 0F       		.uleb128 0xf
+ 1521 04f4 74010000 		.4byte	.LVL63
+ 1522 04f8 5B0A0000 		.4byte	0xa5b
+ 1523 04fc 0A050000 		.4byte	0x50a
+ 1524 0500 10       		.uleb128 0x10
+ 1525 0501 01       		.uleb128 0x1
+ 1526 0502 50       		.byte	0x50
+ 1527 0503 05       		.uleb128 0x5
+ 1528 0504 03       		.byte	0x3
+ 1529 0505 20000000 		.4byte	.LC4
+ 1530 0509 00       		.byte	0
+ 1531 050a 0E       		.uleb128 0xe
+ 1532 050b 82010000 		.4byte	.LVL66
+ 1533 050f A4090000 		.4byte	0x9a4
+ 1534 0513 0F       		.uleb128 0xf
+ 1535 0514 8E010000 		.4byte	.LVL67
+ 1536 0518 6C0A0000 		.4byte	0xa6c
+ 1537 051c 36050000 		.4byte	0x536
+ 1538 0520 10       		.uleb128 0x10
+ 1539 0521 01       		.uleb128 0x1
+ 1540 0522 53       		.byte	0x53
+ 1541 0523 01       		.uleb128 0x1
+ 1542 0524 37       		.byte	0x37
+ 1543 0525 10       		.uleb128 0x10
+ 1544 0526 01       		.uleb128 0x1
+ 1545 0527 52       		.byte	0x52
+ 1546 0528 02       		.uleb128 0x2
+ 1547 0529 08       		.byte	0x8
+ 1548 052a 26       		.byte	0x26
+ 1549 052b 10       		.uleb128 0x10
+ 1550 052c 01       		.uleb128 0x1
+ 1551 052d 51       		.byte	0x51
+ 1552 052e 01       		.uleb128 0x1
+ 1553 052f 37       		.byte	0x37
+ 1554 0530 10       		.uleb128 0x10
+ 1555 0531 01       		.uleb128 0x1
+ 1556 0532 50       		.byte	0x50
+ 1557 0533 01       		.uleb128 0x1
+ 1558 0534 30       		.byte	0x30
+ 1559 0535 00       		.byte	0
+ 1560 0536 0F       		.uleb128 0xf
+ 1561 0537 98010000 		.4byte	.LVL69
+ 1562 053b C6090000 		.4byte	0x9c6
+ 1563 053f 4A050000 		.4byte	0x54a
+ 1564 0543 10       		.uleb128 0x10
+ 1565 0544 01       		.uleb128 0x1
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 33
+
+
+ 1566 0545 50       		.byte	0x50
+ 1567 0546 02       		.uleb128 0x2
+ 1568 0547 74       		.byte	0x74
+ 1569 0548 00       		.sleb128 0
+ 1570 0549 00       		.byte	0
+ 1571 054a 0E       		.uleb128 0xe
+ 1572 054b 9C010000 		.4byte	.LVL70
+ 1573 054f 8C0A0000 		.4byte	0xa8c
+ 1574 0553 0F       		.uleb128 0xf
+ 1575 0554 A8010000 		.4byte	.LVL71
+ 1576 0558 6C0A0000 		.4byte	0xa6c
+ 1577 055c 76050000 		.4byte	0x576
+ 1578 0560 10       		.uleb128 0x10
+ 1579 0561 01       		.uleb128 0x1
+ 1580 0562 53       		.byte	0x53
+ 1581 0563 01       		.uleb128 0x1
+ 1582 0564 36       		.byte	0x36
+ 1583 0565 10       		.uleb128 0x10
+ 1584 0566 01       		.uleb128 0x1
+ 1585 0567 52       		.byte	0x52
+ 1586 0568 02       		.uleb128 0x2
+ 1587 0569 08       		.byte	0x8
+ 1588 056a 2A       		.byte	0x2a
+ 1589 056b 10       		.uleb128 0x10
+ 1590 056c 01       		.uleb128 0x1
+ 1591 056d 51       		.byte	0x51
+ 1592 056e 01       		.uleb128 0x1
+ 1593 056f 34       		.byte	0x34
+ 1594 0570 10       		.uleb128 0x10
+ 1595 0571 01       		.uleb128 0x1
+ 1596 0572 50       		.byte	0x50
+ 1597 0573 01       		.uleb128 0x1
+ 1598 0574 32       		.byte	0x32
+ 1599 0575 00       		.byte	0
+ 1600 0576 0F       		.uleb128 0xf
+ 1601 0577 AE010000 		.4byte	.LVL72
+ 1602 057b C6090000 		.4byte	0x9c6
+ 1603 057f 8A050000 		.4byte	0x58a
+ 1604 0583 10       		.uleb128 0x10
+ 1605 0584 01       		.uleb128 0x1
+ 1606 0585 50       		.byte	0x50
+ 1607 0586 02       		.uleb128 0x2
+ 1608 0587 74       		.byte	0x74
+ 1609 0588 00       		.sleb128 0
+ 1610 0589 00       		.byte	0
+ 1611 058a 0E       		.uleb128 0xe
+ 1612 058b B2010000 		.4byte	.LVL73
+ 1613 058f 8C0A0000 		.4byte	0xa8c
+ 1614 0593 0F       		.uleb128 0xf
+ 1615 0594 B8010000 		.4byte	.LVL74
+ 1616 0598 C6090000 		.4byte	0x9c6
+ 1617 059c A8050000 		.4byte	0x5a8
+ 1618 05a0 10       		.uleb128 0x10
+ 1619 05a1 01       		.uleb128 0x1
+ 1620 05a2 50       		.byte	0x50
+ 1621 05a3 03       		.uleb128 0x3
+ 1622 05a4 0A       		.byte	0xa
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 34
+
+
+ 1623 05a5 B80B     		.2byte	0xbb8
+ 1624 05a7 00       		.byte	0
+ 1625 05a8 0E       		.uleb128 0xe
+ 1626 05a9 BC010000 		.4byte	.LVL75
+ 1627 05ad 9D090000 		.4byte	0x99d
+ 1628 05b1 0E       		.uleb128 0xe
+ 1629 05b2 C0010000 		.4byte	.LVL76
+ 1630 05b6 A4090000 		.4byte	0x9a4
+ 1631 05ba 0E       		.uleb128 0xe
+ 1632 05bb C8010000 		.4byte	.LVL78
+ 1633 05bf 070A0000 		.4byte	0xa07
+ 1634 05c3 0E       		.uleb128 0xe
+ 1635 05c4 D8010000 		.4byte	.LVL79
+ 1636 05c8 D7090000 		.4byte	0x9d7
+ 1637 05cc 0F       		.uleb128 0xf
+ 1638 05cd EC010000 		.4byte	.LVL80
+ 1639 05d1 930A0000 		.4byte	0xa93
+ 1640 05d5 F5050000 		.4byte	0x5f5
+ 1641 05d9 10       		.uleb128 0x10
+ 1642 05da 01       		.uleb128 0x1
+ 1643 05db 52       		.byte	0x52
+ 1644 05dc 05       		.uleb128 0x5
+ 1645 05dd 77       		.byte	0x77
+ 1646 05de 00       		.sleb128 0
+ 1647 05df 76       		.byte	0x76
+ 1648 05e0 00       		.sleb128 0
+ 1649 05e1 22       		.byte	0x22
+ 1650 05e2 10       		.uleb128 0x10
+ 1651 05e3 01       		.uleb128 0x1
+ 1652 05e4 51       		.byte	0x51
+ 1653 05e5 02       		.uleb128 0x2
+ 1654 05e6 74       		.byte	0x74
+ 1655 05e7 00       		.sleb128 0
+ 1656 05e8 10       		.uleb128 0x10
+ 1657 05e9 01       		.uleb128 0x1
+ 1658 05ea 50       		.byte	0x50
+ 1659 05eb 02       		.uleb128 0x2
+ 1660 05ec 74       		.byte	0x74
+ 1661 05ed 00       		.sleb128 0
+ 1662 05ee 10       		.uleb128 0x10
+ 1663 05ef 02       		.uleb128 0x2
+ 1664 05f0 7D       		.byte	0x7d
+ 1665 05f1 00       		.sleb128 0
+ 1666 05f2 01       		.uleb128 0x1
+ 1667 05f3 31       		.byte	0x31
+ 1668 05f4 00       		.byte	0
+ 1669 05f5 0E       		.uleb128 0xe
+ 1670 05f6 F0010000 		.4byte	.LVL81
+ 1671 05fa A4090000 		.4byte	0x9a4
+ 1672 05fe 0E       		.uleb128 0xe
+ 1673 05ff F8010000 		.4byte	.LVL83
+ 1674 0603 D7090000 		.4byte	0x9d7
+ 1675 0607 0F       		.uleb128 0xf
+ 1676 0608 0C020000 		.4byte	.LVL84
+ 1677 060c C6090000 		.4byte	0x9c6
+ 1678 0610 1C060000 		.4byte	0x61c
+ 1679 0614 10       		.uleb128 0x10
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 35
+
+
+ 1680 0615 01       		.uleb128 0x1
+ 1681 0616 50       		.byte	0x50
+ 1682 0617 03       		.uleb128 0x3
+ 1683 0618 0A       		.byte	0xa
+ 1684 0619 B80B     		.2byte	0xbb8
+ 1685 061b 00       		.byte	0
+ 1686 061c 0E       		.uleb128 0xe
+ 1687 061d 10020000 		.4byte	.LVL85
+ 1688 0621 9D090000 		.4byte	0x99d
+ 1689 0625 0E       		.uleb128 0xe
+ 1690 0626 14020000 		.4byte	.LVL86
+ 1691 062a A4090000 		.4byte	0x9a4
+ 1692 062e 0E       		.uleb128 0xe
+ 1693 062f 1E020000 		.4byte	.LVL88
+ 1694 0633 070A0000 		.4byte	0xa07
+ 1695 0637 0E       		.uleb128 0xe
+ 1696 0638 2E020000 		.4byte	.LVL89
+ 1697 063c D7090000 		.4byte	0x9d7
+ 1698 0640 0F       		.uleb128 0xf
+ 1699 0641 46020000 		.4byte	.LVL90
+ 1700 0645 B80A0000 		.4byte	0xab8
+ 1701 0649 6C060000 		.4byte	0x66c
+ 1702 064d 10       		.uleb128 0x10
+ 1703 064e 01       		.uleb128 0x1
+ 1704 064f 52       		.byte	0x52
+ 1705 0650 05       		.uleb128 0x5
+ 1706 0651 77       		.byte	0x77
+ 1707 0652 00       		.sleb128 0
+ 1708 0653 78       		.byte	0x78
+ 1709 0654 00       		.sleb128 0
+ 1710 0655 22       		.byte	0x22
+ 1711 0656 10       		.uleb128 0x10
+ 1712 0657 01       		.uleb128 0x1
+ 1713 0658 51       		.byte	0x51
+ 1714 0659 02       		.uleb128 0x2
+ 1715 065a 74       		.byte	0x74
+ 1716 065b 00       		.sleb128 0
+ 1717 065c 10       		.uleb128 0x10
+ 1718 065d 01       		.uleb128 0x1
+ 1719 065e 50       		.byte	0x50
+ 1720 065f 02       		.uleb128 0x2
+ 1721 0660 74       		.byte	0x74
+ 1722 0661 00       		.sleb128 0
+ 1723 0662 10       		.uleb128 0x10
+ 1724 0663 02       		.uleb128 0x2
+ 1725 0664 7D       		.byte	0x7d
+ 1726 0665 00       		.sleb128 0
+ 1727 0666 04       		.uleb128 0x4
+ 1728 0667 76       		.byte	0x76
+ 1729 0668 00       		.sleb128 0
+ 1730 0669 31       		.byte	0x31
+ 1731 066a 1A       		.byte	0x1a
+ 1732 066b 00       		.byte	0
+ 1733 066c 0E       		.uleb128 0xe
+ 1734 066d 4A020000 		.4byte	.LVL91
+ 1735 0671 A4090000 		.4byte	0x9a4
+ 1736 0675 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 36
+
+
+ 1737 0676 56020000 		.4byte	.LVL95
+ 1738 067a D7090000 		.4byte	0x9d7
+ 1739 067e 0F       		.uleb128 0xf
+ 1740 067f 6A020000 		.4byte	.LVL96
+ 1741 0683 C6090000 		.4byte	0x9c6
+ 1742 0687 93060000 		.4byte	0x693
+ 1743 068b 10       		.uleb128 0x10
+ 1744 068c 01       		.uleb128 0x1
+ 1745 068d 50       		.byte	0x50
+ 1746 068e 03       		.uleb128 0x3
+ 1747 068f 0A       		.byte	0xa
+ 1748 0690 B80B     		.2byte	0xbb8
+ 1749 0692 00       		.byte	0
+ 1750 0693 0E       		.uleb128 0xe
+ 1751 0694 6E020000 		.4byte	.LVL97
+ 1752 0698 9D090000 		.4byte	0x99d
+ 1753 069c 0E       		.uleb128 0xe
+ 1754 069d 72020000 		.4byte	.LVL98
+ 1755 06a1 A4090000 		.4byte	0x9a4
+ 1756 06a5 0E       		.uleb128 0xe
+ 1757 06a6 7A020000 		.4byte	.LVL100
+ 1758 06aa 070A0000 		.4byte	0xa07
+ 1759 06ae 0E       		.uleb128 0xe
+ 1760 06af 80020000 		.4byte	.LVL101
+ 1761 06b3 D7090000 		.4byte	0x9d7
+ 1762 06b7 0F       		.uleb128 0xf
+ 1763 06b8 9A020000 		.4byte	.LVL102
+ 1764 06bc DD0A0000 		.4byte	0xadd
+ 1765 06c0 D6060000 		.4byte	0x6d6
+ 1766 06c4 10       		.uleb128 0x10
+ 1767 06c5 01       		.uleb128 0x1
+ 1768 06c6 53       		.byte	0x53
+ 1769 06c7 01       		.uleb128 0x1
+ 1770 06c8 31       		.byte	0x31
+ 1771 06c9 10       		.uleb128 0x10
+ 1772 06ca 01       		.uleb128 0x1
+ 1773 06cb 52       		.byte	0x52
+ 1774 06cc 02       		.uleb128 0x2
+ 1775 06cd 75       		.byte	0x75
+ 1776 06ce 00       		.sleb128 0
+ 1777 06cf 10       		.uleb128 0x10
+ 1778 06d0 01       		.uleb128 0x1
+ 1779 06d1 50       		.byte	0x50
+ 1780 06d2 02       		.uleb128 0x2
+ 1781 06d3 74       		.byte	0x74
+ 1782 06d4 00       		.sleb128 0
+ 1783 06d5 00       		.byte	0
+ 1784 06d6 0E       		.uleb128 0xe
+ 1785 06d7 9E020000 		.4byte	.LVL103
+ 1786 06db A4090000 		.4byte	0x9a4
+ 1787 06df 0E       		.uleb128 0xe
+ 1788 06e0 A6020000 		.4byte	.LVL106
+ 1789 06e4 D7090000 		.4byte	0x9d7
+ 1790 06e8 0F       		.uleb128 0xf
+ 1791 06e9 B2020000 		.4byte	.LVL107
+ 1792 06ed C6090000 		.4byte	0x9c6
+ 1793 06f1 FD060000 		.4byte	0x6fd
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 37
+
+
+ 1794 06f5 10       		.uleb128 0x10
+ 1795 06f6 01       		.uleb128 0x1
+ 1796 06f7 50       		.byte	0x50
+ 1797 06f8 03       		.uleb128 0x3
+ 1798 06f9 0A       		.byte	0xa
+ 1799 06fa B80B     		.2byte	0xbb8
+ 1800 06fc 00       		.byte	0
+ 1801 06fd 0E       		.uleb128 0xe
+ 1802 06fe B6020000 		.4byte	.LVL108
+ 1803 0702 9D090000 		.4byte	0x99d
+ 1804 0706 0E       		.uleb128 0xe
+ 1805 0707 BA020000 		.4byte	.LVL109
+ 1806 070b A4090000 		.4byte	0x9a4
+ 1807 070f 0E       		.uleb128 0xe
+ 1808 0710 C2020000 		.4byte	.LVL111
+ 1809 0714 070A0000 		.4byte	0xa07
+ 1810 0718 0E       		.uleb128 0xe
+ 1811 0719 C8020000 		.4byte	.LVL112
+ 1812 071d D7090000 		.4byte	0x9d7
+ 1813 0721 0E       		.uleb128 0xe
+ 1814 0722 D0020000 		.4byte	.LVL113
+ 1815 0726 070A0000 		.4byte	0xa07
+ 1816 072a 0E       		.uleb128 0xe
+ 1817 072b D6020000 		.4byte	.LVL114
+ 1818 072f D7090000 		.4byte	0x9d7
+ 1819 0733 0E       		.uleb128 0xe
+ 1820 0734 DC020000 		.4byte	.LVL115
+ 1821 0738 070A0000 		.4byte	0xa07
+ 1822 073c 0E       		.uleb128 0xe
+ 1823 073d E2020000 		.4byte	.LVL116
+ 1824 0741 D7090000 		.4byte	0x9d7
+ 1825 0745 0F       		.uleb128 0xf
+ 1826 0746 2E030000 		.4byte	.LVL117
+ 1827 074a FD0A0000 		.4byte	0xafd
+ 1828 074e 8D070000 		.4byte	0x78d
+ 1829 0752 10       		.uleb128 0x10
+ 1830 0753 01       		.uleb128 0x1
+ 1831 0754 52       		.byte	0x52
+ 1832 0755 0C       		.uleb128 0xc
+ 1833 0756 78       		.byte	0x78
+ 1834 0757 00       		.sleb128 0
+ 1835 0758 4F       		.byte	0x4f
+ 1836 0759 25       		.byte	0x25
+ 1837 075a 78       		.byte	0x78
+ 1838 075b 00       		.sleb128 0
+ 1839 075c 22       		.byte	0x22
+ 1840 075d 31       		.byte	0x31
+ 1841 075e 26       		.byte	0x26
+ 1842 075f 74       		.byte	0x74
+ 1843 0760 00       		.sleb128 0
+ 1844 0761 1C       		.byte	0x1c
+ 1845 0762 10       		.uleb128 0x10
+ 1846 0763 01       		.uleb128 0x1
+ 1847 0764 51       		.byte	0x51
+ 1848 0765 0C       		.uleb128 0xc
+ 1849 0766 79       		.byte	0x79
+ 1850 0767 00       		.sleb128 0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 38
+
+
+ 1851 0768 4F       		.byte	0x4f
+ 1852 0769 25       		.byte	0x25
+ 1853 076a 79       		.byte	0x79
+ 1854 076b 00       		.sleb128 0
+ 1855 076c 22       		.byte	0x22
+ 1856 076d 31       		.byte	0x31
+ 1857 076e 26       		.byte	0x26
+ 1858 076f 74       		.byte	0x74
+ 1859 0770 00       		.sleb128 0
+ 1860 0771 1C       		.byte	0x1c
+ 1861 0772 10       		.uleb128 0x10
+ 1862 0773 01       		.uleb128 0x1
+ 1863 0774 50       		.byte	0x50
+ 1864 0775 02       		.uleb128 0x2
+ 1865 0776 77       		.byte	0x77
+ 1866 0777 00       		.sleb128 0
+ 1867 0778 10       		.uleb128 0x10
+ 1868 0779 02       		.uleb128 0x2
+ 1869 077a 7D       		.byte	0x7d
+ 1870 077b 08       		.sleb128 8
+ 1871 077c 01       		.uleb128 0x1
+ 1872 077d 31       		.byte	0x31
+ 1873 077e 10       		.uleb128 0x10
+ 1874 077f 02       		.uleb128 0x2
+ 1875 0780 7D       		.byte	0x7d
+ 1876 0781 04       		.sleb128 4
+ 1877 0782 02       		.uleb128 0x2
+ 1878 0783 75       		.byte	0x75
+ 1879 0784 00       		.sleb128 0
+ 1880 0785 10       		.uleb128 0x10
+ 1881 0786 02       		.uleb128 0x2
+ 1882 0787 7D       		.byte	0x7d
+ 1883 0788 00       		.sleb128 0
+ 1884 0789 02       		.uleb128 0x2
+ 1885 078a 76       		.byte	0x76
+ 1886 078b 00       		.sleb128 0
+ 1887 078c 00       		.byte	0
+ 1888 078d 0E       		.uleb128 0xe
+ 1889 078e 32030000 		.4byte	.LVL118
+ 1890 0792 A4090000 		.4byte	0x9a4
+ 1891 0796 0E       		.uleb128 0xe
+ 1892 0797 3C030000 		.4byte	.LVL121
+ 1893 079b 070A0000 		.4byte	0xa07
+ 1894 079f 0E       		.uleb128 0xe
+ 1895 07a0 42030000 		.4byte	.LVL122
+ 1896 07a4 D7090000 		.4byte	0x9d7
+ 1897 07a8 0E       		.uleb128 0xe
+ 1898 07a9 4A030000 		.4byte	.LVL123
+ 1899 07ad 070A0000 		.4byte	0xa07
+ 1900 07b1 0E       		.uleb128 0xe
+ 1901 07b2 56030000 		.4byte	.LVL124
+ 1902 07b6 D7090000 		.4byte	0x9d7
+ 1903 07ba 0F       		.uleb128 0xf
+ 1904 07bb 66030000 		.4byte	.LVL125
+ 1905 07bf C6090000 		.4byte	0x9c6
+ 1906 07c3 CF070000 		.4byte	0x7cf
+ 1907 07c7 10       		.uleb128 0x10
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 39
+
+
+ 1908 07c8 01       		.uleb128 0x1
+ 1909 07c9 50       		.byte	0x50
+ 1910 07ca 03       		.uleb128 0x3
+ 1911 07cb 0A       		.byte	0xa
+ 1912 07cc B80B     		.2byte	0xbb8
+ 1913 07ce 00       		.byte	0
+ 1914 07cf 0E       		.uleb128 0xe
+ 1915 07d0 6A030000 		.4byte	.LVL126
+ 1916 07d4 9D090000 		.4byte	0x99d
+ 1917 07d8 0E       		.uleb128 0xe
+ 1918 07d9 6E030000 		.4byte	.LVL127
+ 1919 07dd A4090000 		.4byte	0x9a4
+ 1920 07e1 0F       		.uleb128 0xf
+ 1921 07e2 80030000 		.4byte	.LVL129
+ 1922 07e6 2C0B0000 		.4byte	0xb2c
+ 1923 07ea F5070000 		.4byte	0x7f5
+ 1924 07ee 10       		.uleb128 0x10
+ 1925 07ef 01       		.uleb128 0x1
+ 1926 07f0 50       		.byte	0x50
+ 1927 07f1 02       		.uleb128 0x2
+ 1928 07f2 78       		.byte	0x78
+ 1929 07f3 00       		.sleb128 0
+ 1930 07f4 00       		.byte	0
+ 1931 07f5 0E       		.uleb128 0xe
+ 1932 07f6 88030000 		.4byte	.LVL131
+ 1933 07fa 070A0000 		.4byte	0xa07
+ 1934 07fe 0E       		.uleb128 0xe
+ 1935 07ff 8E030000 		.4byte	.LVL132
+ 1936 0803 D7090000 		.4byte	0x9d7
+ 1937 0807 0E       		.uleb128 0xe
+ 1938 0808 96030000 		.4byte	.LVL133
+ 1939 080c 070A0000 		.4byte	0xa07
+ 1940 0810 0E       		.uleb128 0xe
+ 1941 0811 9C030000 		.4byte	.LVL134
+ 1942 0815 D7090000 		.4byte	0x9d7
+ 1943 0819 0E       		.uleb128 0xe
+ 1944 081a A2030000 		.4byte	.LVL135
+ 1945 081e 070A0000 		.4byte	0xa07
+ 1946 0822 0E       		.uleb128 0xe
+ 1947 0823 A8030000 		.4byte	.LVL136
+ 1948 0827 D7090000 		.4byte	0x9d7
+ 1949 082b 0F       		.uleb128 0xf
+ 1950 082c F6030000 		.4byte	.LVL137
+ 1951 0830 FD0A0000 		.4byte	0xafd
+ 1952 0834 7D080000 		.4byte	0x87d
+ 1953 0838 10       		.uleb128 0x10
+ 1954 0839 01       		.uleb128 0x1
+ 1955 083a 52       		.byte	0x52
+ 1956 083b 0C       		.uleb128 0xc
+ 1957 083c 76       		.byte	0x76
+ 1958 083d 00       		.sleb128 0
+ 1959 083e 4F       		.byte	0x4f
+ 1960 083f 25       		.byte	0x25
+ 1961 0840 76       		.byte	0x76
+ 1962 0841 00       		.sleb128 0
+ 1963 0842 22       		.byte	0x22
+ 1964 0843 31       		.byte	0x31
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 40
+
+
+ 1965 0844 26       		.byte	0x26
+ 1966 0845 74       		.byte	0x74
+ 1967 0846 00       		.sleb128 0
+ 1968 0847 1C       		.byte	0x1c
+ 1969 0848 10       		.uleb128 0x10
+ 1970 0849 01       		.uleb128 0x1
+ 1971 084a 51       		.byte	0x51
+ 1972 084b 0C       		.uleb128 0xc
+ 1973 084c 77       		.byte	0x77
+ 1974 084d 00       		.sleb128 0
+ 1975 084e 4F       		.byte	0x4f
+ 1976 084f 25       		.byte	0x25
+ 1977 0850 77       		.byte	0x77
+ 1978 0851 00       		.sleb128 0
+ 1979 0852 22       		.byte	0x22
+ 1980 0853 31       		.byte	0x31
+ 1981 0854 26       		.byte	0x26
+ 1982 0855 74       		.byte	0x74
+ 1983 0856 00       		.sleb128 0
+ 1984 0857 1C       		.byte	0x1c
+ 1985 0858 10       		.uleb128 0x10
+ 1986 0859 01       		.uleb128 0x1
+ 1987 085a 50       		.byte	0x50
+ 1988 085b 02       		.uleb128 0x2
+ 1989 085c 7A       		.byte	0x7a
+ 1990 085d 00       		.sleb128 0
+ 1991 085e 10       		.uleb128 0x10
+ 1992 085f 02       		.uleb128 0x2
+ 1993 0860 7D       		.byte	0x7d
+ 1994 0861 08       		.sleb128 8
+ 1995 0862 01       		.uleb128 0x1
+ 1996 0863 31       		.byte	0x31
+ 1997 0864 10       		.uleb128 0x10
+ 1998 0865 02       		.uleb128 0x2
+ 1999 0866 7D       		.byte	0x7d
+ 2000 0867 04       		.sleb128 4
+ 2001 0868 02       		.uleb128 0x2
+ 2002 0869 75       		.byte	0x75
+ 2003 086a 00       		.sleb128 0
+ 2004 086b 10       		.uleb128 0x10
+ 2005 086c 02       		.uleb128 0x2
+ 2006 086d 7D       		.byte	0x7d
+ 2007 086e 00       		.sleb128 0
+ 2008 086f 0C       		.uleb128 0xc
+ 2009 0870 79       		.byte	0x79
+ 2010 0871 00       		.sleb128 0
+ 2011 0872 4F       		.byte	0x4f
+ 2012 0873 25       		.byte	0x25
+ 2013 0874 79       		.byte	0x79
+ 2014 0875 00       		.sleb128 0
+ 2015 0876 22       		.byte	0x22
+ 2016 0877 31       		.byte	0x31
+ 2017 0878 26       		.byte	0x26
+ 2018 0879 74       		.byte	0x74
+ 2019 087a 00       		.sleb128 0
+ 2020 087b 22       		.byte	0x22
+ 2021 087c 00       		.byte	0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 41
+
+
+ 2022 087d 0E       		.uleb128 0xe
+ 2023 087e FA030000 		.4byte	.LVL138
+ 2024 0882 A4090000 		.4byte	0x9a4
+ 2025 0886 0F       		.uleb128 0xf
+ 2026 0887 00040000 		.4byte	.LVL139
+ 2027 088b C6090000 		.4byte	0x9c6
+ 2028 088f 9A080000 		.4byte	0x89a
+ 2029 0893 10       		.uleb128 0x10
+ 2030 0894 01       		.uleb128 0x1
+ 2031 0895 50       		.byte	0x50
+ 2032 0896 02       		.uleb128 0x2
+ 2033 0897 08       		.byte	0x8
+ 2034 0898 C8       		.byte	0xc8
+ 2035 0899 00       		.byte	0
+ 2036 089a 0E       		.uleb128 0xe
+ 2037 089b 0A040000 		.4byte	.LVL142
+ 2038 089f 070A0000 		.4byte	0xa07
+ 2039 08a3 0E       		.uleb128 0xe
+ 2040 08a4 10040000 		.4byte	.LVL143
+ 2041 08a8 D7090000 		.4byte	0x9d7
+ 2042 08ac 0E       		.uleb128 0xe
+ 2043 08ad 18040000 		.4byte	.LVL144
+ 2044 08b1 070A0000 		.4byte	0xa07
+ 2045 08b5 0E       		.uleb128 0xe
+ 2046 08b6 34040000 		.4byte	.LVL145
+ 2047 08ba D7090000 		.4byte	0x9d7
+ 2048 08be 0F       		.uleb128 0xf
+ 2049 08bf 54040000 		.4byte	.LVL147
+ 2050 08c3 C6090000 		.4byte	0x9c6
+ 2051 08c7 D3080000 		.4byte	0x8d3
+ 2052 08cb 10       		.uleb128 0x10
+ 2053 08cc 01       		.uleb128 0x1
+ 2054 08cd 50       		.byte	0x50
+ 2055 08ce 03       		.uleb128 0x3
+ 2056 08cf 0A       		.byte	0xa
+ 2057 08d0 B80B     		.2byte	0xbb8
+ 2058 08d2 00       		.byte	0
+ 2059 08d3 0F       		.uleb128 0xf
+ 2060 08d4 5A040000 		.4byte	.LVL148
+ 2061 08d8 3D0B0000 		.4byte	0xb3d
+ 2062 08dc E6080000 		.4byte	0x8e6
+ 2063 08e0 10       		.uleb128 0x10
+ 2064 08e1 01       		.uleb128 0x1
+ 2065 08e2 50       		.byte	0x50
+ 2066 08e3 01       		.uleb128 0x1
+ 2067 08e4 31       		.byte	0x31
+ 2068 08e5 00       		.byte	0
+ 2069 08e6 0F       		.uleb128 0xf
+ 2070 08e7 62040000 		.4byte	.LVL149
+ 2071 08eb C6090000 		.4byte	0x9c6
+ 2072 08ef FB080000 		.4byte	0x8fb
+ 2073 08f3 10       		.uleb128 0x10
+ 2074 08f4 01       		.uleb128 0x1
+ 2075 08f5 50       		.byte	0x50
+ 2076 08f6 03       		.uleb128 0x3
+ 2077 08f7 0A       		.byte	0xa
+ 2078 08f8 E803     		.2byte	0x3e8
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 42
+
+
+ 2079 08fa 00       		.byte	0
+ 2080 08fb 0F       		.uleb128 0xf
+ 2081 08fc 6E040000 		.4byte	.LVL151
+ 2082 0900 4E0B0000 		.4byte	0xb4e
+ 2083 0904 0F090000 		.4byte	0x90f
+ 2084 0908 10       		.uleb128 0x10
+ 2085 0909 01       		.uleb128 0x1
+ 2086 090a 50       		.byte	0x50
+ 2087 090b 02       		.uleb128 0x2
+ 2088 090c 74       		.byte	0x74
+ 2089 090d 00       		.sleb128 0
+ 2090 090e 00       		.byte	0
+ 2091 090f 0F       		.uleb128 0xf
+ 2092 0910 74040000 		.4byte	.LVL152
+ 2093 0914 C6090000 		.4byte	0x9c6
+ 2094 0918 22090000 		.4byte	0x922
+ 2095 091c 10       		.uleb128 0x10
+ 2096 091d 01       		.uleb128 0x1
+ 2097 091e 50       		.byte	0x50
+ 2098 091f 01       		.uleb128 0x1
+ 2099 0920 3A       		.byte	0x3a
+ 2100 0921 00       		.byte	0
+ 2101 0922 0F       		.uleb128 0xf
+ 2102 0923 84040000 		.4byte	.LVL155
+ 2103 0927 3D0B0000 		.4byte	0xb3d
+ 2104 092b 35090000 		.4byte	0x935
+ 2105 092f 10       		.uleb128 0x10
+ 2106 0930 01       		.uleb128 0x1
+ 2107 0931 50       		.byte	0x50
+ 2108 0932 01       		.uleb128 0x1
+ 2109 0933 30       		.byte	0x30
+ 2110 0934 00       		.byte	0
+ 2111 0935 0F       		.uleb128 0xf
+ 2112 0936 8C040000 		.4byte	.LVL156
+ 2113 093a C6090000 		.4byte	0x9c6
+ 2114 093e 4A090000 		.4byte	0x94a
+ 2115 0942 10       		.uleb128 0x10
+ 2116 0943 01       		.uleb128 0x1
+ 2117 0944 50       		.byte	0x50
+ 2118 0945 03       		.uleb128 0x3
+ 2119 0946 0A       		.byte	0xa
+ 2120 0947 E803     		.2byte	0x3e8
+ 2121 0949 00       		.byte	0
+ 2122 094a 0F       		.uleb128 0xf
+ 2123 094b 96040000 		.4byte	.LVL158
+ 2124 094f 4E0B0000 		.4byte	0xb4e
+ 2125 0953 5E090000 		.4byte	0x95e
+ 2126 0957 10       		.uleb128 0x10
+ 2127 0958 01       		.uleb128 0x1
+ 2128 0959 50       		.byte	0x50
+ 2129 095a 02       		.uleb128 0x2
+ 2130 095b 74       		.byte	0x74
+ 2131 095c 00       		.sleb128 0
+ 2132 095d 00       		.byte	0
+ 2133 095e 0F       		.uleb128 0xf
+ 2134 095f 9C040000 		.4byte	.LVL159
+ 2135 0963 C6090000 		.4byte	0x9c6
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 43
+
+
+ 2136 0967 71090000 		.4byte	0x971
+ 2137 096b 10       		.uleb128 0x10
+ 2138 096c 01       		.uleb128 0x1
+ 2139 096d 50       		.byte	0x50
+ 2140 096e 01       		.uleb128 0x1
+ 2141 096f 3A       		.byte	0x3a
+ 2142 0970 00       		.byte	0
+ 2143 0971 11       		.uleb128 0x11
+ 2144 0972 AC040000 		.4byte	.LVL162
+ 2145 0976 C6090000 		.4byte	0x9c6
+ 2146 097a 10       		.uleb128 0x10
+ 2147 097b 01       		.uleb128 0x1
+ 2148 097c 50       		.byte	0x50
+ 2149 097d 03       		.uleb128 0x3
+ 2150 097e 0A       		.byte	0xa
+ 2151 097f B80B     		.2byte	0xbb8
+ 2152 0981 00       		.byte	0
+ 2153 0982 00       		.byte	0
+ 2154 0983 0E       		.uleb128 0xe
+ 2155 0984 10000000 		.4byte	.LVL0
+ 2156 0988 5F0B0000 		.4byte	0xb5f
+ 2157 098c 11       		.uleb128 0x11
+ 2158 098d 18000000 		.4byte	.LVL1
+ 2159 0991 660B0000 		.4byte	0xb66
+ 2160 0995 10       		.uleb128 0x10
+ 2161 0996 01       		.uleb128 0x1
+ 2162 0997 50       		.byte	0x50
+ 2163 0998 02       		.uleb128 0x2
+ 2164 0999 08       		.byte	0x8
+ 2165 099a 3C       		.byte	0x3c
+ 2166 099b 00       		.byte	0
+ 2167 099c 00       		.byte	0
+ 2168 099d 12       		.uleb128 0x12
+ 2169 099e F3010000 		.4byte	.LASF42
+ 2170 09a2 05       		.byte	0x5
+ 2171 09a3 38       		.byte	0x38
+ 2172 09a4 12       		.uleb128 0x12
+ 2173 09a5 74020000 		.4byte	.LASF43
+ 2174 09a9 05       		.byte	0x5
+ 2175 09aa 37       		.byte	0x37
+ 2176 09ab 13       		.uleb128 0x13
+ 2177 09ac 00000000 		.4byte	.LASF44
+ 2178 09b0 05       		.byte	0x5
+ 2179 09b1 41       		.byte	0x41
+ 2180 09b2 C6090000 		.4byte	0x9c6
+ 2181 09b6 14       		.uleb128 0x14
+ 2182 09b7 97000000 		.4byte	0x97
+ 2183 09bb 14       		.uleb128 0x14
+ 2184 09bc 97000000 		.4byte	0x97
+ 2185 09c0 14       		.uleb128 0x14
+ 2186 09c1 A2000000 		.4byte	0xa2
+ 2187 09c5 00       		.byte	0
+ 2188 09c6 13       		.uleb128 0x13
+ 2189 09c7 C4020000 		.4byte	.LASF45
+ 2190 09cb 06       		.byte	0x6
+ 2191 09cc D9       		.byte	0xd9
+ 2192 09cd D7090000 		.4byte	0x9d7
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 44
+
+
+ 2193 09d1 14       		.uleb128 0x14
+ 2194 09d2 AD000000 		.4byte	0xad
+ 2195 09d6 00       		.byte	0
+ 2196 09d7 15       		.uleb128 0x15
+ 2197 09d8 DB020000 		.4byte	.LASF47
+ 2198 09dc 05       		.byte	0x5
+ 2199 09dd 49       		.byte	0x49
+ 2200 09de 97000000 		.4byte	0x97
+ 2201 09e2 13       		.uleb128 0x13
+ 2202 09e3 4E010000 		.4byte	.LASF46
+ 2203 09e7 05       		.byte	0x5
+ 2204 09e8 42       		.byte	0x42
+ 2205 09e9 070A0000 		.4byte	0xa07
+ 2206 09ed 14       		.uleb128 0x14
+ 2207 09ee 97000000 		.4byte	0x97
+ 2208 09f2 14       		.uleb128 0x14
+ 2209 09f3 97000000 		.4byte	0x97
+ 2210 09f7 14       		.uleb128 0x14
+ 2211 09f8 97000000 		.4byte	0x97
+ 2212 09fc 14       		.uleb128 0x14
+ 2213 09fd 97000000 		.4byte	0x97
+ 2214 0a01 14       		.uleb128 0x14
+ 2215 0a02 A2000000 		.4byte	0xa2
+ 2216 0a06 00       		.byte	0
+ 2217 0a07 15       		.uleb128 0x15
+ 2218 0a08 E9010000 		.4byte	.LASF48
+ 2219 0a0c 05       		.byte	0x5
+ 2220 0a0d 48       		.byte	0x48
+ 2221 0a0e 97000000 		.4byte	0x97
+ 2222 0a12 13       		.uleb128 0x13
+ 2223 0a13 01010000 		.4byte	.LASF49
+ 2224 0a17 05       		.byte	0x5
+ 2225 0a18 44       		.byte	0x44
+ 2226 0a19 230A0000 		.4byte	0xa23
+ 2227 0a1d 14       		.uleb128 0x14
+ 2228 0a1e 8C000000 		.4byte	0x8c
+ 2229 0a22 00       		.byte	0
+ 2230 0a23 13       		.uleb128 0x13
+ 2231 0a24 A6000000 		.4byte	.LASF50
+ 2232 0a28 05       		.byte	0x5
+ 2233 0a29 45       		.byte	0x45
+ 2234 0a2a 340A0000 		.4byte	0xa34
+ 2235 0a2e 14       		.uleb128 0x14
+ 2236 0a2f A2000000 		.4byte	0xa2
+ 2237 0a33 00       		.byte	0
+ 2238 0a34 13       		.uleb128 0x13
+ 2239 0a35 18040000 		.4byte	.LASF51
+ 2240 0a39 05       		.byte	0x5
+ 2241 0a3a 43       		.byte	0x43
+ 2242 0a3b 4A0A0000 		.4byte	0xa4a
+ 2243 0a3f 14       		.uleb128 0x14
+ 2244 0a40 97000000 		.4byte	0x97
+ 2245 0a44 14       		.uleb128 0x14
+ 2246 0a45 97000000 		.4byte	0x97
+ 2247 0a49 00       		.byte	0
+ 2248 0a4a 13       		.uleb128 0x13
+ 2249 0a4b 14020000 		.4byte	.LASF52
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 45
+
+
+ 2250 0a4f 05       		.byte	0x5
+ 2251 0a50 47       		.byte	0x47
+ 2252 0a51 5B0A0000 		.4byte	0xa5b
+ 2253 0a55 14       		.uleb128 0x14
+ 2254 0a56 8C000000 		.4byte	0x8c
+ 2255 0a5a 00       		.byte	0
+ 2256 0a5b 13       		.uleb128 0x13
+ 2257 0a5c 82000000 		.4byte	.LASF53
+ 2258 0a60 05       		.byte	0x5
+ 2259 0a61 4B       		.byte	0x4b
+ 2260 0a62 6C0A0000 		.4byte	0xa6c
+ 2261 0a66 14       		.uleb128 0x14
+ 2262 0a67 D5000000 		.4byte	0xd5
+ 2263 0a6b 00       		.byte	0
+ 2264 0a6c 13       		.uleb128 0x13
+ 2265 0a6d EE020000 		.4byte	.LASF54
+ 2266 0a71 05       		.byte	0x5
+ 2267 0a72 3A       		.byte	0x3a
+ 2268 0a73 8C0A0000 		.4byte	0xa8c
+ 2269 0a77 14       		.uleb128 0x14
+ 2270 0a78 7D010000 		.4byte	0x17d
+ 2271 0a7c 14       		.uleb128 0x14
+ 2272 0a7d 7D010000 		.4byte	0x17d
+ 2273 0a81 14       		.uleb128 0x14
+ 2274 0a82 F5000000 		.4byte	0xf5
+ 2275 0a86 14       		.uleb128 0x14
+ 2276 0a87 39010000 		.4byte	0x139
+ 2277 0a8b 00       		.byte	0
+ 2278 0a8c 12       		.uleb128 0x12
+ 2279 0a8d 0E000000 		.4byte	.LASF55
+ 2280 0a91 05       		.byte	0x5
+ 2281 0a92 39       		.byte	0x39
+ 2282 0a93 13       		.uleb128 0x13
+ 2283 0a94 32000000 		.4byte	.LASF56
+ 2284 0a98 05       		.byte	0x5
+ 2285 0a99 4C       		.byte	0x4c
+ 2286 0a9a B80A0000 		.4byte	0xab8
+ 2287 0a9e 14       		.uleb128 0x14
+ 2288 0a9f 97000000 		.4byte	0x97
+ 2289 0aa3 14       		.uleb128 0x14
+ 2290 0aa4 97000000 		.4byte	0x97
+ 2291 0aa8 14       		.uleb128 0x14
+ 2292 0aa9 97000000 		.4byte	0x97
+ 2293 0aad 14       		.uleb128 0x14
+ 2294 0aae 97000000 		.4byte	0x97
+ 2295 0ab2 14       		.uleb128 0x14
+ 2296 0ab3 A2000000 		.4byte	0xa2
+ 2297 0ab7 00       		.byte	0
+ 2298 0ab8 13       		.uleb128 0x13
+ 2299 0ab9 D3000000 		.4byte	.LASF57
+ 2300 0abd 05       		.byte	0x5
+ 2301 0abe 4D       		.byte	0x4d
+ 2302 0abf DD0A0000 		.4byte	0xadd
+ 2303 0ac3 14       		.uleb128 0x14
+ 2304 0ac4 97000000 		.4byte	0x97
+ 2305 0ac8 14       		.uleb128 0x14
+ 2306 0ac9 97000000 		.4byte	0x97
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 46
+
+
+ 2307 0acd 14       		.uleb128 0x14
+ 2308 0ace 97000000 		.4byte	0x97
+ 2309 0ad2 14       		.uleb128 0x14
+ 2310 0ad3 97000000 		.4byte	0x97
+ 2311 0ad7 14       		.uleb128 0x14
+ 2312 0ad8 A2000000 		.4byte	0xa2
+ 2313 0adc 00       		.byte	0
+ 2314 0add 13       		.uleb128 0x13
+ 2315 0ade 8E000000 		.4byte	.LASF58
+ 2316 0ae2 05       		.byte	0x5
+ 2317 0ae3 4E       		.byte	0x4e
+ 2318 0ae4 FD0A0000 		.4byte	0xafd
+ 2319 0ae8 14       		.uleb128 0x14
+ 2320 0ae9 97000000 		.4byte	0x97
+ 2321 0aed 14       		.uleb128 0x14
+ 2322 0aee 97000000 		.4byte	0x97
+ 2323 0af2 14       		.uleb128 0x14
+ 2324 0af3 97000000 		.4byte	0x97
+ 2325 0af7 14       		.uleb128 0x14
+ 2326 0af8 A2000000 		.4byte	0xa2
+ 2327 0afc 00       		.byte	0
+ 2328 0afd 13       		.uleb128 0x13
+ 2329 0afe 99020000 		.4byte	.LASF59
+ 2330 0b02 05       		.byte	0x5
+ 2331 0b03 4F       		.byte	0x4f
+ 2332 0b04 2C0B0000 		.4byte	0xb2c
+ 2333 0b08 14       		.uleb128 0x14
+ 2334 0b09 97000000 		.4byte	0x97
+ 2335 0b0d 14       		.uleb128 0x14
+ 2336 0b0e 97000000 		.4byte	0x97
+ 2337 0b12 14       		.uleb128 0x14
+ 2338 0b13 97000000 		.4byte	0x97
+ 2339 0b17 14       		.uleb128 0x14
+ 2340 0b18 97000000 		.4byte	0x97
+ 2341 0b1c 14       		.uleb128 0x14
+ 2342 0b1d 97000000 		.4byte	0x97
+ 2343 0b21 14       		.uleb128 0x14
+ 2344 0b22 97000000 		.4byte	0x97
+ 2345 0b26 14       		.uleb128 0x14
+ 2346 0b27 A2000000 		.4byte	0xa2
+ 2347 0b2b 00       		.byte	0
+ 2348 0b2c 13       		.uleb128 0x13
+ 2349 0b2d E7000000 		.4byte	.LASF60
+ 2350 0b31 05       		.byte	0x5
+ 2351 0b32 50       		.byte	0x50
+ 2352 0b33 3D0B0000 		.4byte	0xb3d
+ 2353 0b37 14       		.uleb128 0x14
+ 2354 0b38 8C000000 		.4byte	0x8c
+ 2355 0b3c 00       		.byte	0
+ 2356 0b3d 13       		.uleb128 0x13
+ 2357 0b3e CC020000 		.4byte	.LASF61
+ 2358 0b42 05       		.byte	0x5
+ 2359 0b43 3C       		.byte	0x3c
+ 2360 0b44 4E0B0000 		.4byte	0xb4e
+ 2361 0b48 14       		.uleb128 0x14
+ 2362 0b49 8C000000 		.4byte	0x8c
+ 2363 0b4d 00       		.byte	0
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 47
+
+
+ 2364 0b4e 13       		.uleb128 0x13
+ 2365 0b4f 21000000 		.4byte	.LASF62
+ 2366 0b53 05       		.byte	0x5
+ 2367 0b54 3B       		.byte	0x3b
+ 2368 0b55 5F0B0000 		.4byte	0xb5f
+ 2369 0b59 14       		.uleb128 0x14
+ 2370 0b5a 8C000000 		.4byte	0x8c
+ 2371 0b5e 00       		.byte	0
+ 2372 0b5f 12       		.uleb128 0x12
+ 2373 0b60 62010000 		.4byte	.LASF63
+ 2374 0b64 07       		.byte	0x7
+ 2375 0b65 6E       		.byte	0x6e
+ 2376 0b66 16       		.uleb128 0x16
+ 2377 0b67 B7020000 		.4byte	.LASF68
+ 2378 0b6b 05       		.byte	0x5
+ 2379 0b6c 36       		.byte	0x36
+ 2380 0b6d 14       		.uleb128 0x14
+ 2381 0b6e 8C000000 		.4byte	0x8c
+ 2382 0b72 00       		.byte	0
+ 2383 0b73 00       		.byte	0
+ 2384              		.section	.debug_abbrev,"",%progbits
+ 2385              	.Ldebug_abbrev0:
+ 2386 0000 01       		.uleb128 0x1
+ 2387 0001 11       		.uleb128 0x11
+ 2388 0002 01       		.byte	0x1
+ 2389 0003 25       		.uleb128 0x25
+ 2390 0004 0E       		.uleb128 0xe
+ 2391 0005 13       		.uleb128 0x13
+ 2392 0006 0B       		.uleb128 0xb
+ 2393 0007 03       		.uleb128 0x3
+ 2394 0008 0E       		.uleb128 0xe
+ 2395 0009 1B       		.uleb128 0x1b
+ 2396 000a 0E       		.uleb128 0xe
+ 2397 000b 55       		.uleb128 0x55
+ 2398 000c 17       		.uleb128 0x17
+ 2399 000d 11       		.uleb128 0x11
+ 2400 000e 01       		.uleb128 0x1
+ 2401 000f 10       		.uleb128 0x10
+ 2402 0010 17       		.uleb128 0x17
+ 2403 0011 00       		.byte	0
+ 2404 0012 00       		.byte	0
+ 2405 0013 02       		.uleb128 0x2
+ 2406 0014 24       		.uleb128 0x24
+ 2407 0015 00       		.byte	0
+ 2408 0016 0B       		.uleb128 0xb
+ 2409 0017 0B       		.uleb128 0xb
+ 2410 0018 3E       		.uleb128 0x3e
+ 2411 0019 0B       		.uleb128 0xb
+ 2412 001a 03       		.uleb128 0x3
+ 2413 001b 0E       		.uleb128 0xe
+ 2414 001c 00       		.byte	0
+ 2415 001d 00       		.byte	0
+ 2416 001e 03       		.uleb128 0x3
+ 2417 001f 16       		.uleb128 0x16
+ 2418 0020 00       		.byte	0
+ 2419 0021 03       		.uleb128 0x3
+ 2420 0022 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 48
+
+
+ 2421 0023 3A       		.uleb128 0x3a
+ 2422 0024 0B       		.uleb128 0xb
+ 2423 0025 3B       		.uleb128 0x3b
+ 2424 0026 0B       		.uleb128 0xb
+ 2425 0027 49       		.uleb128 0x49
+ 2426 0028 13       		.uleb128 0x13
+ 2427 0029 00       		.byte	0
+ 2428 002a 00       		.byte	0
+ 2429 002b 04       		.uleb128 0x4
+ 2430 002c 24       		.uleb128 0x24
+ 2431 002d 00       		.byte	0
+ 2432 002e 0B       		.uleb128 0xb
+ 2433 002f 0B       		.uleb128 0xb
+ 2434 0030 3E       		.uleb128 0x3e
+ 2435 0031 0B       		.uleb128 0xb
+ 2436 0032 03       		.uleb128 0x3
+ 2437 0033 08       		.uleb128 0x8
+ 2438 0034 00       		.byte	0
+ 2439 0035 00       		.byte	0
+ 2440 0036 05       		.uleb128 0x5
+ 2441 0037 16       		.uleb128 0x16
+ 2442 0038 00       		.byte	0
+ 2443 0039 03       		.uleb128 0x3
+ 2444 003a 0E       		.uleb128 0xe
+ 2445 003b 3A       		.uleb128 0x3a
+ 2446 003c 0B       		.uleb128 0xb
+ 2447 003d 3B       		.uleb128 0x3b
+ 2448 003e 05       		.uleb128 0x5
+ 2449 003f 49       		.uleb128 0x49
+ 2450 0040 13       		.uleb128 0x13
+ 2451 0041 00       		.byte	0
+ 2452 0042 00       		.byte	0
+ 2453 0043 06       		.uleb128 0x6
+ 2454 0044 0F       		.uleb128 0xf
+ 2455 0045 00       		.byte	0
+ 2456 0046 0B       		.uleb128 0xb
+ 2457 0047 0B       		.uleb128 0xb
+ 2458 0048 49       		.uleb128 0x49
+ 2459 0049 13       		.uleb128 0x13
+ 2460 004a 00       		.byte	0
+ 2461 004b 00       		.byte	0
+ 2462 004c 07       		.uleb128 0x7
+ 2463 004d 26       		.uleb128 0x26
+ 2464 004e 00       		.byte	0
+ 2465 004f 49       		.uleb128 0x49
+ 2466 0050 13       		.uleb128 0x13
+ 2467 0051 00       		.byte	0
+ 2468 0052 00       		.byte	0
+ 2469 0053 08       		.uleb128 0x8
+ 2470 0054 04       		.uleb128 0x4
+ 2471 0055 01       		.byte	0x1
+ 2472 0056 0B       		.uleb128 0xb
+ 2473 0057 0B       		.uleb128 0xb
+ 2474 0058 3A       		.uleb128 0x3a
+ 2475 0059 0B       		.uleb128 0xb
+ 2476 005a 3B       		.uleb128 0x3b
+ 2477 005b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 49
+
+
+ 2478 005c 01       		.uleb128 0x1
+ 2479 005d 13       		.uleb128 0x13
+ 2480 005e 00       		.byte	0
+ 2481 005f 00       		.byte	0
+ 2482 0060 09       		.uleb128 0x9
+ 2483 0061 28       		.uleb128 0x28
+ 2484 0062 00       		.byte	0
+ 2485 0063 03       		.uleb128 0x3
+ 2486 0064 0E       		.uleb128 0xe
+ 2487 0065 1C       		.uleb128 0x1c
+ 2488 0066 0D       		.uleb128 0xd
+ 2489 0067 00       		.byte	0
+ 2490 0068 00       		.byte	0
+ 2491 0069 0A       		.uleb128 0xa
+ 2492 006a 2E       		.uleb128 0x2e
+ 2493 006b 01       		.byte	0x1
+ 2494 006c 3F       		.uleb128 0x3f
+ 2495 006d 19       		.uleb128 0x19
+ 2496 006e 03       		.uleb128 0x3
+ 2497 006f 0E       		.uleb128 0xe
+ 2498 0070 3A       		.uleb128 0x3a
+ 2499 0071 0B       		.uleb128 0xb
+ 2500 0072 3B       		.uleb128 0x3b
+ 2501 0073 0B       		.uleb128 0xb
+ 2502 0074 49       		.uleb128 0x49
+ 2503 0075 13       		.uleb128 0x13
+ 2504 0076 11       		.uleb128 0x11
+ 2505 0077 01       		.uleb128 0x1
+ 2506 0078 12       		.uleb128 0x12
+ 2507 0079 06       		.uleb128 0x6
+ 2508 007a 40       		.uleb128 0x40
+ 2509 007b 18       		.uleb128 0x18
+ 2510 007c 9742     		.uleb128 0x2117
+ 2511 007e 19       		.uleb128 0x19
+ 2512 007f 01       		.uleb128 0x1
+ 2513 0080 13       		.uleb128 0x13
+ 2514 0081 00       		.byte	0
+ 2515 0082 00       		.byte	0
+ 2516 0083 0B       		.uleb128 0xb
+ 2517 0084 0B       		.uleb128 0xb
+ 2518 0085 01       		.byte	0x1
+ 2519 0086 11       		.uleb128 0x11
+ 2520 0087 01       		.uleb128 0x1
+ 2521 0088 12       		.uleb128 0x12
+ 2522 0089 06       		.uleb128 0x6
+ 2523 008a 01       		.uleb128 0x1
+ 2524 008b 13       		.uleb128 0x13
+ 2525 008c 00       		.byte	0
+ 2526 008d 00       		.byte	0
+ 2527 008e 0C       		.uleb128 0xc
+ 2528 008f 34       		.uleb128 0x34
+ 2529 0090 00       		.byte	0
+ 2530 0091 03       		.uleb128 0x3
+ 2531 0092 08       		.uleb128 0x8
+ 2532 0093 3A       		.uleb128 0x3a
+ 2533 0094 0B       		.uleb128 0xb
+ 2534 0095 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 50
+
+
+ 2535 0096 0B       		.uleb128 0xb
+ 2536 0097 49       		.uleb128 0x49
+ 2537 0098 13       		.uleb128 0x13
+ 2538 0099 02       		.uleb128 0x2
+ 2539 009a 17       		.uleb128 0x17
+ 2540 009b 00       		.byte	0
+ 2541 009c 00       		.byte	0
+ 2542 009d 0D       		.uleb128 0xd
+ 2543 009e 34       		.uleb128 0x34
+ 2544 009f 00       		.byte	0
+ 2545 00a0 03       		.uleb128 0x3
+ 2546 00a1 0E       		.uleb128 0xe
+ 2547 00a2 3A       		.uleb128 0x3a
+ 2548 00a3 0B       		.uleb128 0xb
+ 2549 00a4 3B       		.uleb128 0x3b
+ 2550 00a5 0B       		.uleb128 0xb
+ 2551 00a6 49       		.uleb128 0x49
+ 2552 00a7 13       		.uleb128 0x13
+ 2553 00a8 02       		.uleb128 0x2
+ 2554 00a9 17       		.uleb128 0x17
+ 2555 00aa 00       		.byte	0
+ 2556 00ab 00       		.byte	0
+ 2557 00ac 0E       		.uleb128 0xe
+ 2558 00ad 898201   		.uleb128 0x4109
+ 2559 00b0 00       		.byte	0
+ 2560 00b1 11       		.uleb128 0x11
+ 2561 00b2 01       		.uleb128 0x1
+ 2562 00b3 31       		.uleb128 0x31
+ 2563 00b4 13       		.uleb128 0x13
+ 2564 00b5 00       		.byte	0
+ 2565 00b6 00       		.byte	0
+ 2566 00b7 0F       		.uleb128 0xf
+ 2567 00b8 898201   		.uleb128 0x4109
+ 2568 00bb 01       		.byte	0x1
+ 2569 00bc 11       		.uleb128 0x11
+ 2570 00bd 01       		.uleb128 0x1
+ 2571 00be 31       		.uleb128 0x31
+ 2572 00bf 13       		.uleb128 0x13
+ 2573 00c0 01       		.uleb128 0x1
+ 2574 00c1 13       		.uleb128 0x13
+ 2575 00c2 00       		.byte	0
+ 2576 00c3 00       		.byte	0
+ 2577 00c4 10       		.uleb128 0x10
+ 2578 00c5 8A8201   		.uleb128 0x410a
+ 2579 00c8 00       		.byte	0
+ 2580 00c9 02       		.uleb128 0x2
+ 2581 00ca 18       		.uleb128 0x18
+ 2582 00cb 9142     		.uleb128 0x2111
+ 2583 00cd 18       		.uleb128 0x18
+ 2584 00ce 00       		.byte	0
+ 2585 00cf 00       		.byte	0
+ 2586 00d0 11       		.uleb128 0x11
+ 2587 00d1 898201   		.uleb128 0x4109
+ 2588 00d4 01       		.byte	0x1
+ 2589 00d5 11       		.uleb128 0x11
+ 2590 00d6 01       		.uleb128 0x1
+ 2591 00d7 31       		.uleb128 0x31
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 51
+
+
+ 2592 00d8 13       		.uleb128 0x13
+ 2593 00d9 00       		.byte	0
+ 2594 00da 00       		.byte	0
+ 2595 00db 12       		.uleb128 0x12
+ 2596 00dc 2E       		.uleb128 0x2e
+ 2597 00dd 00       		.byte	0
+ 2598 00de 3F       		.uleb128 0x3f
+ 2599 00df 19       		.uleb128 0x19
+ 2600 00e0 03       		.uleb128 0x3
+ 2601 00e1 0E       		.uleb128 0xe
+ 2602 00e2 3A       		.uleb128 0x3a
+ 2603 00e3 0B       		.uleb128 0xb
+ 2604 00e4 3B       		.uleb128 0x3b
+ 2605 00e5 0B       		.uleb128 0xb
+ 2606 00e6 27       		.uleb128 0x27
+ 2607 00e7 19       		.uleb128 0x19
+ 2608 00e8 3C       		.uleb128 0x3c
+ 2609 00e9 19       		.uleb128 0x19
+ 2610 00ea 00       		.byte	0
+ 2611 00eb 00       		.byte	0
+ 2612 00ec 13       		.uleb128 0x13
+ 2613 00ed 2E       		.uleb128 0x2e
+ 2614 00ee 01       		.byte	0x1
+ 2615 00ef 3F       		.uleb128 0x3f
+ 2616 00f0 19       		.uleb128 0x19
+ 2617 00f1 03       		.uleb128 0x3
+ 2618 00f2 0E       		.uleb128 0xe
+ 2619 00f3 3A       		.uleb128 0x3a
+ 2620 00f4 0B       		.uleb128 0xb
+ 2621 00f5 3B       		.uleb128 0x3b
+ 2622 00f6 0B       		.uleb128 0xb
+ 2623 00f7 27       		.uleb128 0x27
+ 2624 00f8 19       		.uleb128 0x19
+ 2625 00f9 3C       		.uleb128 0x3c
+ 2626 00fa 19       		.uleb128 0x19
+ 2627 00fb 01       		.uleb128 0x1
+ 2628 00fc 13       		.uleb128 0x13
+ 2629 00fd 00       		.byte	0
+ 2630 00fe 00       		.byte	0
+ 2631 00ff 14       		.uleb128 0x14
+ 2632 0100 05       		.uleb128 0x5
+ 2633 0101 00       		.byte	0
+ 2634 0102 49       		.uleb128 0x49
+ 2635 0103 13       		.uleb128 0x13
+ 2636 0104 00       		.byte	0
+ 2637 0105 00       		.byte	0
+ 2638 0106 15       		.uleb128 0x15
+ 2639 0107 2E       		.uleb128 0x2e
+ 2640 0108 00       		.byte	0
+ 2641 0109 3F       		.uleb128 0x3f
+ 2642 010a 19       		.uleb128 0x19
+ 2643 010b 03       		.uleb128 0x3
+ 2644 010c 0E       		.uleb128 0xe
+ 2645 010d 3A       		.uleb128 0x3a
+ 2646 010e 0B       		.uleb128 0xb
+ 2647 010f 3B       		.uleb128 0x3b
+ 2648 0110 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 52
+
+
+ 2649 0111 27       		.uleb128 0x27
+ 2650 0112 19       		.uleb128 0x19
+ 2651 0113 49       		.uleb128 0x49
+ 2652 0114 13       		.uleb128 0x13
+ 2653 0115 3C       		.uleb128 0x3c
+ 2654 0116 19       		.uleb128 0x19
+ 2655 0117 00       		.byte	0
+ 2656 0118 00       		.byte	0
+ 2657 0119 16       		.uleb128 0x16
+ 2658 011a 2E       		.uleb128 0x2e
+ 2659 011b 01       		.byte	0x1
+ 2660 011c 3F       		.uleb128 0x3f
+ 2661 011d 19       		.uleb128 0x19
+ 2662 011e 03       		.uleb128 0x3
+ 2663 011f 0E       		.uleb128 0xe
+ 2664 0120 3A       		.uleb128 0x3a
+ 2665 0121 0B       		.uleb128 0xb
+ 2666 0122 3B       		.uleb128 0x3b
+ 2667 0123 0B       		.uleb128 0xb
+ 2668 0124 27       		.uleb128 0x27
+ 2669 0125 19       		.uleb128 0x19
+ 2670 0126 3C       		.uleb128 0x3c
+ 2671 0127 19       		.uleb128 0x19
+ 2672 0128 00       		.byte	0
+ 2673 0129 00       		.byte	0
+ 2674 012a 00       		.byte	0
+ 2675              		.section	.debug_loc,"",%progbits
+ 2676              	.Ldebug_loc0:
+ 2677              	.LLST0:
+ 2678 0000 3E000000 		.4byte	.LVL8
+ 2679 0004 42000000 		.4byte	.LVL9
+ 2680 0008 0200     		.2byte	0x2
+ 2681 000a 30       		.byte	0x30
+ 2682 000b 9F       		.byte	0x9f
+ 2683 000c 42000000 		.4byte	.LVL9
+ 2684 0010 5E000000 		.4byte	.LVL13
+ 2685 0014 0100     		.2byte	0x1
+ 2686 0016 54       		.byte	0x54
+ 2687 0017 60000000 		.4byte	.LVL14
+ 2688 001b 6C000000 		.4byte	.LVL16
+ 2689 001f 0100     		.2byte	0x1
+ 2690 0021 54       		.byte	0x54
+ 2691 0022 6C000000 		.4byte	.LVL16
+ 2692 0026 6E000000 		.4byte	.LVL17
+ 2693 002a 0100     		.2byte	0x1
+ 2694 002c 53       		.byte	0x53
+ 2695 002d 6E000000 		.4byte	.LVL17
+ 2696 0031 8A000000 		.4byte	.LVL21
+ 2697 0035 0100     		.2byte	0x1
+ 2698 0037 54       		.byte	0x54
+ 2699 0038 8C000000 		.4byte	.LVL22
+ 2700 003c B8000000 		.4byte	.LVL29
+ 2701 0040 0100     		.2byte	0x1
+ 2702 0042 54       		.byte	0x54
+ 2703 0043 B8000000 		.4byte	.LVL29
+ 2704 0047 BC000000 		.4byte	.LVL30
+ 2705 004b 0200     		.2byte	0x2
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 53
+
+
+ 2706 004d 30       		.byte	0x30
+ 2707 004e 9F       		.byte	0x9f
+ 2708 004f BC000000 		.4byte	.LVL30
+ 2709 0053 CA000000 		.4byte	.LVL32
+ 2710 0057 0100     		.2byte	0x1
+ 2711 0059 54       		.byte	0x54
+ 2712 005a CC000000 		.4byte	.LVL33
+ 2713 005e D8000000 		.4byte	.LVL35
+ 2714 0062 0100     		.2byte	0x1
+ 2715 0064 54       		.byte	0x54
+ 2716 0065 6A010000 		.4byte	.LVL61
+ 2717 0069 6E010000 		.4byte	.LVL62
+ 2718 006d 0200     		.2byte	0x2
+ 2719 006f 31       		.byte	0x31
+ 2720 0070 9F       		.byte	0x9f
+ 2721 0071 6E010000 		.4byte	.LVL62
+ 2722 0075 76010000 		.4byte	.LVL64
+ 2723 0079 0100     		.2byte	0x1
+ 2724 007b 54       		.byte	0x54
+ 2725 007c 78010000 		.4byte	.LVL65
+ 2726 0080 90010000 		.4byte	.LVL68
+ 2727 0084 0100     		.2byte	0x1
+ 2728 0086 54       		.byte	0x54
+ 2729 0087 C0010000 		.4byte	.LVL76
+ 2730 008b C4010000 		.4byte	.LVL77
+ 2731 008f 0200     		.2byte	0x2
+ 2732 0091 30       		.byte	0x30
+ 2733 0092 9F       		.byte	0x9f
+ 2734 0093 C4010000 		.4byte	.LVL77
+ 2735 0097 14020000 		.4byte	.LVL86
+ 2736 009b 0100     		.2byte	0x1
+ 2737 009d 54       		.byte	0x54
+ 2738 009e 14020000 		.4byte	.LVL86
+ 2739 00a2 1A020000 		.4byte	.LVL87
+ 2740 00a6 0200     		.2byte	0x2
+ 2741 00a8 30       		.byte	0x30
+ 2742 00a9 9F       		.byte	0x9f
+ 2743 00aa 1A020000 		.4byte	.LVL87
+ 2744 00ae 72020000 		.4byte	.LVL98
+ 2745 00b2 0100     		.2byte	0x1
+ 2746 00b4 54       		.byte	0x54
+ 2747 00b5 72020000 		.4byte	.LVL98
+ 2748 00b9 76020000 		.4byte	.LVL99
+ 2749 00bd 0200     		.2byte	0x2
+ 2750 00bf 30       		.byte	0x30
+ 2751 00c0 9F       		.byte	0x9f
+ 2752 00c1 76020000 		.4byte	.LVL99
+ 2753 00c5 A0020000 		.4byte	.LVL104
+ 2754 00c9 0100     		.2byte	0x1
+ 2755 00cb 55       		.byte	0x55
+ 2756 00cc A2020000 		.4byte	.LVL105
+ 2757 00d0 BA020000 		.4byte	.LVL109
+ 2758 00d4 0100     		.2byte	0x1
+ 2759 00d6 55       		.byte	0x55
+ 2760 00d7 BA020000 		.4byte	.LVL109
+ 2761 00db BE020000 		.4byte	.LVL110
+ 2762 00df 0200     		.2byte	0x2
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 54
+
+
+ 2763 00e1 30       		.byte	0x30
+ 2764 00e2 9F       		.byte	0x9f
+ 2765 00e3 BE020000 		.4byte	.LVL110
+ 2766 00e7 34030000 		.4byte	.LVL119
+ 2767 00eb 0100     		.2byte	0x1
+ 2768 00ed 54       		.byte	0x54
+ 2769 00ee 34030000 		.4byte	.LVL119
+ 2770 00f2 36030000 		.4byte	.LVL120
+ 2771 00f6 0300     		.2byte	0x3
+ 2772 00f8 74       		.byte	0x74
+ 2773 00f9 7B       		.sleb128 -5
+ 2774 00fa 9F       		.byte	0x9f
+ 2775 00fb 36030000 		.4byte	.LVL120
+ 2776 00ff 80030000 		.4byte	.LVL129
+ 2777 0103 0100     		.2byte	0x1
+ 2778 0105 54       		.byte	0x54
+ 2779 0106 80030000 		.4byte	.LVL129
+ 2780 010a 84030000 		.4byte	.LVL130
+ 2781 010e 0200     		.2byte	0x2
+ 2782 0110 30       		.byte	0x30
+ 2783 0111 9F       		.byte	0x9f
+ 2784 0112 84030000 		.4byte	.LVL130
+ 2785 0116 02040000 		.4byte	.LVL140
+ 2786 011a 0100     		.2byte	0x1
+ 2787 011c 54       		.byte	0x54
+ 2788 011d 02040000 		.4byte	.LVL140
+ 2789 0121 04040000 		.4byte	.LVL141
+ 2790 0125 0300     		.2byte	0x3
+ 2791 0127 74       		.byte	0x74
+ 2792 0128 7B       		.sleb128 -5
+ 2793 0129 9F       		.byte	0x9f
+ 2794 012a 04040000 		.4byte	.LVL141
+ 2795 012e 62040000 		.4byte	.LVL149
+ 2796 0132 0100     		.2byte	0x1
+ 2797 0134 54       		.byte	0x54
+ 2798 0135 62040000 		.4byte	.LVL149
+ 2799 0139 68040000 		.4byte	.LVL150
+ 2800 013d 0400     		.2byte	0x4
+ 2801 013f 0A       		.byte	0xa
+ 2802 0140 0001     		.2byte	0x100
+ 2803 0142 9F       		.byte	0x9f
+ 2804 0143 68040000 		.4byte	.LVL150
+ 2805 0147 76040000 		.4byte	.LVL153
+ 2806 014b 0100     		.2byte	0x1
+ 2807 014d 54       		.byte	0x54
+ 2808 014e 78040000 		.4byte	.LVL154
+ 2809 0152 8C040000 		.4byte	.LVL156
+ 2810 0156 0100     		.2byte	0x1
+ 2811 0158 54       		.byte	0x54
+ 2812 0159 8C040000 		.4byte	.LVL156
+ 2813 015d 90040000 		.4byte	.LVL157
+ 2814 0161 0200     		.2byte	0x2
+ 2815 0163 30       		.byte	0x30
+ 2816 0164 9F       		.byte	0x9f
+ 2817 0165 90040000 		.4byte	.LVL157
+ 2818 0169 9E040000 		.4byte	.LVL160
+ 2819 016d 0100     		.2byte	0x1
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 55
+
+
+ 2820 016f 54       		.byte	0x54
+ 2821 0170 A0040000 		.4byte	.LVL161
+ 2822 0174 B4040000 		.4byte	.LFE35
+ 2823 0178 0100     		.2byte	0x1
+ 2824 017a 54       		.byte	0x54
+ 2825 017b 00000000 		.4byte	0
+ 2826 017f 00000000 		.4byte	0
+ 2827              	.LLST1:
+ 2828 0183 14020000 		.4byte	.LVL86
+ 2829 0187 1A020000 		.4byte	.LVL87
+ 2830 018b 0200     		.2byte	0x2
+ 2831 018d 31       		.byte	0x31
+ 2832 018e 9F       		.byte	0x9f
+ 2833 018f 1A020000 		.4byte	.LVL87
+ 2834 0193 4C020000 		.4byte	.LVL92
+ 2835 0197 0100     		.2byte	0x1
+ 2836 0199 56       		.byte	0x56
+ 2837 019a 4E020000 		.4byte	.LVL93
+ 2838 019e BE020000 		.4byte	.LVL110
+ 2839 01a2 0100     		.2byte	0x1
+ 2840 01a4 56       		.byte	0x56
+ 2841 01a5 00000000 		.4byte	0
+ 2842 01a9 00000000 		.4byte	0
+ 2843              	.LLST2:
+ 2844 01ad 6E030000 		.4byte	.LVL127
+ 2845 01b1 74030000 		.4byte	.LVL128
+ 2846 01b5 0200     		.2byte	0x2
+ 2847 01b7 30       		.byte	0x30
+ 2848 01b8 9F       		.byte	0x9f
+ 2849 01b9 74030000 		.4byte	.LVL128
+ 2850 01bd B4040000 		.4byte	.LFE35
+ 2851 01c1 0100     		.2byte	0x1
+ 2852 01c3 58       		.byte	0x58
+ 2853 01c4 00000000 		.4byte	0
+ 2854 01c8 00000000 		.4byte	0
+ 2855              		.section	.debug_aranges,"",%progbits
+ 2856 0000 1C000000 		.4byte	0x1c
+ 2857 0004 0200     		.2byte	0x2
+ 2858 0006 00000000 		.4byte	.Ldebug_info0
+ 2859 000a 04       		.byte	0x4
+ 2860 000b 00       		.byte	0
+ 2861 000c 0000     		.2byte	0
+ 2862 000e 0000     		.2byte	0
+ 2863 0010 00000000 		.4byte	.LFB35
+ 2864 0014 B4040000 		.4byte	.LFE35-.LFB35
+ 2865 0018 00000000 		.4byte	0
+ 2866 001c 00000000 		.4byte	0
+ 2867              		.section	.debug_ranges,"",%progbits
+ 2868              	.Ldebug_ranges0:
+ 2869 0000 00000000 		.4byte	.LFB35
+ 2870 0004 B4040000 		.4byte	.LFE35
+ 2871 0008 00000000 		.4byte	0
+ 2872 000c 00000000 		.4byte	0
+ 2873              		.section	.debug_line,"",%progbits
+ 2874              	.Ldebug_line0:
+ 2875 0000 08030000 		.section	.debug_str,"MS",%progbits,1
+ 2875      02005E01 
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 56
+
+
+ 2875      00000201 
+ 2875      FB0E0D00 
+ 2875      01010101 
+ 2876              	.LASF44:
+ 2877 0000 6766785F 		.ascii	"gfx_drawPixel\000"
+ 2877      64726177 
+ 2877      50697865 
+ 2877      6C00
+ 2878              	.LASF55:
+ 2879 000e 64697370 		.ascii	"display_stopscroll\000"
+ 2879      6C61795F 
+ 2879      73746F70 
+ 2879      7363726F 
+ 2879      6C6C00
+ 2880              	.LASF62:
+ 2881 0021 64697370 		.ascii	"display_contrast\000"
+ 2881      6C61795F 
+ 2881      636F6E74 
+ 2881      72617374 
+ 2881      00
+ 2882              	.LASF56:
+ 2883 0032 6766785F 		.ascii	"gfx_drawRect\000"
+ 2883      64726177 
+ 2883      52656374 
+ 2883      00
+ 2884              	.LASF2:
+ 2885 003f 5F5F7569 		.ascii	"__uint8_t\000"
+ 2885      6E74385F 
+ 2885      7400
+ 2886              	.LASF10:
+ 2887 0049 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2887      206C6F6E 
+ 2887      6720756E 
+ 2887      7369676E 
+ 2887      65642069 
+ 2888              	.LASF13:
+ 2889 0060 696E7431 		.ascii	"int16_t\000"
+ 2889      365F7400 
+ 2890              	.LASF9:
+ 2891 0068 6C6F6E67 		.ascii	"long long int\000"
+ 2891      206C6F6E 
+ 2891      6720696E 
+ 2891      7400
+ 2892              	.LASF0:
+ 2893 0076 7369676E 		.ascii	"signed char\000"
+ 2893      65642063 
+ 2893      68617200 
+ 2894              	.LASF53:
+ 2895 0082 6766785F 		.ascii	"gfx_println\000"
+ 2895      7072696E 
+ 2895      746C6E00 
+ 2896              	.LASF58:
+ 2897 008e 6766785F 		.ascii	"gfx_drawCircle\000"
+ 2897      64726177 
+ 2897      43697263 
+ 2897      6C6500
+ 2898              	.LASF7:
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 57
+
+
+ 2899 009d 6C6F6E67 		.ascii	"long int\000"
+ 2899      20696E74 
+ 2899      00
+ 2900              	.LASF50:
+ 2901 00a6 6766785F 		.ascii	"gfx_setTextColor\000"
+ 2901      73657454 
+ 2901      65787443 
+ 2901      6F6C6F72 
+ 2901      00
+ 2902              	.LASF21:
+ 2903 00b7 5343524F 		.ascii	"SCROLL_LEFT\000"
+ 2903      4C4C5F4C 
+ 2903      45465400 
+ 2904              	.LASF14:
+ 2905 00c3 75696E74 		.ascii	"uint16_t\000"
+ 2905      31365F74 
+ 2905      00
+ 2906              	.LASF17:
+ 2907 00cc 646F7562 		.ascii	"double\000"
+ 2907      6C6500
+ 2908              	.LASF57:
+ 2909 00d3 6766785F 		.ascii	"gfx_fillRect\000"
+ 2909      66696C6C 
+ 2909      52656374 
+ 2909      00
+ 2910              	.LASF15:
+ 2911 00e0 75696E74 		.ascii	"uint32\000"
+ 2911      333200
+ 2912              	.LASF60:
+ 2913 00e7 6766785F 		.ascii	"gfx_setRotation\000"
+ 2913      73657452 
+ 2913      6F746174 
+ 2913      696F6E00 
+ 2914              	.LASF3:
+ 2915 00f7 5F5F696E 		.ascii	"__int16_t\000"
+ 2915      7431365F 
+ 2915      7400
+ 2916              	.LASF49:
+ 2917 0101 6766785F 		.ascii	"gfx_setTextSize\000"
+ 2917      73657454 
+ 2917      65787453 
+ 2917      697A6500 
+ 2918              	.LASF11:
+ 2919 0111 756E7369 		.ascii	"unsigned int\000"
+ 2919      676E6564 
+ 2919      20696E74 
+ 2919      00
+ 2920              	.LASF8:
+ 2921 011e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2921      20756E73 
+ 2921      69676E65 
+ 2921      6420696E 
+ 2921      7400
+ 2922              	.LASF22:
+ 2923 0130 5343524F 		.ascii	"SCROLL_DIR\000"
+ 2923      4C4C5F44 
+ 2923      495200
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 58
+
+
+ 2924              	.LASF6:
+ 2925 013b 73686F72 		.ascii	"short unsigned int\000"
+ 2925      7420756E 
+ 2925      7369676E 
+ 2925      65642069 
+ 2925      6E7400
+ 2926              	.LASF46:
+ 2927 014e 6766785F 		.ascii	"gfx_drawLine\000"
+ 2927      64726177 
+ 2927      4C696E65 
+ 2927      00
+ 2928              	.LASF65:
+ 2929 015b 6D61696E 		.ascii	"main.c\000"
+ 2929      2E6300
+ 2930              	.LASF63:
+ 2931 0162 4932434F 		.ascii	"I2COLED_Start\000"
+ 2931      4C45445F 
+ 2931      53746172 
+ 2931      7400
+ 2932              	.LASF32:
+ 2933 0170 5343524F 		.ascii	"SCROLL_PAGE_0\000"
+ 2933      4C4C5F50 
+ 2933      4147455F 
+ 2933      3000
+ 2934              	.LASF33:
+ 2935 017e 5343524F 		.ascii	"SCROLL_PAGE_1\000"
+ 2935      4C4C5F50 
+ 2935      4147455F 
+ 2935      3100
+ 2936              	.LASF34:
+ 2937 018c 5343524F 		.ascii	"SCROLL_PAGE_2\000"
+ 2937      4C4C5F50 
+ 2937      4147455F 
+ 2937      3200
+ 2938              	.LASF35:
+ 2939 019a 5343524F 		.ascii	"SCROLL_PAGE_3\000"
+ 2939      4C4C5F50 
+ 2939      4147455F 
+ 2939      3300
+ 2940              	.LASF36:
+ 2941 01a8 5343524F 		.ascii	"SCROLL_PAGE_4\000"
+ 2941      4C4C5F50 
+ 2941      4147455F 
+ 2941      3400
+ 2942              	.LASF37:
+ 2943 01b6 5343524F 		.ascii	"SCROLL_PAGE_5\000"
+ 2943      4C4C5F50 
+ 2943      4147455F 
+ 2943      3500
+ 2944              	.LASF38:
+ 2945 01c4 5343524F 		.ascii	"SCROLL_PAGE_6\000"
+ 2945      4C4C5F50 
+ 2945      4147455F 
+ 2945      3600
+ 2946              	.LASF39:
+ 2947 01d2 5343524F 		.ascii	"SCROLL_PAGE_7\000"
+ 2947      4C4C5F50 
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 59
+
+
+ 2947      4147455F 
+ 2947      3700
+ 2948              	.LASF19:
+ 2949 01e0 73697A65 		.ascii	"sizetype\000"
+ 2949      74797065 
+ 2949      00
+ 2950              	.LASF48:
+ 2951 01e9 6766785F 		.ascii	"gfx_width\000"
+ 2951      77696474 
+ 2951      6800
+ 2952              	.LASF42:
+ 2953 01f3 64697370 		.ascii	"display_clear\000"
+ 2953      6C61795F 
+ 2953      636C6561 
+ 2953      7200
+ 2954              	.LASF31:
+ 2955 0201 5343524F 		.ascii	"SCROLL_SPEED\000"
+ 2955      4C4C5F53 
+ 2955      50454544 
+ 2955      00
+ 2956              	.LASF16:
+ 2957 020e 666C6F61 		.ascii	"float\000"
+ 2957      7400
+ 2958              	.LASF52:
+ 2959 0214 6766785F 		.ascii	"gfx_write\000"
+ 2959      77726974 
+ 2959      6500
+ 2960              	.LASF1:
+ 2961 021e 756E7369 		.ascii	"unsigned char\000"
+ 2961      676E6564 
+ 2961      20636861 
+ 2961      7200
+ 2962              	.LASF4:
+ 2963 022c 73686F72 		.ascii	"short int\000"
+ 2963      7420696E 
+ 2963      7400
+ 2964              	.LASF66:
+ 2965 0236 433A5C55 		.ascii	"C:\\Users\\Zeus\\Documents\\Projects\\Cypress-PSOC-"
+ 2965      73657273 
+ 2965      5C5A6575 
+ 2965      735C446F 
+ 2965      63756D65 
+ 2966 0264 4F4C4544 		.ascii	"OLED\\OLED.cydsn\000"
+ 2966      5C4F4C45 
+ 2966      442E6379 
+ 2966      64736E00 
+ 2967              	.LASF43:
+ 2968 0274 64697370 		.ascii	"display_update\000"
+ 2968      6C61795F 
+ 2968      75706461 
+ 2968      746500
+ 2969              	.LASF41:
+ 2970 0283 636F6C6F 		.ascii	"color\000"
+ 2970      7200
+ 2971              	.LASF18:
+ 2972 0289 63686172 		.ascii	"char\000"
+ 2972      00
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 60
+
+
+ 2973              	.LASF5:
+ 2974 028e 5F5F7569 		.ascii	"__uint16_t\000"
+ 2974      6E743136 
+ 2974      5F7400
+ 2975              	.LASF59:
+ 2976 0299 6766785F 		.ascii	"gfx_drawTriangle\000"
+ 2976      64726177 
+ 2976      54726961 
+ 2976      6E676C65 
+ 2976      00
+ 2977              	.LASF20:
+ 2978 02aa 5343524F 		.ascii	"SCROLL_RIGHT\000"
+ 2978      4C4C5F52 
+ 2978      49474854 
+ 2978      00
+ 2979              	.LASF68:
+ 2980 02b7 64697370 		.ascii	"display_init\000"
+ 2980      6C61795F 
+ 2980      696E6974 
+ 2980      00
+ 2981              	.LASF45:
+ 2982 02c4 43794465 		.ascii	"CyDelay\000"
+ 2982      6C617900 
+ 2983              	.LASF61:
+ 2984 02cc 64697370 		.ascii	"display_invert\000"
+ 2984      6C61795F 
+ 2984      696E7665 
+ 2984      727400
+ 2985              	.LASF47:
+ 2986 02db 6766785F 		.ascii	"gfx_height\000"
+ 2986      68656967 
+ 2986      687400
+ 2987              	.LASF12:
+ 2988 02e6 75696E74 		.ascii	"uint8_t\000"
+ 2988      385F7400 
+ 2989              	.LASF54:
+ 2990 02ee 64697370 		.ascii	"display_scroll\000"
+ 2990      6C61795F 
+ 2990      7363726F 
+ 2990      6C6C00
+ 2991              	.LASF40:
+ 2992 02fd 5343524F 		.ascii	"SCROLL_AREA\000"
+ 2992      4C4C5F41 
+ 2992      52454100 
+ 2993              	.LASF23:
+ 2994 0309 5343524F 		.ascii	"SCROLL_SPEED_0\000"
+ 2994      4C4C5F53 
+ 2994      50454544 
+ 2994      5F3000
+ 2995              	.LASF24:
+ 2996 0318 5343524F 		.ascii	"SCROLL_SPEED_1\000"
+ 2996      4C4C5F53 
+ 2996      50454544 
+ 2996      5F3100
+ 2997              	.LASF25:
+ 2998 0327 5343524F 		.ascii	"SCROLL_SPEED_2\000"
+ 2998      4C4C5F53 
+ARM GAS  C:\Users\Zeus\AppData\Local\Temp\ccQ1p73j.s 			page 61
+
+
+ 2998      50454544 
+ 2998      5F3200
+ 2999              	.LASF26:
+ 3000 0336 5343524F 		.ascii	"SCROLL_SPEED_3\000"
+ 3000      4C4C5F53 
+ 3000      50454544 
+ 3000      5F3300
+ 3001              	.LASF27:
+ 3002 0345 5343524F 		.ascii	"SCROLL_SPEED_4\000"
+ 3002      4C4C5F53 
+ 3002      50454544 
+ 3002      5F3400
+ 3003              	.LASF28:
+ 3004 0354 5343524F 		.ascii	"SCROLL_SPEED_5\000"
+ 3004      4C4C5F53 
+ 3004      50454544 
+ 3004      5F3500
+ 3005              	.LASF29:
+ 3006 0363 5343524F 		.ascii	"SCROLL_SPEED_6\000"
+ 3006      4C4C5F53 
+ 3006      50454544 
+ 3006      5F3600
+ 3007              	.LASF30:
+ 3008 0372 5343524F 		.ascii	"SCROLL_SPEED_7\000"
+ 3008      4C4C5F53 
+ 3008      50454544 
+ 3008      5F3700
+ 3009              	.LASF67:
+ 3010 0381 6D61696E 		.ascii	"main\000"
+ 3010      00
+ 3011              	.LASF64:
+ 3012 0386 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 3012      4320342E 
+ 3012      392E3320 
+ 3012      32303135 
+ 3012      30333033 
+ 3013 03b9 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m0plus -mthumb -"
+ 3013      20726576 
+ 3013      6973696F 
+ 3013      6E203232 
+ 3013      31323230 
+ 3014 03ec 67202D4F 		.ascii	"g -Og -ffunction-sections -ffat-lto-objects\000"
+ 3014      67202D66 
+ 3014      66756E63 
+ 3014      74696F6E 
+ 3014      2D736563 
+ 3015              	.LASF51:
+ 3016 0418 6766785F 		.ascii	"gfx_setCursor\000"
+ 3016      73657443 
+ 3016      7572736F 
+ 3016      7200
+ 3017              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

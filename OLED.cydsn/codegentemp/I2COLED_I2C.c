@@ -1,15 +1,16 @@
-/*******************************************************************************
-* File Name: I2COLED_I2C.c
-* Version 2.0
+/***************************************************************************//**
+* \file I2COLED_I2C.c
+* \version 3.20
 *
-* Description:
+* \brief
 *  This file provides the source code to the API for the SCB Component in
 *  I2C mode.
 *
 * Note:
 *
 *******************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -44,22 +45,28 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
         I2COLED_I2C_WAKE_ENABLE,
         I2COLED_I2C_BYTE_MODE_ENABLE,
         I2COLED_I2C_DATA_RATE,
+        I2COLED_I2C_ACCEPT_GENERAL_CALL,
     };
 
     /*******************************************************************************
     * Function Name: I2COLED_I2CInit
-    ********************************************************************************
+    ****************************************************************************//**
     *
-    * Summary:
-    *  Configures the SCB for I2C operation.
     *
-    * Parameters:
-    *  config:  Pointer to a structure that contains the following ordered list of
-    *           fields. These fields match the selections available in the
-    *           customizer.
+    *  Configures the I2COLED for I2C operation.
     *
-    * Return:
-    *  None
+    *  This function is intended specifically to be used when the I2COLED 
+    *  configuration is set to “Unconfigured I2COLED” in the customizer. 
+    *  After initializing the I2COLED in I2C mode using this function, 
+    *  the component can be enabled using the I2COLED_Start() or 
+    * I2COLED_Enable() function.
+    *  This function uses a pointer to a structure that provides the configuration 
+    *  settings. This structure contains the same information that would otherwise 
+    *  be provided by the customizer settings.
+    *
+    *  \param config: pointer to a structure that contains the following list of 
+    *   fields. These fields match the selections available in the customizer. 
+    *   Refer to the customizer for further description of the settings.
     *
     *******************************************************************************/
     void I2COLED_I2CInit(const I2COLED_I2C_INIT_STRUCT *config)
@@ -75,7 +82,7 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
         {
             /* Configure pins */
             I2COLED_SetPins(I2COLED_SCB_MODE_I2C, I2COLED_DUMMY_PARAM,
-                                                                    I2COLED_DUMMY_PARAM);
+                                     I2COLED_DUMMY_PARAM);
 
             /* Store internal configuration */
             I2COLED_scbMode       = (uint8) I2COLED_SCB_MODE_I2C;
@@ -118,11 +125,9 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
                                             I2COLED_GET_CTRL_EC_AM_MODE (locEnableWake);
 
             I2COLED_I2C_CTRL_REG = I2COLED_GET_I2C_CTRL_HIGH_PHASE_OVS(config->oversampleHigh) |
-                                            I2COLED_GET_I2C_CTRL_LOW_PHASE_OVS (config->oversampleLow)  |
-                                            I2COLED_GET_I2C_CTRL_SL_MSTR_MODE  (config->mode)           |
-                                            I2COLED_I2C_CTRL;
-
-
+                    I2COLED_GET_I2C_CTRL_LOW_PHASE_OVS (config->oversampleLow)                          |
+                    I2COLED_GET_I2C_CTRL_S_GENERAL_IGNORE((uint32)(0u == config->acceptGeneralAddr))    |
+                    I2COLED_GET_I2C_CTRL_SL_MSTR_MODE  (config->mode);
 
             /* Configure RX direction */
             I2COLED_RX_CTRL_REG      = I2COLED_GET_RX_CTRL_MEDIAN(medianFilter) |
@@ -155,8 +160,8 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
             I2COLED_INTR_TX_MASK_REG     = I2COLED_NO_INTR_SOURCES;
 
             I2COLED_INTR_SLAVE_MASK_REG  = ((I2COLED_I2C_SLAVE) ?
-                                                     (I2COLED_I2C_INTR_SLAVE_MASK) :
-                                                     (I2COLED_CLEAR_REG));
+                            (I2COLED_GET_INTR_SLAVE_I2C_GENERAL(config->acceptGeneralAddr) |
+                             I2COLED_I2C_INTR_SLAVE_MASK) : (I2COLED_CLEAR_REG));
 
             I2COLED_INTR_MASTER_MASK_REG = ((I2COLED_I2C_MASTER) ?
                                                      (I2COLED_I2C_INTR_MASTER_MASK) :
@@ -182,16 +187,9 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
 
     /*******************************************************************************
     * Function Name: I2COLED_I2CInit
-    ********************************************************************************
+    ****************************************************************************//**
     *
-    * Summary:
     *  Configures the SCB for the I2C operation.
-    *
-    * Parameters:
-    *  None
-    *
-    * Return:
-    *  None
     *
     *******************************************************************************/
     void I2COLED_I2CInit(void)
@@ -260,32 +258,13 @@ volatile uint8 I2COLED_state;  /* Current state of I2C FSM */
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CStop
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
-*  Resets the I2C FSM into the default state and disables TX interrupt sources.
-*
-* Parameters:
-*  None
-*
-* Return:
-*  None
+*  Resets the I2C FSM into the default state.
 *
 *******************************************************************************/
 void I2COLED_I2CStop(void)
 {
-    /* Disable TX interrupt sources in order not to cause a false trigger.
-    * The incoming transaction will enable an appropriate TX interrupt.
-    */
-    I2COLED_SetTxInterruptMode(I2COLED_NO_INTR_SOURCES);
-
-#if(I2COLED_CY_SCBIP_V0)
-    /* Clear a pending interrupt as the TX FIFO becomes empty and the block does not gate
-    * an interrupt trigger when disabled.
-    */
-    I2COLED_ClearPendingInt();
-#endif /* (I2COLED_CY_SCBIP_V0) */
-
     I2COLED_state = I2COLED_I2C_FSM_IDLE;
 }
 
@@ -293,17 +272,10 @@ void I2COLED_I2CStop(void)
 #if(I2COLED_I2C_WAKE_ENABLE_CONST)
     /*******************************************************************************
     * Function Name: I2COLED_I2CSaveConfig
-    ********************************************************************************
+    ****************************************************************************//**
     *
-    * Summary:
     *  Enables I2COLED_INTR_I2C_EC_WAKE_UP interrupt source. This interrupt
     *  triggers on address match and wakes up device.
-    *
-    * Parameters:
-    *  None
-    *
-    * Return:
-    *  None
     *
     *******************************************************************************/
     void I2COLED_I2CSaveConfig(void)
@@ -333,17 +305,10 @@ void I2COLED_I2CStop(void)
 
     /*******************************************************************************
     * Function Name: I2COLED_I2CRestoreConfig
-    ********************************************************************************
+    ****************************************************************************//**
     *
-    * Summary:
     *  Disables I2COLED_INTR_I2C_EC_WAKE_UP interrupt source. This interrupt
     *  triggers on address match and wakes up device.
-    *
-    * Parameters:
-    *  None
-    *
-    * Return:
-    *  None
     *
     *******************************************************************************/
     void I2COLED_I2CRestoreConfig(void)

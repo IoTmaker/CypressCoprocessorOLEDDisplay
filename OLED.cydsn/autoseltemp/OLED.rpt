@@ -1,0 +1,15 @@
+Loading plugins phase: Elapsed time ==> 0s.302ms
+<CYPRESSTAG name="CyDsfit arguments...">
+cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p C:\Users\Zeus\Documents\Projects\Cypress-PSOC-OLED\OLED.cydsn\OLED.cyprj -d CY8C4A24AZI-433 -s C:\Users\Zeus\Documents\Projects\Cypress-PSOC-OLED\OLED.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE</CYPRESSTAG>
+<CYPRESSTAG name="Design elaboration results...">
+ADD: fit.M0032: warning: Clock Warning: (I2COLED_SCBCLK's accuracy range '6 MHz +/- 2%, (5.88 MHz - 6.12 MHz)' is not within the specified tolerance range '7.82 MHz -0% +27.877%, (7.82 MHz - 10 MHz)'.).
+ * C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\SCB_P4_v2_0\PSoC4\SCB_P4_v2_0.cysch (Instance:SCBCLK)
+ * C:\Users\Zeus\Documents\Projects\Cypress-PSOC-OLED\OLED.cydsn\OLED.cydwr (I2COLED_SCBCLK)
+
+ADD: sdb.M0059: error: Error in component: cy_boot. The cy_boot_v4_20 component (cy_boot) is not compatible with the selected device. Please check the component datasheet for details on updating to a compatible component.
+
+ADD: sdb.M0059: error: Error in component: I2COLED. The SCB_P4_v2_0 component (I2COLED) is not compatible with the selected device. Please check the component datasheet for details on updating to a compatible component.
+ * C:\Users\Zeus\Documents\Projects\Cypress-PSOC-OLED\OLED.cydsn\TopDesign\TopDesign.cysch (Instance:I2COLED)
+
+</CYPRESSTAG>
+Elaboration phase: Elapsed time ==> 1s.473ms

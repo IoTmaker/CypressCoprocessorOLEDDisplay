@@ -1,15 +1,16 @@
-/*******************************************************************************
-* File Name: I2COLED_I2C_INT.c
-* Version 2.0
+/***************************************************************************//**
+* \file I2COLED_I2C_INT.c
+* \version 3.20
 *
-* Description:
+* \brief
 *  This file provides the source code to the Interrupt Service Routine for
 *  the SCB Component in I2C mode.
 *
 * Note:
 *
 ********************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -19,18 +20,12 @@
 #include "I2COLED_I2C_PVT.h"
 
 
+
 /*******************************************************************************
 * Function Name: I2COLED_I2C_ISR
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Handles the Interrupt Service Routine for the SCB I2C mode.
-*
-* Parameters:
-*  None
-*
-* Return:
-*  None
 *
 *******************************************************************************/
 CY_ISR(I2COLED_I2C_ISR)
@@ -38,9 +33,15 @@ CY_ISR(I2COLED_I2C_ISR)
     uint32 diffCount;
     uint32 endTransfer;
 
-    #if(I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST)
-        uint32 address;
-    #endif /* (I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST) */
+#ifdef I2COLED_I2C_ISR_ENTRY_CALLBACK
+    I2COLED_I2C_ISR_EntryCallback();
+#endif /* I2COLED_I2C_ISR_ENTRY_CALLBACK */
+
+#if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST)
+    uint32 response;
+
+    response = I2COLED_I2C_ACK_ADDR;
+#endif /* (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST) */
 
     endTransfer = 0u; /* Continue active transfer */
 
@@ -476,7 +477,7 @@ CY_ISR(I2COLED_I2C_ISR)
             {
                 I2COLED_ClearSlaveInterruptSource(I2COLED_INTR_SLAVE_I2C_NACK);
 
-                /* All entries that remain in TX FIFO max value is 9: 8 (FIFO) + 1 (SHIFTER) */
+                /* All entries that remain in TX FIFO are: FIFO Size + 1 (SHIFTER) */
                 diffCount = (I2COLED_GET_TX_FIFO_ENTRIES + I2COLED_GET_TX_FIFO_SR_VALID);
 
                 if(I2COLED_slOverFlowCount > diffCount) /* Overflow */
@@ -555,80 +556,77 @@ CY_ISR(I2COLED_I2C_ISR)
             }
 
 
-            /* INTR_SLAVE_I2C_ADDR_MATCH:
-            * The address match event starts the slave operation: after leaving the TX or RX
-            * direction has to be chosen.
+            /* INTR_SLAVE_I2C_ADDR_MATCH or INTR_SLAVE_I2C_GENERAL:
+            * The address match or general call address event starts the slave operation:
+            * after leaving the TX or RX direction has to be chosen.
             * The wakeup interrupt must be cleared only after an address match is set.
             */
-            if(I2COLED_CHECK_INTR_SLAVE_MASKED(I2COLED_INTR_SLAVE_I2C_ADDR_MATCH))
+        #if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST)
+            if (I2COLED_CHECK_INTR_SLAVE_MASKED(I2COLED_INTR_SLAVE_I2C_ADDR_MATCH |
+                                                         I2COLED_INTR_SLAVE_I2C_GENERAL))
+        #else
+            if (I2COLED_CHECK_INTR_SLAVE_MASKED(I2COLED_INTR_SLAVE_I2C_ADDR_MATCH))
+        #endif /* (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST) */
             {
-                #if(I2COLED_CHECK_I2C_ACCEPT_ADDRESS)
+                /* Clear externally clocked address match interrupt source when internally clocked is set */
+                I2COLED_ClearI2CExtClkInterruptSource(I2COLED_INTR_I2C_EC_WAKE_UP);
+
+                #if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER)
                 {
-                    address = I2COLED_RX_FIFO_RD_REG; /* Address in the RX FIFO */
-
-                    /* Clears RX sources if address was received in RX FIFO */
-                    I2COLED_ClearRxInterruptSource(I2COLED_INTR_RX_ALL);
-
-                    if(0u != address)
+                    if (NULL != I2COLED_customAddressHandler)
                     {
-                        /* Suppress compiler warning */
+                        /* Call custom address handler */
+                        response = I2COLED_customAddressHandler();
                     }
+                    else
+                    {
+                        /* Read address from the RX FIFO. If there is no address underflow triggers but
+                        * component does not use that source. */
+                        (void) I2COLED_RX_FIFO_RD_REG;
+                        response = I2COLED_I2C_ACK_ADDR;
+                    }
+
+                    /* Clears RX sources after address was received in the RX FIFO */
+                    I2COLED_ClearRxInterruptSource(I2COLED_INTR_RX_ALL);
                 }
                 #endif
 
-                if(I2COLED_CHECK_I2C_STATUS(I2COLED_I2C_STATUS_S_READ))
-                /* TX direction: master reads from slave */
+            #if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST)
+                if (response == I2COLED_I2C_NAK_ADDR)
                 {
-                    I2COLED_SetTxInterruptMode(I2COLED_INTR_TX_EMPTY);
+                #if (!I2COLED_CY_SCBIP_V0)
+                    /* Disable write stop interrupt source as it triggers after address was NACKed. Ticket ID#156094 */
+                    I2COLED_DISABLE_INTR_SLAVE(I2COLED_INTR_SLAVE_I2C_WRITE_STOP);
+                #endif /* (!I2COLED_CY_SCBIP_V0) */
 
-                    /* Set temporary index to address buffer clear from API */
-                    I2COLED_slRdBufIndexTmp = I2COLED_slRdBufIndex;
+                    /* Clear address match and stop history */
+                    I2COLED_ClearSlaveInterruptSource(I2COLED_INTR_SLAVE_ALL);
 
-                    /* Start master reading */
-                    I2COLED_slStatus |= (uint8) I2COLED_I2C_SSTAT_RD_BUSY;
-                    I2COLED_state     = I2COLED_I2C_FSM_SL_RD;
+                    /* ACK the address byte */
+                    I2COLED_I2C_SLAVE_GENERATE_NACK;
                 }
                 else
-                /* RX direction: master writes into slave */
+            #endif /* (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST) */
                 {
-                    /* Calculate available buffer size */
-                    diffCount = (I2COLED_slWrBufSize - I2COLED_slWrBufIndex);
-
-                #if (I2COLED_CY_SCBIP_V0)
-
-                    if(diffCount < I2COLED_I2C_FIFO_SIZE)
-                    /* Receive data: byte-by-byte */
+                    if(I2COLED_CHECK_I2C_STATUS(I2COLED_I2C_STATUS_S_READ))
+                    /* TX direction: master reads from slave */
                     {
-                        I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
+                        I2COLED_SetTxInterruptMode(I2COLED_INTR_TX_EMPTY);
+
+                        /* Set temporary index to address buffer clear from API */
+                        I2COLED_slRdBufIndexTmp = I2COLED_slRdBufIndex;
+
+                        /* Start master reading */
+                        I2COLED_slStatus |= (uint8) I2COLED_I2C_SSTAT_RD_BUSY;
+                        I2COLED_state     = I2COLED_I2C_FSM_SL_RD;
                     }
                     else
-                    /* Receive data: into RX FIFO */
+                    /* RX direction: master writes into slave */
                     {
-                        if(diffCount == I2COLED_I2C_FIFO_SIZE)
-                        {
-                            /* NACK when RX FIFO become FULL */
-                            I2COLED_ENABLE_SLAVE_AUTO_DATA;
-                        }
-                        else
-                        {
-                            /* Stretch clock when RX FIFO becomes FULL */
-                            I2COLED_ENABLE_SLAVE_AUTO_DATA_ACK;
-                            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_FULL);
-                        }
-                    }
+                        /* Calculate available buffer size */
+                        diffCount = (I2COLED_slWrBufSize - I2COLED_slWrBufIndex);
 
-                #else
-
-                    #if(I2COLED_CHECK_I2C_ACCEPT_ADDRESS)
-                    {
-                        /* Enable RX.NOT_EMPTY interrupt source to receive byte by byte.
-                        * The byte by byte receive is always chosen for the case when an address is accepted in RX FIFO.
-                        * Ticket ID#175559.
-                        */
-                        I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
-                    }
-                    #else
-                    {
+                    #if (I2COLED_CY_SCBIP_V0)
                         if(diffCount < I2COLED_I2C_FIFO_SIZE)
                         /* Receive data: byte-by-byte */
                         {
@@ -649,22 +647,58 @@ CY_ISR(I2COLED_I2C_ISR)
                                 I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_FULL);
                             }
                         }
+
+                    #else
+                        #if(I2COLED_CHECK_I2C_ACCEPT_ADDRESS)
+                        {
+                            /* Enable RX.NOT_EMPTY interrupt source to receive byte by byte.
+                            * The byte by byte receive is always chosen for the case when an address is accepted
+                            * in RX FIFO. Ticket ID#175559.
+                            */
+                            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
+                        }
+                        #else
+                        {
+                            if(diffCount < I2COLED_I2C_FIFO_SIZE)
+                            /* Receive data: byte-by-byte */
+                            {
+                                I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
+                            }
+                            else
+                            /* Receive data: into RX FIFO */
+                            {
+                                if(diffCount == I2COLED_I2C_FIFO_SIZE)
+                                {
+                                    /* NACK when RX FIFO become FULL */
+                                    I2COLED_ENABLE_SLAVE_AUTO_DATA;
+                                }
+                                else
+                                {
+                                    /* Stretch clock when RX FIFO becomes FULL */
+                                    I2COLED_ENABLE_SLAVE_AUTO_DATA_ACK;
+                                    I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_FULL);
+                                }
+                            }
+                        }
+                        #endif
+                    #endif /* (I2COLED_CY_SCBIP_V0) */
+
+                        /* Start master reading */
+                        I2COLED_slStatus |= (uint8) I2COLED_I2C_SSTAT_WR_BUSY;
+                        I2COLED_state     = I2COLED_I2C_FSM_SL_WR;
                     }
-                    #endif
 
-                #endif /* (I2COLED_CY_SCBIP_V0) */
+                    /* Clear address match and stop history */
+                    I2COLED_ClearSlaveInterruptSource(I2COLED_INTR_SLAVE_ALL);
 
-                    /* Start master reading */
-                    I2COLED_slStatus |= (uint8) I2COLED_I2C_SSTAT_WR_BUSY;
-                    I2COLED_state     = I2COLED_I2C_FSM_SL_WR;
+                #if (!I2COLED_CY_SCBIP_V0)
+                    /* Enable write stop interrupt source as it triggers after address was NACKed. Ticket ID#156094 */
+                    I2COLED_ENABLE_INTR_SLAVE(I2COLED_INTR_SLAVE_I2C_WRITE_STOP);
+                #endif /* (!I2COLED_CY_SCBIP_V0) */
+
+                    /* ACK the address byte */
+                    I2COLED_I2C_SLAVE_GENERATE_ACK;
                 }
-
-                /* Clear interrupts before ACK address */
-                I2COLED_ClearI2CExtClkInterruptSource(I2COLED_INTR_I2C_EC_WAKE_UP);
-                I2COLED_ClearSlaveInterruptSource(I2COLED_INTR_SLAVE_ALL);
-
-                /* Preparation complete: ACK the address */
-                I2COLED_I2C_SLAVE_GENERATE_ACK;
             }
 
             /* I2COLED_INTR_RX_FULL:
@@ -759,9 +793,9 @@ CY_ISR(I2COLED_I2C_ISR)
                     {
                         I2COLED_TX_FIFO_WR_REG = I2COLED_I2C_SLAVE_OVFL_RETURN;
 
-                        if(0u == (I2COLED_INTR_TX_OVERFLOW & I2COLED_slOverFlowCount))
+                        if(I2COLED_slOverFlowCount <= I2COLED_I2C_TX_OVERFLOW_COUNT)
                         {
-                            /* Get counter in range of byte: value 10 is overflow */
+                            /* Get counter in range of overflow. */
                             I2COLED_slOverFlowCount++;
                         }
                     }
@@ -801,6 +835,11 @@ CY_ISR(I2COLED_I2C_ISR)
 
         I2COLED_CTRL_REG |= (uint32) I2COLED_CTRL_ENABLED;  /* Enable scb IP */
     }
+
+#ifdef I2COLED_I2C_ISR_EXIT_CALLBACK
+    I2COLED_I2C_ISR_ExitCallback();
+#endif /* I2COLED_I2C_ISR_EXIT_CALLBACK */
+
 }
 
 

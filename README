@@ -1,8 +1,15 @@
-SSD1306 OLED I2C driver
+# SSD1306 OLED I2C driver for the Cypress PSOC Analog Coprocessor Kit
 
+> Note thie project is incomplete.  Does not display graphics yet, only random dots.
+
+Original at : https://github.com/derkst/Cypress-PSOC-OLED
 Derk Steggewentz, 3/2015 
 
-This is a I2C driver for SSD1306 OLED displays including graphics library. The project as is runs on the PSOC pioneer kit.
+Updated by Steven Bell, 2/2017 at https://github.com/IoTmaker/CypressCoprocessorOLEDDisplay.git
+
+
+This is a I2C driver for SSD1306 OLED displays including graphics library. The project as is runs on the PSOC Analog Coprocessor Kit CY8CKIT-048.
+
 
 The graphics library part (gfx_ functions) is a heavily modified version of the Adafruit graphics library,
 
@@ -26,7 +33,7 @@ Examples:
 - see main.c for example usage
 
 
-see ssd1306.h for the entire API
+- see ssd1306.h for the entire API
 
 
 

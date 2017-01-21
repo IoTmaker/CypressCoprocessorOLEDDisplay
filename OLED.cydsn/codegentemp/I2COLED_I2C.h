@@ -1,15 +1,16 @@
-/*******************************************************************************
-* File Name: I2COLED_I2C.h
-* Version 2.0
+/***************************************************************************//**
+* \file I2COLED_I2C.h
+* \version 3.20
 *
-* Description:
+* \brief
 *  This file provides constants and parameter values for the SCB Component in
 *  the I2C mode.
 *
 * Note:
 *
 ********************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -26,15 +27,16 @@
 ****************************************/
 
 #define I2COLED_I2C_MODE                   (2u)
-#define I2COLED_I2C_OVS_FACTOR_LOW         (8u)
-#define I2COLED_I2C_OVS_FACTOR_HIGH        (8u)
+#define I2COLED_I2C_OVS_FACTOR_LOW         (16u)
+#define I2COLED_I2C_OVS_FACTOR_HIGH        (16u)
 #define I2COLED_I2C_MEDIAN_FILTER_ENABLE   (1u)
 #define I2COLED_I2C_SLAVE_ADDRESS          (8u)
 #define I2COLED_I2C_SLAVE_ADDRESS_MASK     (254u)
 #define I2COLED_I2C_ACCEPT_ADDRESS         (0u)
+#define I2COLED_I2C_ACCEPT_GENERAL_CALL    (0u)
 #define I2COLED_I2C_WAKE_ENABLE            (0u)
-#define I2COLED_I2C_DATA_RATE              (400u)
-#define I2COLED_I2C_DATA_RATE_ACTUAL       (381u)
+#define I2COLED_I2C_DATA_RATE              (100u)
+#define I2COLED_I2C_DATA_RATE_ACTUAL       (95u)
 #define I2COLED_I2C_CLOCK_FROM_TERM        (0u)
 #define I2COLED_I2C_EXTERN_INTR_HANDLER    (0u)
 #define I2COLED_I2C_BYTE_MODE_ENABLE       (0u)
@@ -52,7 +54,7 @@
 #define I2COLED_I2C_MODE_MULTI_MASTER_SLAVE (0x07u)
 #define I2COLED_I2C_MODE_MULTI_MASTER_MASK  (0x04u)
 
-#if(I2COLED_SCB_MODE_UNCONFIG_CONST_CFG)
+#if (I2COLED_SCB_MODE_UNCONFIG_CONST_CFG)
 
     /* Returns true if slave mode is enabled */
     #define I2COLED_I2C_SLAVE  (0u != (I2COLED_I2C_MODE_SLAVE & I2COLED_mode))
@@ -70,12 +72,16 @@
 
     /* Returns true if address accepts in RX FIFO */
     #define I2COLED_CHECK_I2C_ACCEPT_ADDRESS   (0u != I2COLED_acceptAddr)
+    #define I2COLED_CHECK_I2C_GENERAL_CALL \
+                (0u != (I2COLED_I2C_CTRL_REG & I2COLED_I2C_CTRL_S_GENERAL_IGNORE))
 
-    #define I2COLED_I2C_WAKE_ENABLE_CONST          (1u)
-    #define I2COLED_I2C_SLAVE_CONST                (1u)
-    #define I2COLED_I2C_MASTER_CONST               (1u)
-    #define I2COLED_I2C_MULTI_MASTER_SLAVE_CONST   (1u)
-    #define I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST (1u)
+    #define I2COLED_I2C_WAKE_ENABLE_CONST              (1u)
+    #define I2COLED_I2C_SLAVE_CONST                    (1u)
+    #define I2COLED_I2C_MASTER_CONST                   (1u)
+    #define I2COLED_I2C_MULTI_MASTER_SLAVE_CONST       (1u)
+    #define I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST     (1u)
+    #define I2COLED_CHECK_I2C_GENERAL_CALL_CONST       (1u)
+    #define I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST   (1u)
 
     /* Returns FIFO size */
     #if (I2COLED_CY_SCBIP_V0 || I2COLED_CY_SCBIP_V1)
@@ -103,21 +109,21 @@
 
     /* Returns true if address accepts in RX FIFO */
     #define I2COLED_CHECK_I2C_ACCEPT_ADDRESS   (0u != I2COLED_I2C_ACCEPT_ADDRESS)
+    #define I2COLED_CHECK_I2C_GENERAL_CALL     (0u != I2COLED_I2C_ACCEPT_GENERAL_CALL)
 
     /* Returns true if wakeup on address match is enabled */
     #define I2COLED_I2C_WAKE_ENABLE_CONST  (0u != I2COLED_I2C_WAKE_ENABLE)
 
     #define I2COLED_I2C_SLAVE_CONST    (I2COLED_I2C_SLAVE)
     #define I2COLED_I2C_MASTER_CONST   (I2COLED_I2C_MASTER)
-    #define I2COLED_I2C_MULTI_MASTER_SLAVE_CONST (I2COLED_I2C_MULTI_MASTER_SLAVE)
+    #define I2COLED_I2C_MULTI_MASTER_SLAVE_CONST   (I2COLED_I2C_MULTI_MASTER_SLAVE)
     #define I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST (I2COLED_CHECK_I2C_ACCEPT_ADDRESS)
+    #define I2COLED_CHECK_I2C_GENERAL_CALL_CONST   (I2COLED_CHECK_I2C_GENERAL_CALL)
+    #define I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST   (I2COLED_CHECK_I2C_ACCEPT_ADDRESS_CONST || \
+                                                                  I2COLED_CHECK_I2C_GENERAL_CALL_CONST)
 
     /* I2C: TX or RX FIFO size */
-    #if (I2COLED_CY_SCBIP_V0 || I2COLED_CY_SCBIP_V1)
-        #define I2COLED_I2C_FIFO_SIZE  (I2COLED_FIFO_SIZE)
-    #else
-        #define I2COLED_I2C_FIFO_SIZE  I2COLED_GET_FIFO_SIZE(I2COLED_I2C_BYTE_MODE_ENABLE)
-    #endif /* ((I2COLED_CY_SCBIP_V0 || I2COLED_CY_SCBIP_V1) */
+    #define I2COLED_I2C_FIFO_SIZE  I2COLED_GET_FIFO_SIZE(I2COLED_I2C_BYTE_MODE_ENABLE)
 
     /* Adjust AF and DF filter settings. Ticket ID#176179 */
     #if ((I2COLED_I2C_MODE_SLAVE == I2COLED_I2C_MODE) ||     \
@@ -133,42 +139,132 @@
 
     /* Select oversampling factor low and high */
     #define I2COLED_I2C_OVS_FACTOR_LOW_MIN     ((0u != I2COLED_I2C_MANUAL_OVS_CONTROL) ? \
-                                                            (8u) : (13u))
+                                                            (16u) : (9u))
 
     #define I2COLED_I2C_OVS_FACTOR_HIGH_MIN    ((0u != I2COLED_I2C_MANUAL_OVS_CONTROL) ? \
-                                                            (8u) : (8u))
+                                                            (16u) : (9u))
 
 #endif /* (I2COLED_SCB_MODE_UNCONFIG_CONST_CFG) */
+
+#define I2COLED_I2C_CUSTOM_ADDRESS_HANDLER (I2COLED_CHECK_I2C_GENERAL_CALL || \
+                                                     I2COLED_CHECK_I2C_ACCEPT_ADDRESS)
 
 
 /***************************************
 *       Type Definitions
 ***************************************/
 
+/**
+* \addtogroup group_structures
+* @{
+*/
 typedef struct
 {
+    /** Mode of operation for I2C. The following defines are available choices:
+     *  - I2COLED_I2C_MODE_SLAVE
+     *  - I2COLED_I2C_MODE_MASTER
+     *  - I2COLED_I2C_MODE_MULTI_MASTER
+     *  - I2COLED_I2C_MODE_MULTI_MASTER_SLAVE
+    */
     uint32 mode;
-    uint32 oversampleLow;
-    uint32 oversampleHigh;
-    uint32 enableMedianFilter;
-    uint32 slaveAddr;
-    uint32 slaveAddrMask;
-    uint32 acceptAddr;
-    uint32 enableWake;
-    uint8  enableByteMode;
-    uint16 dataRate;
-} I2COLED_I2C_INIT_STRUCT;
 
+    /** Oversampling factor for the low phase of the I2C clock. Ignored for
+     *  Slave mode operation.  The oversampling factors need to be chosen in
+     *  conjunction with the clock rate in order to generate the desired rate
+     *  of I2C operation.
+    */
+    uint32 oversampleLow;
+
+    /** Oversampling factor for the high phase of the I2C clock. Ignored for
+     *  Slave mode operation.
+    */
+    uint32 oversampleHigh;
+
+    /** This field is left for compatibility and its value is ignored.
+     *  Median filter is enabled or disabled depends on the data rate and
+     *  operation mode.
+    */
+    uint32 enableMedianFilter;
+
+    /** 7-bit slave address. Ignored for non-slave modes.
+    */
+    uint32 slaveAddr;
+
+    /** 8-bit slave address mask. Bit 0 must have a value of 0. Ignored for
+     *  non-slave modes.
+     *  - Bit value 0 – excludes bit from address comparison.
+     *  - Bit value 1 – the bit needs to match with the corresponding bit
+     *   of the device address.
+    */
+    uint32 slaveAddrMask;
+
+    /** When enabled the matching address is received into the RX FIFO:
+     *  0 – disable, 1 – enable.
+     *
+     *  The callback function has to be registered to handle the address
+     *  accepted in the RX FIFO. Refer to section Accept matching address
+     *  RX FIFO for more information.
+    */
+    uint32 acceptAddr;
+
+    /** When enabled the matching address generates a wakeup request:
+     *  0 – disable, 1 – enable. 1 – enable. Ignored for non-slave modes.
+    */
+    uint32 enableWake;
+
+    /** When enabled the TX and RX FIFO depth is doubled and equal to
+     *  16 bytes: 0 – disable, 1 – enable.
+     *
+     * Ignored for all devices other than PSoC 4100 BLE / PSoC 4200 BLE /
+     * PSoC 4100M / PSoC 4200M / PSoC 4200L / PSoC 4000S / PSoC 4100S /
+     * PSoC Analog Coprocessor.
+    */
+    uint8  enableByteMode;
+
+    /** Data rate in kbps used while the of I2C is in operation. Valid values
+      * are between 1 and 1000. Note that this filed must be initialized
+      * for correct operation if Unconfigured SCB was utilized with previous
+      * version of the component.
+    */
+    uint16 dataRate;
+
+    /** When enabled the I2C general call address (0x00) will be accepted by
+     *  the I2C hardware and trigger an interrupt: 0 – disable, 1 – enable.
+     *
+     *  The callback function has to be registered to handle a general call
+     *  address. Refer to section Accept General Call for more information.
+    */
+    uint8  acceptGeneralAddr;
+} I2COLED_I2C_INIT_STRUCT;
+/** @} structures */
 
 /***************************************
 *        Function Prototypes
 ***************************************/
 
+/**
+* \addtogroup group_i2c
+* @{
+*/
 /* Common functions */
 #if(I2COLED_SCB_MODE_UNCONFIG_CONST_CFG)
     void I2COLED_I2CInit(const I2COLED_I2C_INIT_STRUCT *config);
 #endif /* (I2COLED_SCB_MODE_UNCONFIG_CONST_CFG) */
+/** @} i2c */
 
+/**
+* \addtogroup group_interrupt
+* @{
+*/
+#if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST)
+    void I2COLED_SetI2cAddressCustomInterruptHandler(uint32 (*func) (void));
+#endif /* (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST) */
+/** @} interrupt */
+
+/**
+* \addtogroup group_i2c
+* @{
+*/
 /* I2C Master functions prototypes */
 #if(I2COLED_I2C_MASTER_CONST)
     /* Read and Clear status functions */
@@ -210,6 +306,7 @@ typedef struct
     void   I2COLED_I2CSlaveClearReadBuf(void);
     void   I2COLED_I2CSlaveClearWriteBuf(void);
 #endif /* (I2COLED_I2C_SLAVE_CONST) */
+/** @} i2c */
 
 CY_ISR_PROTO(I2COLED_I2C_ISR);
 
@@ -228,8 +325,10 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
 /* Master/Slave control constants */
 #define I2COLED_I2C_WRITE_XFER_MODE    (0u)    /* Write    */
 #define I2COLED_I2C_READ_XFER_MODE     (1u)    /* Read     */
-#define I2COLED_I2C_ACK_DATA           (0u)    /* Send ACK */
-#define I2COLED_I2C_NAK_DATA           (1u)    /* Send NAK */
+#define I2COLED_I2C_ACK_ADDR           (0u)    /* Send ACK to address */
+#define I2COLED_I2C_NAK_ADDR           (1u)    /* Send NAK to address */
+#define I2COLED_I2C_ACK_DATA           (0u)    /* Send ACK to data */
+#define I2COLED_I2C_NAK_DATA           (1u)    /* Send NAK to data */
 
 /* "Mode" constants for MasterWriteBuf() or MasterReadBuf() function */
 #define I2COLED_I2C_MODE_COMPLETE_XFER     (0x00u)    /* Full transfer with Start and Stop       */
@@ -284,6 +383,8 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
 #define I2COLED_I2C_SLAVE_OVFL_RETURN      (0xFFu)     /* Return by slave when overflow */
 
 #define I2COLED_I2C_RESET_ERROR            (0x01u)     /* Flag to re-enable SCB IP */
+
+#define I2COLED_I2C_TX_OVERFLOW_COUNT      (I2COLED_I2C_FIFO_SIZE + 2u)
 
 
 /***************************************
@@ -375,12 +476,12 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
 
 #define I2COLED_I2C_CTRL       (I2COLED_I2C_CTRL_S_GENERAL_IGNORE)
 
-#define I2COLED_I2C_RX_CTRL    ((I2COLED_FIFO_SIZE - 1u)  | \
-                                         I2COLED_RX_CTRL_MSB_FIRST | \
-                                         I2COLED_RX_CTRL_ENABLED)
+#define I2COLED_I2C_RX_CTRL    ((I2COLED_ONE_BYTE_WIDTH - 1u) | \
+                                          I2COLED_RX_CTRL_MSB_FIRST    | \
+                                          I2COLED_RX_CTRL_ENABLED)
 
-#define I2COLED_I2C_TX_CTRL    ((I2COLED_FIFO_SIZE - 1u)  | \
-                                         I2COLED_TX_CTRL_MSB_FIRST | \
+#define I2COLED_I2C_TX_CTRL    ((I2COLED_ONE_BYTE_WIDTH - 1u) | \
+                                         I2COLED_TX_CTRL_MSB_FIRST     | \
                                          I2COLED_TX_CTRL_ENABLED)
 
 #define I2COLED_I2C_INTR_SLAVE_MASK    (I2COLED_INTR_SLAVE_I2C_ADDR_MATCH | \
@@ -403,6 +504,8 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
 #define I2COLED_I2C_SCL_LOW    (0u)
 #define I2COLED_I2C_SCL_HIGH   (1u)
 
+#define I2COLED_I2C_IGNORE_GENERAL_CALL    ((uint32) (0u == I2COLED_I2C_ACCEPT_GENERAL_CALL))
+
 
 /***************************************
 *    Initialization Register Settings
@@ -411,7 +514,7 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
 #if(I2COLED_SCB_MODE_I2C_CONST_CFG)
 
     #if (!I2COLED_CY_SCBIP_V0)
-        #define I2COLED_I2C_WAKE_ENABLE_ADJ  (I2COLED_I2C_MULTI_MASTER_SLAVE ? \
+        #define I2COLED_I2C_WAKE_ENABLE_ADJ    (I2COLED_I2C_MULTI_MASTER_SLAVE ? \
                                                             (0u) : (I2COLED_I2C_WAKE_ENABLE))
     #else
         #define I2COLED_I2C_WAKE_ENABLE_ADJ    (I2COLED_I2C_WAKE_ENABLE)
@@ -426,10 +529,10 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
                                  I2COLED_GET_CTRL_EC_AM_MODE (I2COLED_I2C_WAKE_ENABLE_ADJ))
 
     #define I2COLED_I2C_DEFAULT_I2C_CTRL \
-                            (I2COLED_GET_I2C_CTRL_HIGH_PHASE_OVS(I2COLED_I2C_OVS_FACTOR_HIGH_MIN) | \
-                             I2COLED_GET_I2C_CTRL_LOW_PHASE_OVS (I2COLED_I2C_OVS_FACTOR_LOW_MIN)  | \
-                             I2COLED_GET_I2C_CTRL_SL_MSTR_MODE  (I2COLED_I2C_MODE_MASKED)         | \
-                             I2COLED_I2C_CTRL)
+                    (I2COLED_GET_I2C_CTRL_HIGH_PHASE_OVS(I2COLED_I2C_OVS_FACTOR_HIGH_MIN)   | \
+                     I2COLED_GET_I2C_CTRL_LOW_PHASE_OVS (I2COLED_I2C_OVS_FACTOR_LOW_MIN)    | \
+                     I2COLED_GET_I2C_CTRL_S_GENERAL_IGNORE(I2COLED_I2C_IGNORE_GENERAL_CALL) | \
+                     I2COLED_GET_I2C_CTRL_SL_MSTR_MODE  (I2COLED_I2C_MODE_MASKED))
 
     #define I2COLED_I2C_DEFAULT_RX_MATCH ((I2COLED_I2C_SLAVE) ? \
                                 (I2COLED_GET_I2C_8BIT_ADDRESS(I2COLED_I2C_SLAVE_ADDRESS) | \
@@ -451,7 +554,8 @@ CY_ISR_PROTO(I2COLED_I2C_ISR);
     #define I2COLED_I2C_DEFAULT_INTR_TX_MASK       (I2COLED_NO_INTR_SOURCES)
 
     #define I2COLED_I2C_DEFAULT_INTR_SLAVE_MASK    ((I2COLED_I2C_SLAVE) ? \
-                                                                (I2COLED_I2C_INTR_SLAVE_MASK) : (0u))
+                (I2COLED_I2C_INTR_SLAVE_MASK | \
+                 I2COLED_GET_INTR_SLAVE_I2C_GENERAL(I2COLED_I2C_ACCEPT_GENERAL_CALL)) : (0u))
 
     #define I2COLED_I2C_DEFAULT_INTR_MASTER_MASK   ((I2COLED_I2C_MASTER) ? \
                                                                 (I2COLED_I2C_INTR_MASTER_MASK) : (0u))

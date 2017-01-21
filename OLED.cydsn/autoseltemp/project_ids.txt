@@ -1,0 +1,5 @@
+C:\Users\Zeus\Documents\Projects\Cypress-PSOC-OLED\OLED.cydsn\OLED.cyprj|211ff9f6-1473-464f-a050-96e63bad834b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|6ab29221-3734-4a2c-aba4-754d4d172744
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|9268f412-3afc-4312-a6c6-1dcf647b29a6
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|6029b671-d1bc-4f5b-89b5-c577d38380e5
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c8cd4048-6ecf-4f17-bbe4-030f933abb5f

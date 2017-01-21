@@ -1,8 +1,8 @@
-/*******************************************************************************
-* File Name: .h
-* Version 2.0
+/***************************************************************************//**
+* \file .h
+* \version 3.20
 *
-* Description:
+* \brief
 *  This private file provides constants and parameter values for the
 *  SCB Component in I2C mode.
 *  Please do not use this file or its content in your project.
@@ -10,7 +10,8 @@
 * Note:
 *
 ********************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation. All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation. All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -60,6 +61,9 @@ extern volatile uint8 I2COLED_state; /* Current state of I2C FSM */
     extern volatile uint32  I2COLED_mstrWrBufIndexTmp; /* Master Write buffer Index Tmp */
 #endif /* (I2COLED_I2C_MASTER_CONST) */
 
+#if (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST)
+    extern uint32 (*I2COLED_customAddressHandler) (void);
+#endif /* (I2COLED_I2C_CUSTOM_ADDRESS_HANDLER_CONST) */
 
 /***************************************
 *     Private Function Prototypes

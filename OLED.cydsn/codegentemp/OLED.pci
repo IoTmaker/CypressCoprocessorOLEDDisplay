@@ -1,10 +1,10 @@
 # OLED
-# 2015-03-17 17:28:04Z
+# 2017-01-21 03:48:49Z
 
-# IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
-dont_use_io iocell 3 2
-# IO_3@[IOP=(3)][IoId=(3)] is reserved: SWDDebugEnabled
-dont_use_io iocell 3 3
+# IO_0@[IOP=(0)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 0 0
+# IO_1@[IOP=(0)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 0 1
 set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
-set_io "\I2COLED:scl(0)\" iocell 0 4
-set_io "\I2COLED:sda(0)\" iocell 0 5
+set_io "\I2COLED:sda(0)\" iocell 3 1
+set_io "\I2COLED:scl(0)\" iocell 3 0

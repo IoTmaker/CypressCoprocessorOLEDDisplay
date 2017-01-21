@@ -1,8 +1,8 @@
-/*******************************************************************************
-* File Name: .h
-* Version 2.0
+/***************************************************************************//**
+* \file .h
+* \version 3.20
 *
-* Description:
+* \brief
 *  This private file provides constants and parameter values for the
 *  SCB Component.
 *  Please do not use this file or its content in your project.
@@ -10,7 +10,8 @@
 * Note:
 *
 ********************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation. All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation. All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -53,9 +54,11 @@
 *     Vars with External Linkage
 ***************************************/
 
+#if (I2COLED_SCB_IRQ_INTERNAL)
 #if !defined (CY_REMOVE_I2COLED_CUSTOM_INTR_HANDLER)
     extern cyisraddress I2COLED_customIntrHandler;
 #endif /* !defined (CY_REMOVE_I2COLED_CUSTOM_INTR_HANDLER) */
+#endif /* (I2COLED_SCB_IRQ_INTERNAL) */
 
 extern I2COLED_BACKUP_STRUCT I2COLED_backup;
 
@@ -82,6 +85,12 @@ extern I2COLED_BACKUP_STRUCT I2COLED_backup;
     extern uint8 I2COLED_numberOfAddr;
     extern uint8 I2COLED_subAddrSize;
 #endif /* (I2COLED_SCB_MODE_UNCONFIG_CONST_CFG) */
+
+#if (! (I2COLED_SCB_MODE_I2C_CONST_CFG || \
+        I2COLED_SCB_MODE_EZI2C_CONST_CFG))
+    extern uint16 I2COLED_IntrTxMask;
+#endif /* (! (I2COLED_SCB_MODE_I2C_CONST_CFG || \
+              I2COLED_SCB_MODE_EZI2C_CONST_CFG)) */
 
 
 /***************************************

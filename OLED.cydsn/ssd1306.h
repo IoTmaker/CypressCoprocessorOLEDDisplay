@@ -10,6 +10,8 @@
  * ========================================
 */
 
+#include <stdlib.h>
+#include <stdint.h>
 
 #ifndef _SSD1306_H
 #define _SSD1306_H
@@ -49,7 +51,7 @@ typedef enum{
     SCROLL_PAGE_7   
 }SCROLL_AREA;
 
-void display_init( uint8 i2caddr );
+void display_init( uint8_t i2caddr );
 void display_update(void);
 void display_clear(void);
 void display_stopscroll(void);

@@ -1,15 +1,16 @@
-/*******************************************************************************
-* File Name: I2COLED_I2C_MASTER.c
-* Version 2.0
+/***************************************************************************//**
+* \file I2COLED_I2C_MASTER.c
+* \version 3.20
 *
-* Description:
+* \brief
 *  This file provides the source code to the API for the SCB Component in
 *  I2C Master mode.
 *
 * Note:
 *
 *******************************************************************************
-* Copyright 2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
+* \copyright
+* Copyright 2013-2016, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
@@ -47,26 +48,43 @@ volatile uint32  I2COLED_mstrWrBufIndexTmp; /* Master Write buffer Index Tmp */
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterWriteBuf
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
-* Automatically writes an entire buffer of data to a slave device.
-* Once the data transfer is initiated by this function, further data transfer
-* is handled by the included ISR.
-* Enables the I2C interrupt and clears SCB_ I2C_MSTAT_WR_CMPLT status.
+*  Automatically writes an entire buffer of data to a slave device.
+*  Once the data transfer is initiated by this function, further data transfer
+*  is handled by the included ISR.
+*  Enables the I2C interrupt and clears I2COLED_I2C_MSTAT_WR_CMPLT 
+*  status.
 *
-* Parameters:
-*  slaveAddr: 7-bit slave address.
-*  xferData:  Pointer to buffer of data to be sent.
-*  cnt:       Size of buffer to send.
-*  mode:      Transfer mode defines: start or restart condition generation at
-*             begin of the transfer and complete the transfer or halt before
-*             generating a stop.
+*  \param slaveAddr: 7-bit slave address.
+*  \param xferData: Pointer to buffer of data to be sent.
+*  \param cnt: Size of buffer to send.
+*  \param mode: Transfer mode defines:
+*  (1) Whether a start or restart condition is generated at the beginning 
+*  of the transfer, and
+*  (2) Whether the transfer is completed or halted before the stop 
+*  condition is generated on the bus.Transfer mode, mode constants 
+*  may be ORed together.
+*  - I2COLED_I2C_MODE_COMPLETE_XFER - Perform complete transfer 
+*    from Start to Stop.
+*  - I2COLED_I2C_MODE_REPEAT_START - Send Repeat Start instead 
+*    of Start. A Stop is generated after transfer is completed unless 
+*    NO_STOP is specified.
+*  - I2COLED_I2C_MODE_NO_STOP Execute transfer without a Stop.
+*    The following transfer expected to perform ReStart.
 *
-* Return:
+* \return
 *  Error status.
+*  - I2COLED_I2C_MSTR_NO_ERROR - Function complete without error. 
+*    The master started the transfer.
+*  - I2COLED_I2C_MSTR_BUS_BUSY - Bus is busy. Nothing was sent on
+*    the bus. The attempt has to be retried.
+*  - I2COLED_I2C_MSTR_NOT_READY - Master is not ready for to start
+*    transfer. A master still has not completed previous transaction or a 
+*    slave operation is in progress (in multi-master-slave configuration).
+*    Nothing was sent on the bus. The attempt has to be retried.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_mstrStatus  - used to store current status of I2C Master.
 *  I2COLED_state       - used to store current state of software FSM.
 *  I2COLED_mstrControl - used to control master end of transaction with
@@ -127,7 +145,11 @@ uint32 I2COLED_I2CMasterWriteBuf(uint32 slaveAddress, uint8 * wrData, uint32 cnt
 
         I2COLED_ClearMasterInterruptSource(I2COLED_INTR_MASTER_ALL);
         I2COLED_ClearTxInterruptSource(I2COLED_INTR_TX_UNDERFLOW);
+
         /* The TX and RX FIFO have to be EMPTY */
+
+        /* Enable interrupt source to catch when address is sent */
+        I2COLED_SetTxInterruptMode(I2COLED_INTR_TX_UNDERFLOW);
 
         /* Generate Start or ReStart */
         if(I2COLED_CHECK_I2C_MODE_RESTART(mode))
@@ -140,9 +162,6 @@ uint32 I2COLED_I2CMasterWriteBuf(uint32 slaveAddress, uint8 * wrData, uint32 cnt
             I2COLED_TX_FIFO_WR_REG = slaveAddress;
             I2COLED_I2C_MASTER_GENERATE_START;
         }
-
-         /* Catch when address is sent */
-        I2COLED_SetTxInterruptMode(I2COLED_INTR_TX_UNDERFLOW);
     }
 
     I2COLED_EnableInt();   /* Release lock */
@@ -153,34 +172,38 @@ uint32 I2COLED_I2CMasterWriteBuf(uint32 slaveAddress, uint8 * wrData, uint32 cnt
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterReadBuf
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Automatically reads an entire buffer of data from a slave device.
 *  Once the data transfer is initiated by this function, further data transfer
 *  is handled by the included ISR.
-* Enables the I2C interrupt and clears SCB_ I2C_MSTAT_RD_CMPLT status.
+*  Enables the I2C interrupt and clears I2COLED_I2C_MSTAT_RD_CMPLT 
+*  status.
 *
-* Parameters:
-*  slaveAddr: 7-bit slave address.
-*  xferData:  Pointer to buffer where to put data from slave.
-*  cnt:       Size of buffer to read.
-*  mode:      Transfer mode defines: start or restart condition generation at
-*             begin of the transfer and complete the transfer or halt before
-*             generating a stop.
+*  \param slaveAddr: 7-bit slave address.
+*  \param xferData: Pointer to buffer of data to be sent.
+*  \param cnt: Size of buffer to send.
+*  \param mode: Transfer mode defines:
+*  (1) Whether a start or restart condition is generated at the beginning 
+*  of the transfer, and
+*  (2) Whether the transfer is completed or halted before the stop 
+*  condition is generated on the bus.Transfer mode, mode constants may 
+*  be ORed together. See I2COLED_I2CMasterWriteBuf() 
+*  function for constants.
 *
-* Return:
-*  Error status.
+* \return
+*  Error status.See I2COLED_I2CMasterWriteBuf() 
+*  function for constants.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_mstrStatus  - used to store current status of I2C Master.
 *  I2COLED_state       - used to store current state of software FSM.
 *  I2COLED_mstrControl - used to control master end of transaction with
 *  or without the Stop generation.
-*  I2COLED_mstrRdBufPtr - used to store pointer to master write buffer.
-*  I2COLED_mstrRdBufIndex - used to current index within master write
+*  I2COLED_mstrRdBufPtr - used to store pointer to master read buffer.
+*  I2COLED_mstrRdBufIndex - used to current index within master read
 *  buffer.
-*  I2COLED_mstrRdBufSize - used to store master write buffer size.
+*  I2COLED_mstrRdBufSize - used to store master read buffer size.
 *
 *******************************************************************************/
 uint32 I2COLED_I2CMasterReadBuf(uint32 slaveAddress, uint8 * rdData, uint32 cnt, uint32 mode)
@@ -234,6 +257,19 @@ uint32 I2COLED_I2CMasterReadBuf(uint32 slaveAddress, uint8 * rdData, uint32 cnt,
 
         /* TX and RX FIFO have to be EMPTY */
 
+        /* Prepare reading */
+        if(I2COLED_mstrRdBufSize < I2COLED_I2C_FIFO_SIZE)
+        {
+            /* Reading byte-by-byte */
+            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
+        }
+        else
+        {
+            /* Receive RX FIFO chunks */
+            I2COLED_ENABLE_MASTER_AUTO_DATA_ACK;
+            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_FULL);
+        }
+
         /* Generate Start or ReStart */
         if(I2COLED_CHECK_I2C_MODE_RESTART(mode))
         {
@@ -245,17 +281,6 @@ uint32 I2COLED_I2CMasterReadBuf(uint32 slaveAddress, uint8 * rdData, uint32 cnt,
             I2COLED_TX_FIFO_WR_REG = (slaveAddress);
             I2COLED_I2C_MASTER_GENERATE_START;
         }
-
-        /* Prepare reading */
-        if(I2COLED_mstrRdBufSize < I2COLED_I2C_FIFO_SIZE) /* Reading byte-by-byte */
-        {
-            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_NOT_EMPTY);
-        }
-        else /* Receive RX FIFO chunks */
-        {
-            I2COLED_ENABLE_MASTER_AUTO_DATA_ACK;
-            I2COLED_SetRxInterruptMode(I2COLED_INTR_RX_FULL);
-        }
     }
 
     I2COLED_EnableInt();   /* Release lock */
@@ -266,23 +291,43 @@ uint32 I2COLED_I2CMasterReadBuf(uint32 slaveAddress, uint8 * rdData, uint32 cnt,
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterSendStart
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Generates Start condition and sends slave address with read/write bit.
 *  Disables the I2C interrupt.
 *  This function is blocking and does not return until start condition and
 *  address byte are sent and ACK/NACK response is received or errors occurred.
 *
-* Parameters:
-*  slaveAddress: Right justified 7-bit Slave address (valid range 8 to 120).
-*  bitRnW:       Direction of the following transfer. It is defined by
-*                read/write bit within address byte.
+* \param slaveAddress: Right justified 7-bit Slave address (valid range 
+*  8 to 120).
+* \param bitRnW: Direction of the following transfer. 
+*  It is defined by read/write bit within address byte.
+*  - I2COLED_I2C_WRITE_XFER_MODE - Set write direction for the 
+*    following transfer.
+*  - I2COLED_I2C_READ_XFER_MODE - Set read direction for the 
+*    following transfer.
 *
-* Return:
-*  Erorr status.
+* \return
+*  Error status.
+*   - I2COLED_I2C_MSTR_NO_ERROR - Function complete without error.
+*   - I2COLED_I2C_MSTR_BUS_BUSY - Bus is busy. 
+*     Nothing was sent on the bus. The attempt has to be retried.
+*   - I2COLED_I2C_MSTR_NOT_READY - Master is not ready for to 
+*     start transfer.
+*     A master still has not completed previous transaction or a slave 
+*     operation is in progress (in multi-master-slave configuration).
+*     Nothing was sent on the bus. The attempt has to be retried.
+*   - I2COLED_I2C_MSTR_ERR_LB_NAK - Error condition: Last byte was 
+*     NAKed.
+*   - I2COLED_I2C_MSTR_ERR_ARB_LOST - Error condition: Master lost 
+*     arbitration.
+*   - I2COLED_I2C_MSTR_ERR_BUS_ERR - Error condition: Master 
+*     encountered a bus error. Bus error is misplaced start or stop detection.
+*   - I2COLED_I2C_MSTR_ERR_ABORT_START - Error condition: The start 
+*     condition generation was aborted due to beginning of Slave operation. 
+*     This error condition is only applicable for Multi-Master-Slave mode.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_state - used to store current state of software FSM.
 *
 *******************************************************************************/
@@ -383,23 +428,30 @@ uint32 I2COLED_I2CMasterSendStart(uint32 slaveAddress, uint32 bitRnW)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterSendRestart
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Generates Restart condition and sends slave address with read/write bit.
 *  This function is blocking and does not return until start condition and
 *  address are sent and ACK/NACK response is received or errors occurred.
 *
-* Parameters:
-*  slaveAddress: Right justified 7-bit Slave address (valid range 8 to 120).
-*  bitRnW:       Direction of the following transfer. It is defined by
-*                read/write bit within address byte.
+* \param slaveAddress: Right justified 7-bit Slave address (valid range 
+*   8 to 120).
+* \param bitRnW: Direction of the following transfer. It is defined by 
+*  read/write bit within address byte. 
+*  See I2COLED_I2CMasterSendStart() function for constants.
 *
-* Return:
-*  Error status
+* \return
+*  Error status. 
+*  See I2COLED_I2CMasterSendStart() function for constants.
 *
+* \sideeffect
+*  A valid Start or ReStart condition must be generated before calling 
+*  this function. This function does nothing if Start or ReStart conditions 
+*  failed before this function was called.
+*  For read transaction, at least one byte has to be read before ReStart 
+*  generation.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_state - used to store current state of software FSM.
 *
 *******************************************************************************/
@@ -494,28 +546,27 @@ uint32 I2COLED_I2CMasterSendRestart(uint32 slaveAddress, uint32 bitRnW)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterSendStop
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
-*  Generates Stop condition on the bus.
-*  At least one byte has to be read if start or restart condition with read
+*  Generates Stop condition on the bus. 
+*  The NAK is generated before Stop in case of a read transaction.
+*  At least one byte has to be read if a Start or ReStart condition with read 
 *  direction was generated before.
-*  This function is blocking and does not return until a stop condition
-*  is generated or error occurred.
+*  This function is blocking and does not return until a Stop condition is 
+*  generated or error occurred.
 *
-* Parameters:
-*  None
+* \return
+*  Error status.
+*  See I2COLED_I2CMasterSendStart() function for constants.
 *
-* Return:
-*  Error status
-*
-* Side Effects:
-*  A valid Start or ReStart condition must be generated before calling
-*  this function. This function does nothing if Start or ReStart condition
+* \sideeffect
+*  A valid Start or ReStart condition must be generated before calling 
+*  this function. This function does nothing if Start or ReStart conditions 
 *  failed before this function was called.
-*  For read transfer, at least one byte has to be read before Stop generation.
+*  For read transaction, at least one byte has to be read before ReStart 
+*  generation.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_state - used to store current state of software FSM.
 *
 *******************************************************************************/
@@ -578,25 +629,24 @@ uint32 I2COLED_I2CMasterSendStop(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterWriteByte
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Sends one byte to a slave.
 *  This function is blocking and does not return until byte is transmitted
 *  or error occurred.
 *
-* Parameters:
-*  data: The data byte to send to the slave.
+* \param data: The data byte to send to the slave.
 *
-* Return:
-*  Error status
+* \return
+*  Error status.
+*  See I2COLED_I2CMasterSendStart() function for constants.
 *
-* Side Effects:
+* \sideeffect
 *  A valid Start or ReStart condition must be generated before calling
 *  this function. This function does nothing if Start or ReStart condition
 *  failed before this function was called.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_state - used to store current state of software FSM.
 *
 *******************************************************************************/
@@ -663,29 +713,31 @@ uint32 I2COLED_I2CMasterWriteByte(uint32 theByte)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterReadByte
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
-*  Reads one byte from a slave and ACKs or NAKs received byte.
-*  This function does not generate NAK explicitly. The following call
-*  SCB_I2CMasterSendStop() or SCB_I2CMasterSendRestart() will generate NAK and
-*  Stop or ReStart condition appropriately.
-*  This function is blocking and does not return until byte is received
-*  or error occurred.
+*  Reads one byte from a slave and generates ACK or prepares to generate NAK. 
+*  The NAK will be generated before Stop or ReStart condition by 
+*  I2COLED_I2CMasterSendStop() or 
+*  I2COLED_I2CMasterSendRestart() function appropriately.
+*  This function is blocking. It does not return until a byte is received or 
+*  an error occurs.
 *
-* Parameters:
-*  ackNack: Response to received byte.
+* \param ackNack: Response to received byte.
+*  - I2COLED_I2C_ACK_DATA - Generates ACK. 
+*     The master notifies slave that transfer continues.
+*  - I2COLED_I2C_NAK_DATA - Prepares to generate NAK.
+*     The master will notify slave that transfer is completed.
 *
-* Return:
-*  Byte read from the slave. In case of error the MSB of returned data
+* \return
+*  Byte read from the slave. In case of error the MSB of returned data 
 *  is set to 1.
 *
-* Side Effects:
-*  A valid Start or ReStart condition must be generated before calling this
-*  function. This function does nothing and returns invalid byte value
-*  if Start or ReStart conditions failed before this function was called.
+* \sideeffect
+*  A valid Start or ReStart condition must be generated before calling
+*  this function. This function does nothing if Start or ReStart condition
+*  failed before this function was called.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_state - used to store current state of software FSM.
 *
 *******************************************************************************/
@@ -738,24 +790,21 @@ uint32 I2COLED_I2CMasterReadByte(uint32 ackNack)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterGetReadBufSize
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Returns the number of bytes that has been transferred with an
-*  SCB_I2CMasterReadBuf() function.
+*  I2COLED_I2CMasterReadBuf() function.
 *
-* Parameters:
-*  None
-*
-* Return:
+* \return
 *  Byte count of transfer. If the transfer is not yet complete, it returns
 *  the byte count transferred so far.
 *
-* Side Effects:
-*  This function returns not valid value if SCB_I2C_MSTAT_ERR_ARB_LOST
-*  or SCB_I2C_MSTAT_ERR_BUS_ERROR occurred while read transfer.
+* \sideeffect
+*  This function returns not valid value if 
+*  I2COLED_I2C_MSTAT_ERR_ARB_LOST or
+*  I2COLED_I2C_MSTAT_ERR_BUS_ERROR occurred while read transfer.
 *
-* Global variables:
+* \globalvars
 *  I2COLED_mstrRdBufIndex - used to current index within master read
 *  buffer.
 *
@@ -768,24 +817,21 @@ uint32 I2COLED_I2CMasterGetReadBufSize(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterGetWriteBufSize
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Returns the number of bytes that have been transferred with an
 *  SCB_I2CMasterWriteBuf() function.
 *
-* Parameters:
-*  None
+* \return
+*   Byte count of transfer. If the transfer is not yet complete, it returns
+*   zero unit transfer completion.
 *
-* Return:
-*  Byte count of transfer. If the transfer is not yet complete, it returns
-*  zero unit transfer completion.
+* \sideeffect
+*   This function returns not valid value if 
+*   I2COLED_I2C_MSTAT_ERR_ARB_LOST or 
+*   I2COLED_I2C_MSTAT_ERR_BUS_ERROR occurred while read transfer.
 *
-* Side Effects:
-*  This function returns not valid value if SCB_I2C_MSTAT_ERR_ARB_LOST
-*  or SCB_I2C_MSTAT_ERR_BUS_ERROR occurred while read transfer.
-*
-* Global variables:
+* \globalvars
 *  I2COLED_mstrWrBufIndex - used to current index within master write
 *  buffer.
 *
@@ -798,18 +844,11 @@ uint32 I2COLED_I2CMasterGetWriteBufSize(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterClearReadBuf
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Resets the read buffer pointer back to the first byte in the buffer.
 *
-* Parameters:
-*  None
-*
-* Return:
-*  None
-*
-* Global variables:
+* \globalvars
 *  I2COLED_mstrRdBufIndex - used to current index within master read
 *   buffer.
 *  I2COLED_mstrStatus - used to store current status of I2C Master.
@@ -828,18 +867,11 @@ void I2COLED_I2CMasterClearReadBuf(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterClearWriteBuf
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Resets the write buffer pointer back to the first byte in the buffer.
 *
-* Parameters:
-*  None
-*
-* Return:
-*  None
-*
-* Global variables:
+* \globalvars
 *  I2COLED_mstrRdBufIndex - used to current index within master read
 *   buffer.
 *  I2COLED_mstrStatus - used to store current status of I2C Master.
@@ -858,18 +890,42 @@ void I2COLED_I2CMasterClearWriteBuf(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterStatus
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Returns the master's communication status.
 *
-* Parameters:
-*  None
+* \return
+*  Current status of I2C master. This status incorporates status constants. 
+*  Each constant is a bit field value. The value returned may have multiple 
+*  bits set to indicate the status of the read or write transfer.
+*  - I2COLED_I2C_MSTAT_RD_CMPLT - Read transfer complete.
+*    The error condition status bits must be checked to ensure that 
+*    read transfer was completed successfully.
+*  - I2COLED_I2C_MSTAT_WR_CMPLT - Write transfer complete.
+*    The error condition status bits must be checked to ensure that write 
+*    transfer was completed successfully.
+*  - I2COLED_I2C_MSTAT_XFER_INP - Transfer in progress.
+*  - I2COLED_I2C_MSTAT_XFER_HALT - Transfer has been halted. 
+*    The I2C bus is waiting for ReStart or Stop condition generation.
+*  - I2COLED_I2C_MSTAT_ERR_SHORT_XFER - Error condition: Write 
+*    transfer completed before all bytes were transferred. The slave NAKed 
+*    the byte which was expected to be ACKed.
+*  - I2COLED_I2C_MSTAT_ERR_ADDR_NAK - Error condition: Slave did 
+*    not acknowledge address.
+*  - I2COLED_I2C_MSTAT_ERR_ARB_LOST - Error condition: Master lost 
+*    arbitration during communications with slave.
+*  - I2COLED_I2C_MSTAT_ERR_BUS_ERROR - Error condition: bus error 
+*    occurred during master transfer due to misplaced Start or Stop 
+*    condition on the bus.
+*  - I2COLED_I2C_MSTAT_ERR_ABORT_XFER - Error condition: Slave was 
+*    addressed by another master while master performed the start condition 
+*    generation. As a result, master has automatically switched to slave 
+*    mode and is responding. The master transaction has not taken place
+*    This error condition only applicable for Multi-Master-Slave mode.
+*  - I2COLED_I2C_MSTAT_ERR_XFER - Error condition: This is the 
+*    ORed value of all error conditions provided above.
 *
-* Return:
-*  Current status of I2C master.
-*
-* Global variables:
+* \globalvars
 *  I2COLED_mstrStatus - used to store current status of I2C Master.
 *
 *******************************************************************************/
@@ -895,18 +951,15 @@ uint32 I2COLED_I2CMasterStatus(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CMasterClearStatus
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Clears all status flags and returns the master status.
 *
-* Parameters:
-*  None
+* \return
+*  Current status of master. See the I2COLED_I2CMasterStatus() 
+*  function for constants.
 *
-* Return:
-*  Current status of I2C master.
-*
-* Global variables:
+* \globalvars
 *  I2COLED_mstrStatus - used to store current status of I2C Master.
 *
 *******************************************************************************/
@@ -928,35 +981,28 @@ uint32 I2COLED_I2CMasterClearStatus(void)
 
 /*******************************************************************************
 * Function Name: I2COLED_I2CReStartGeneration
-********************************************************************************
+****************************************************************************//**
 *
-* Summary:
 *  Generates a ReStart condition:
-*  SCB IP V1 and later: Generates ReStart using the scb IP functionality
+*  - SCB IP V1 and later: Generates ReStart using the scb IP functionality
 *    Sets the I2C_MASTER_CMD_M_START and I2C_MASTER_CMD_M_NACK (if the previous
 *    transaction was read) bits in the SCB.I2C_MASTER_CMD register.
 *    This combination forces the master to generate ReStart.
 *
-*  SCB IP V0: Generates Restart using the GPIO and scb IP functionality.
-*   After the master completes write or read, the SCL is stretched.
-*   The master waits until SDA line is released by the slave. Then the GPIO
-*   function is enabled and the scb IP disabled as it already does not drive
-*   the bus. In case of the previous transfer was read, the NACK is generated
-*   by the GPIO. The delay of tLOW is added to manage the hold time.
-*   Set I2C_M_CMD.START and enable the scb IP. The ReStart generation
-*   is started after the I2C function is enabled for the SCL.
-*   Note1: the scb IP due re-enable generates Start but on the I2C bus it
-*          appears as ReStart.
-*   Note2: the I2C_M_CMD.START is queued if scb IP is disabled.
-*   Note3: the I2C_STATUS_M_READ is cleared is address was NACKed before.
+*  - SCB IP V0: Generates Restart using the GPIO and scb IP functionality.
+*    After the master completes write or read, the SCL is stretched.
+*    The master waits until SDA line is released by the slave. Then the GPIO
+*    function is enabled and the scb IP disabled as it already does not drive
+*    the bus. In case of the previous transfer was read, the NACK is generated
+*    by the GPIO. The delay of tLOW is added to manage the hold time.
+*    Set I2C_M_CMD.START and enable the scb IP. The ReStart generation
+*    is started after the I2C function is enabled for the SCL.
+*    Note1: the scb IP due re-enable generates Start but on the I2C bus it
+*           appears as ReStart.
+*    Note2: the I2C_M_CMD.START is queued if scb IP is disabled.
+*    Note3: the I2C_STATUS_M_READ is cleared is address was NACKed before.
 *
-* Parameters:
-*  None
-*
-* Return:
-*  None
-*
-* Side Effects:
+* \sideeffect
 *  SCB IP V0: The NACK generation by the GPIO may cause a greater SCL period
 *             than expected for the selected master data rate.
 *
@@ -965,7 +1011,8 @@ void I2COLED_I2CReStartGeneration(void)
 {
 #if(I2COLED_CY_SCBIP_V0)
     /* Generates Restart use GPIO and scb IP functionality. Ticket ID#143715,
-    ID#145238 and ID#173656 */
+    * ID#145238 and ID#173656.
+    */
     uint32 status = I2COLED_I2C_STATUS_REG;
 
     while(I2COLED_WAIT_SDA_SET_HIGH)
@@ -1030,17 +1077,10 @@ void I2COLED_I2CReStartGeneration(void)
     I2COLED_I2C_MULTI_MASTER_SLAVE_CONST && I2COLED_I2C_WAKE_ENABLE_CONST)
     /*******************************************************************************
     * Function Name: I2COLED_I2CMasterDisableEcAm
-    ********************************************************************************
+    ****************************************************************************//**
     *
-    * Summary:
     *  Disables externally clocked address match to enable master operation
     *  in active mode.
-    *
-    * Parameters:
-    *  None
-    *
-    * Return:
-    *  None
     *
     *******************************************************************************/
     static void I2COLED_I2CMasterDisableEcAm(void)

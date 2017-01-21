@@ -23,13 +23,13 @@ GROUP(-lgcc -lc -lnosys)
 
 MEMORY
 {
-  rom (rx) : ORIGIN = 0x0, LENGTH = 32768
-  ram (rwx) : ORIGIN = 0x20000000, LENGTH = 4096
+  rom (rx) : ORIGIN = 0x0, LENGTH = 131072
+  ram (rwx) : ORIGIN = 0x20000000, LENGTH = 8192
 }
 
 
 CY_APPL_ORIGIN      = 0; 
-CY_FLASH_ROW_SIZE   = 128;
+CY_FLASH_ROW_SIZE   = 256;
 CY_APPL_NUM         = 1;
 CY_METADATA_SIZE    = 64;
 

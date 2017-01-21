@@ -2,7 +2,7 @@
 --	Conversion of OLED.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Mar 17 10:28:03 2015
+--	Fri Jan 20 22:48:48 2017
 --
 
 USE cypress.cypress.all;
@@ -13,56 +13,52 @@ END top_RTL;
 --------------------------------------------------------
 ARCHITECTURE R_T_L OF top_RTL IS
 SIGNAL \I2COLED:Net_847\ : bit;
-SIGNAL \I2COLED:Net_459\ : bit;
-SIGNAL \I2COLED:Net_652\ : bit;
-SIGNAL \I2COLED:Net_452\ : bit;
-SIGNAL \I2COLED:Net_676\ : bit;
-SIGNAL \I2COLED:Net_245\ : bit;
-SIGNAL \I2COLED:Net_416\ : bit;
-SIGNAL \I2COLED:Net_654\ : bit;
-SIGNAL \I2COLED:Net_682\ : bit;
+SIGNAL \I2COLED:select_s_wire\ : bit;
+SIGNAL \I2COLED:rx_wire\ : bit;
+SIGNAL \I2COLED:Net_1257\ : bit;
 SIGNAL \I2COLED:uncfg_rx_irq\ : bit;
-SIGNAL \I2COLED:SCBclock\ : bit;
-SIGNAL \I2COLED:Net_653\ : bit;
-SIGNAL \I2COLED:Net_909\ : bit;
-SIGNAL \I2COLED:Net_663\ : bit;
+SIGNAL \I2COLED:Net_1170\ : bit;
+SIGNAL \I2COLED:sclk_s_wire\ : bit;
+SIGNAL \I2COLED:mosi_s_wire\ : bit;
+SIGNAL \I2COLED:miso_m_wire\ : bit;
 SIGNAL \I2COLED:tmpOE__sda_net_0\ : bit;
 SIGNAL zero : bit;
 SIGNAL \I2COLED:tmpFB_0__sda_net_0\ : bit;
-SIGNAL \I2COLED:Net_581\ : bit;
+SIGNAL \I2COLED:sda_wire\ : bit;
 TERMINAL \I2COLED:tmpSIOVREF__sda_net_0\ : bit;
 SIGNAL one : bit;
 SIGNAL \I2COLED:tmpINTERRUPT_0__sda_net_0\ : bit;
 SIGNAL \I2COLED:tmpOE__scl_net_0\ : bit;
 SIGNAL \I2COLED:tmpFB_0__scl_net_0\ : bit;
-SIGNAL \I2COLED:Net_580\ : bit;
+SIGNAL \I2COLED:scl_wire\ : bit;
 TERMINAL \I2COLED:tmpSIOVREF__scl_net_0\ : bit;
 SIGNAL \I2COLED:tmpINTERRUPT_0__scl_net_0\ : bit;
-SIGNAL \I2COLED:Net_754\ : bit;
-SIGNAL \I2COLED:Net_767\ : bit;
+SIGNAL \I2COLED:Net_1099\ : bit;
+SIGNAL \I2COLED:Net_1258\ : bit;
 SIGNAL Net_3 : bit;
-SIGNAL \I2COLED:Net_739\ : bit;
-SIGNAL \I2COLED:Net_747\ : bit;
-SIGNAL \I2COLED:Net_656\ : bit;
-SIGNAL \I2COLED:Net_751\ : bit;
-SIGNAL \I2COLED:Net_660\ : bit;
-SIGNAL \I2COLED:ss_3\ : bit;
-SIGNAL \I2COLED:ss_2\ : bit;
-SIGNAL \I2COLED:ss_1\ : bit;
-SIGNAL \I2COLED:ss_0\ : bit;
-SIGNAL \I2COLED:Net_687\ : bit;
-SIGNAL \I2COLED:Net_703\ : bit;
-SIGNAL \I2COLED:Net_823\ : bit;
-SIGNAL \I2COLED:Net_824\ : bit;
-SIGNAL \I2COLED:Net_547\ : bit;
-SIGNAL \I2COLED:Net_896\ : bit;
-SIGNAL \I2COLED:Net_891\ : bit;
-SIGNAL \I2COLED:Net_932\ : bit;
-SIGNAL \I2COLED:Net_474\ : bit;
-SIGNAL \I2COLED:Net_903\ : bit;
-SIGNAL \I2COLED:Net_899\ : bit;
-SIGNAL \I2COLED:Net_915\ : bit;
-SIGNAL \I2COLED:Net_927\ : bit;
+SIGNAL \I2COLED:cts_wire\ : bit;
+SIGNAL \I2COLED:tx_wire\ : bit;
+SIGNAL \I2COLED:rts_wire\ : bit;
+SIGNAL \I2COLED:mosi_m_wire\ : bit;
+SIGNAL \I2COLED:select_m_wire_3\ : bit;
+SIGNAL \I2COLED:select_m_wire_2\ : bit;
+SIGNAL \I2COLED:select_m_wire_1\ : bit;
+SIGNAL \I2COLED:select_m_wire_0\ : bit;
+SIGNAL \I2COLED:sclk_m_wire\ : bit;
+SIGNAL \I2COLED:miso_s_wire\ : bit;
+SIGNAL Net_9 : bit;
+SIGNAL Net_8 : bit;
+SIGNAL \I2COLED:Net_1028\ : bit;
+SIGNAL Net_6 : bit;
+SIGNAL Net_7 : bit;
+SIGNAL Net_14 : bit;
+SIGNAL Net_15 : bit;
+SIGNAL Net_16 : bit;
+SIGNAL Net_17 : bit;
+SIGNAL Net_18 : bit;
+SIGNAL Net_19 : bit;
+SIGNAL Net_20 : bit;
+SIGNAL Net_24 : bit;
 BEGIN
 
 zero <=  ('0') ;
@@ -71,10 +67,10 @@ one <=  ('1') ;
 
 \I2COLED:SCBCLK\:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
-		id=>"3dbba19d-7851-4a83-b204-a0a386fe8d68/81fcee8a-3b8b-4be1-9a5f-a5e2e619a938",
+		id=>"3dbba19d-7851-4a83-b204-a0a386fe8d68/2dc2d7a8-ce2b-43c7-af4a-821c8cd73ccf",
 		source_clock_id=>"",
 		divisor=>0,
-		period=>"127877237.851662",
+		period=>"645161290.322581",
 		is_direct=>'0',
 		is_digital=>'0')
 	PORT MAP(clock_out=>\I2COLED:Net_847\,
@@ -109,13 +105,14 @@ one <=  ('1') ;
 		pin_mode=>"B",
 		por_state=>4,
 		sio_group_cnt=>0,
-		sio_hifreq=>"",
+		sio_hifreq=>"00000000",
 		sio_hyst=>"1",
 		sio_ibuf=>"00000000",
 		sio_info=>"00",
 		sio_obuf=>"00000000",
 		sio_refsel=>"00000000",
 		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
 		slew_rate=>"0",
 		spanning=>'0',
 		sw_only=>'0',
@@ -138,7 +135,7 @@ one <=  ('1') ;
 		y=>(zero),
 		fb=>(\I2COLED:tmpFB_0__sda_net_0\),
 		analog=>(open),
-		io=>\I2COLED:Net_581\,
+		io=>\I2COLED:sda_wire\,
 		siovref=>(\I2COLED:tmpSIOVREF__sda_net_0\),
 		annotation=>(open),
 		in_clock=>zero,
@@ -178,13 +175,14 @@ one <=  ('1') ;
 		pin_mode=>"B",
 		por_state=>4,
 		sio_group_cnt=>0,
-		sio_hifreq=>"",
+		sio_hifreq=>"00000000",
 		sio_hyst=>"1",
 		sio_ibuf=>"00000000",
 		sio_info=>"00",
 		sio_obuf=>"00000000",
 		sio_refsel=>"00000000",
 		sio_vtrip=>"00000000",
+		sio_vohsel=>"00000000",
 		slew_rate=>"0",
 		spanning=>'0',
 		sw_only=>'0',
@@ -207,7 +205,7 @@ one <=  ('1') ;
 		y=>(zero),
 		fb=>(\I2COLED:tmpFB_0__scl_net_0\),
 		analog=>(open),
-		io=>\I2COLED:Net_580\,
+		io=>\I2COLED:scl_wire\,
 		siovref=>(\I2COLED:tmpSIOVREF__scl_net_0\),
 		annotation=>(open),
 		in_clock=>zero,
@@ -218,7 +216,8 @@ one <=  ('1') ;
 		out_reset=>zero,
 		interrupt=>\I2COLED:tmpINTERRUPT_0__scl_net_0\);
 \I2COLED:SCB_IRQ\:cy_isr_v1_0
-	GENERIC MAP(int_type=>"10")
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
 	PORT MAP(int_signal=>Net_3);
 \I2COLED:SCB\:cy_m0s8_scb_v2_0
 	GENERIC MAP(cy_registers=>"",
@@ -226,20 +225,30 @@ one <=  ('1') ;
 	PORT MAP(clock=>\I2COLED:Net_847\,
 		interrupt=>Net_3,
 		rx=>zero,
-		tx=>\I2COLED:Net_656\,
+		tx=>\I2COLED:tx_wire\,
 		cts=>zero,
-		rts=>\I2COLED:Net_751\,
-		mosi_m=>\I2COLED:Net_660\,
+		rts=>\I2COLED:rts_wire\,
+		mosi_m=>\I2COLED:mosi_m_wire\,
 		miso_m=>zero,
-		select_m=>(\I2COLED:ss_3\, \I2COLED:ss_2\, \I2COLED:ss_1\, \I2COLED:ss_0\),
-		sclk_m=>\I2COLED:Net_687\,
+		select_m=>(\I2COLED:select_m_wire_3\, \I2COLED:select_m_wire_2\, \I2COLED:select_m_wire_1\, \I2COLED:select_m_wire_0\),
+		sclk_m=>\I2COLED:sclk_m_wire\,
 		mosi_s=>zero,
-		miso_s=>\I2COLED:Net_703\,
+		miso_s=>\I2COLED:miso_s_wire\,
 		select_s=>zero,
 		sclk_s=>zero,
-		scl=>\I2COLED:Net_580\,
-		sda=>\I2COLED:Net_581\,
-		tx_req=>\I2COLED:Net_823\,
-		rx_req=>\I2COLED:Net_824\);
+		scl=>\I2COLED:scl_wire\,
+		sda=>\I2COLED:sda_wire\,
+		tx_req=>Net_9,
+		rx_req=>Net_8);
+Clock_1:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"09447e72-179f-43b2-801b-163f8ef83439",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"83333333.3333333",
+		is_direct=>'0',
+		is_digital=>'0')
+	PORT MAP(clock_out=>Net_24,
+		dig_domain_out=>open);
 
 END R_T_L;
